@@ -7,8 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="container">
+    <h2>Hello, <%= @current_user.name %>!</h2>
+    <%= yield %>
+  </div>
+  <footer>
+  </footer>
 </body>
 </html>

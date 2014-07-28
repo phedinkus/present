@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   before_action :require_login
 
+  def root
+    redirect_to current_week_path
+  end
+
   def require_login
     unless @current_user = User.user_for(session[:session_token])
       session[:github_oauth_attempted_url] = request.url

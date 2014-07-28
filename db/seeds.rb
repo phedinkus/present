@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+if ENV['PRESENT_PROJECT_NAMES']
+  ENV['PRESENT_PROJECT_NAMES'].split(",").map do |name|
+    Project.create!(:name => name)
+  end
+end

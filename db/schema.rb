@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140728132547) do
+ActiveRecord::Schema.define(version: 20140729003235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "entries", force: true do |t|
+    t.integer  "projects_timesheet_id"
+    t.integer  "day"
+    t.integer  "presence",              default: 0
+    t.integer  "hours"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "entries", ["projects_timesheet_id"], name: "index_entries_on_projects_timesheet_id", using: :btree
 
   create_table "github_accounts", force: true do |t|
     t.integer  "user_id"
@@ -27,6 +38,31 @@ ActiveRecord::Schema.define(version: 20140728132547) do
   end
 
   add_index "github_accounts", ["user_id"], name: "index_github_accounts_on_user_id", using: :btree
+
+  create_table "projects", force: true do |t|
+    t.string  "name"
+    t.boolean "active", default: true
+  end
+
+  create_table "projects_timesheets", force: true do |t|
+    t.integer "project_id"
+    t.integer "timesheet_id"
+  end
+
+  add_index "projects_timesheets", ["project_id"], name: "index_projects_timesheets_on_project_id", using: :btree
+  add_index "projects_timesheets", ["timesheet_id"], name: "index_projects_timesheets_on_timesheet_id", using: :btree
+
+  create_table "timesheets", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "timesheets", ["user_id"], name: "index_timesheets_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

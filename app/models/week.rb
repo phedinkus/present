@@ -1,19 +1,20 @@
 class Week
-  attr_reader :year, :ordinal, :beginning, :end
+  attr_reader :year, :month, :day, :beginning, :end
 
   def self.now
     new(Time.zone.now)
   end
 
-  def self.for(year, ordinal)
-    new(ordinal.to_i.weeks.since(Time.zone.local(year)).beginning_of_week(:sunday))
+  def self.for(year, month, day)
+    new(Time.zone.local(year, month, day))
   end
 
   def initialize(time)
     @beginning = time.beginning_of_week(:sunday)
     @end = @beginning.end_of_week(:sunday)
     @year = @beginning.year
-    @ordinal = @beginning.strftime("%U").to_i
+    @month = @beginning.month
+    @day = @beginning.day
   end
 
   def next

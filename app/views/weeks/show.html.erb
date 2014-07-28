@@ -1,3 +1,54 @@
-HI!
+<div>
+  <h2><%= @week.beginning.to_date.to_s(:db) %>&mdash;<%= @week.end.to_date.to_s(:db) %> </h2>
+  <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
+    <%= f.hidden_field :id, :value => @timesheet.id %>
 
-<%= @week.beginning %>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-condensed">
+        <thead>
+          <th>Project</th>
+          <th>Su</th>
+          <th>M</th>
+          <th>Tu</th>
+          <th>W</th>
+          <th>Th</th>
+          <th>F</th>
+          <th>Sa</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+          <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
+            <tr>
+              <th><%= project_fields.object.name %></th>
+              <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
+                <td>
+                  <div class="form-group form-group-sm">
+                    <%= entry_fields.select :presence, Entry.presences.keys, {}, {:class => "form-control input-sm"} %>
+                    <%= entry_fields.text_field :hours, :size => 1, :class => "form-control input-sm #{'hidden' unless entry_fields.object.hourly?}" %>
+                  </div>
+                </td>
+              <% end %>
+              <td>
+                <%= project_fields.check_box :_destroy %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @timesheet.addable_projects.present? %>
+      <div class="form-group text-right">
+        <%= f.collection_select :projects, @timesheet.addable_projects, :id, :name, {:class => "form-control input-sm"} %>
+        <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-xs" %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :notes %>
+      <%= f.text_area :notes, :class => "form-control" %>
+    </div>
+
+    <%= f.submit :class => "btn btn-default" %>
+  <% end %>
+</div>
