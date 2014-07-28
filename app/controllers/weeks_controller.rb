@@ -1,8 +1,11 @@
 class WeeksController < ApplicationController
   def current
-    render :json => {
-      :session_token => session[:session_token],
-      :user => @current_user
-    }
+    @week = Week.now
+    render :show
+  end
+
+  def show
+    @week = Week.for(params[:year], params[:ordinal])
+
   end
 end

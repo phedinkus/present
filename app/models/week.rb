@@ -6,7 +6,7 @@ class Week
   end
 
   def self.for(year, ordinal)
-    new(ordinal.weeks.since(Time.zone.local(year)).beginning_of_week(:sunday))
+    new(ordinal.to_i.weeks.since(Time.zone.local(year)).beginning_of_week(:sunday))
   end
 
   def initialize(time)
