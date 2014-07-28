@@ -4,8 +4,8 @@ class AuthorizationsController < ApplicationController
   def github
     return render :text => "Github login looks like an XSS attack. Make sure cookies are enabled and that nobody is MITM'ing you." if github_xss_violation?
 
-    auth = request_github_access_token
-    user = fetch_github_user(auth["access_token"])
+    auth = Github::OAuth.request_access_token_for_code(params[:code])
+    user = Github::Api.user_for_access_token(auth["access_token"])
 
     @current_user = if github_account = GithubAccount.find_by(:github_id => user["id"])
       github_account.update(
@@ -40,20 +40,5 @@ private
 
   def github_xss_violation?
     params[:state] != session[:github_oauth_state]
-  end
-
-  def request_github_access_token
-    JSON.parse(Faraday.new(:url => 'https://github.com/login/oauth/access_token').post do |req|
-      req.params = {
-        :client_id => Rails.application.config.github.client_id,
-        :client_secret => Rails.application.secrets.github_client_secret,
-        :code => params[:code]
-      }
-      req.headers["Accept"] = "application/json"
-    end.body)
-  end
-
-  def fetch_github_user(access_token)
-    JSON.parse(Faraday.new(:url => 'https://api.github.com').get('/user', :access_token => access_token).body)
   end
 end
