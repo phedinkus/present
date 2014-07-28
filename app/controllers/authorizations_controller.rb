@@ -6,35 +6,11 @@ class AuthorizationsController < ApplicationController
 
     auth = Github::OAuth.request_access_token_for_code(params[:code])
     user = Github::Api.user_for_access_token(auth["access_token"])
-
-    @current_user = if github_account = GithubAccount.find_by(:github_id => user["id"])
-      github_account.update(
-        :access_token => auth["access_token"],
-        :scopes => auth["scope"].split(",")
-      )
-      github_account.user.tap do |user|
-        user.update(
-          :session_token => session[:session_token] = SecureRandom.base64(100)
-        )
-      end
-    else
-      User.create!(
-        :name => user["name"],
-        :session_token => session[:session_token] = SecureRandom.base64(100)
-      ).tap do |app_user|
-        GithubAccount.create!(
-          :user => app_user,
-          :github_id => user["id"],
-          :login => user["login"],
-          :access_token => auth["access_token"],
-          :scopes => auth["scope"].split(",")
-        )
-      end
-    end
+    session[:session_token] = SecureRandom.base64(100)
+    @current_user = User.login_via_github!(auth, user, session[:session_token])
 
     redirect_to session[:github_oauth_attempted_url]
   end
-
 
 private
 
