@@ -1,6 +1,8 @@
 class AuthorizationsController < ApplicationController
   skip_before_filter :require_login
 
+  after_filter :clear_temporary_oauth_session_variables
+
   def github
     return render :text => "Github login looks like an XSS attack. Make sure cookies are enabled and that nobody is MITM'ing you." if github_xss_violation?
 
@@ -16,5 +18,10 @@ private
 
   def github_xss_violation?
     params[:state] != session[:github_oauth_state]
+  end
+
+  def clear_temporary_oauth_session_variables
+    session.delete(:github_oauth_attempted_url)
+    session.delete(:github_oauth_state)
   end
 end
