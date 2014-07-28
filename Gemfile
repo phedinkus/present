@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.1.4'
 gem 'pg'
 
@@ -13,3 +12,5 @@ gem 'jquery-rails'
 gem 'spring',        group: :development
 
 gem 'debugger', group: [:development, :test]
+
+gem 'faraday'
