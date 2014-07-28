@@ -15,9 +15,9 @@ Bundler.require(*Rails.groups)
 
 module Present
   class Application < Rails::Application
-    Rails.application.config.present = ActiveSupport::OrderedOptions.new
-    Rails.application.config.present.url = "http://present.testdouble.com"
-    Rails.application.config.github = ActiveSupport::OrderedOptions.new
-    Rails.application.config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
+    config.present = ActiveSupport::OrderedOptions.new
+    config.present.url = "http://present.testdouble.com"
+    config.github = ActiveSupport::OrderedOptions.new
+    config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
   end
 end
