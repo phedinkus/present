@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.4'
 gem 'pg'
+gem 'unicorn', :group => :production
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass'
