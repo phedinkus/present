@@ -25,9 +25,10 @@
     <%= yield %>
     <footer class="text-center">
       <% if @current_user.present? %>
-        <%= link_to "Logout", logout_path %>
+        <%= link_to "Home", root_path %>
+        | <%= link_to "Logout", logout_path %>
         <% if @current_user.admin? %>
-          | <%= link_to "New invoice", new_invoice_path %>
+          | <%= link_to "New Invoice", new_invoice_path %>
         <% end %>
       <% end %>
 
