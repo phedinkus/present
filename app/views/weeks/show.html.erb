@@ -29,10 +29,10 @@
     <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
       <%= f.hidden_field :id, :value => @timesheet.id %>
 
-      <% if @timesheet.addable_projects.present? %>
+      <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
         <div class="row">
           <div class="form-group col-md-4 col-md-offset-8 text-right add-project">
-            <%= f.select :projects, grouped_options_for_clients_and_projects_for(@timesheet), {}, {:class => "form-control input-sm"} %>
+            <%= f.select :projects, project_options, {}, {:class => "form-control input-sm"} %>
             <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm" %>
           </div>
         </div>
@@ -54,7 +54,12 @@
           <tbody>
             <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
               <tr>
-                <th><%= project_fields.object.name %></th>
+                <td>
+                  <p>
+                    <strong><%= project_fields.object.name %></strong><br/>
+                    <small><i><%= project_fields.object.client.name %></i></small>
+                  </p>
+                </td>
                 <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
                   <td>
                     <div class="form-group form-group-sm">
