@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20140729003235) do
   create_table "entries", force: true do |t|
     t.integer  "projects_timesheet_id"
     t.integer  "day"
-    t.integer  "presence",              default: 0
+    t.integer  "presence"
     t.integer  "hours"
     t.datetime "created_at"
     t.datetime "updated_at"

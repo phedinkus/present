@@ -29,6 +29,13 @@
     <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
       <%= f.hidden_field :id, :value => @timesheet.id %>
 
+      <% if @timesheet.addable_projects.present? %>
+        <div class="form-group text-right">
+          <%= f.collection_select :projects, @timesheet.addable_projects, :id, :name, {:class => "form-control input-sm"} %>
+          <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-xs" %>
+        </div>
+      <% end %>
+
       <div class="table-responsive">
         <table class="table table-hover table-striped table-condensed">
           <thead>
@@ -62,13 +69,6 @@
           </tbody>
         </table>
       </div>
-
-      <% if @timesheet.addable_projects.present? %>
-        <div class="form-group text-right">
-          <%= f.collection_select :projects, @timesheet.addable_projects, :id, :name, {:class => "form-control input-sm"} %>
-          <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-xs" %>
-        </div>
-      <% end %>
 
       <div class="form-group">
         <%= f.label :notes %>

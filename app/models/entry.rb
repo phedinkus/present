@@ -3,6 +3,8 @@ class Entry < ActiveRecord::Base
   has_one :project, :through => :projects_timesheet
   has_one :timesheet, :through => :projects_timesheet
 
+  before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
+
   enum :day => {
     :sunday => 0,
     :monday => 1,
@@ -19,4 +21,16 @@ class Entry < ActiveRecord::Base
     :absent => 2,
     :hourly => 3
   }
+
+private
+
+  def set_default_presence
+    self.presence = if sunday? || saturday? || timesheet.projects.first != project
+      :absent
+    else
+      :full
+    end
+  end
+
+
 end

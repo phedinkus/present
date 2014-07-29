@@ -18,7 +18,7 @@ class CreateTimesheets < ActiveRecord::Migration
     create_table :entries do |t|
       t.references :projects_timesheet, :index => true
       t.integer :day
-      t.integer :presence, :default => 0
+      t.integer :presence
       t.integer :hours
 
       t.timestamps
