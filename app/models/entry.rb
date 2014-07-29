@@ -5,6 +5,8 @@ class Entry < ActiveRecord::Base
 
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
 
+  validates_numericality_of :hours, :if => :hourly?
+
   enum :day => {
     :sunday => 0,
     :monday => 1,

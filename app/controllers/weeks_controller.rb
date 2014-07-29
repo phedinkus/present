@@ -22,6 +22,10 @@ class WeeksController < ApplicationController
         ))
       end
 
+
+      flash[:error] = timesheet.errors.full_messages
+
+
       redirect_to show_week_path(:year => timesheet.year, :month => timesheet.month, :day => timesheet.day)
     end
   end

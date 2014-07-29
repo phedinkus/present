@@ -13,6 +13,15 @@
         <small>Welcome, <%= @current_user.name %>!</small>
       </div>
     <% end %>
+    <% if flash[:error].present? %>
+      <div class="bg-danger">
+        <ul>
+          <% flash[:error].each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
     <%= yield %>
     <footer class="text-center">
       <% if @current_user.present? %>
