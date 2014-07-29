@@ -9,7 +9,9 @@
 <body>
   <div class="container">
     <% if @current_user.present? %>
-      <h2>Logged in as <%= @current_user.name %>!</h2>
+      <div class="text-right">
+        <small>Welcome, <%= @current_user.name %>!</small>
+      </div>
     <% end %>
     <%= yield %>
     <footer class="text-center">
