@@ -24,7 +24,7 @@
               <tr>
                 <td><%= user.name %></td>
                 <td><%= timesheet.week.ymd_dash %></td>
-                <td><small><%= timesheet.notes? ? timesheet.notes : "N/A" %></small></td>
+                <td><small><pre><%= timesheet.notes? ? timesheet.notes : "N/A" %></small></pre></td>
               </tr>
             <% end %>
           <% end %>
