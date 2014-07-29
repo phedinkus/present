@@ -17,6 +17,7 @@ module Present
   class Application < Rails::Application
     config.present = ActiveSupport::OrderedOptions.new
     config.present.url = "http://present.testdouble.com"
+    config.present.admins = ENV['PRESENT_ADMIN_GITHUB_IDS'].split(",")
 
     config.github = ActiveSupport::OrderedOptions.new
     config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']

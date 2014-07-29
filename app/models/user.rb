@@ -27,4 +27,8 @@ class User < ActiveRecord::Base
     github_account.update_authorization(github_access_token_response)
     update(:session_token => session_token)
   end
+
+  def admin?
+    Rails.application.config.present.admins.include?(github_account.login)
+  end
 end
