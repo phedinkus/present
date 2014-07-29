@@ -24,6 +24,16 @@ class Entry < ActiveRecord::Base
     :hourly => 3
   }
 
+  def self.non_zero_entries_for_week_and_project(week, project)
+    joins(:timesheet, :projects_timesheet)
+      .where(
+        "timesheets.year" => week.year,
+        "timesheets.month" => week.month,
+        "timesheets.day" => week.day,
+        "projects_timesheets.project" => project
+      ).where.not(:presence => Entry.presences[:absent])
+  end
+
 private
 
   def set_default_presence

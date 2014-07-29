@@ -25,11 +25,33 @@ class Week
     self.class.new(@beginning - 1)
   end
 
+  def to_date
+    Date.civil(@year,@month,@day)
+  end
+
   def ymd_hash
     {
       :year => @year,
       :month => @month,
       :day => @day
     }
+  end
+
+  def ymd_dash
+    to_date.to_s(:db)
+  end
+
+  def +(number_of_weeks)
+    return self.-(number_of_weeks * -1) if number_of_weeks < 0
+    number_of_weeks.times.reduce(self) do |memo|
+      memo.next
+    end
+  end
+
+  def -(number_of_weeks)
+    return self.+(number_of_weeks * -1) if number_of_weeks < 0
+    number_of_weeks.times.reduce(self) do |memo|
+      memo.previous
+    end
   end
 end

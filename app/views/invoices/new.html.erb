@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_tag("/invoices") do %>
+      <div class="form-group">
+        <%= label_tag :invoicing_week %>
+        <%= select_tag :invoicing_week, options_for_select(options_for_weeks), {:class => "form-control input-sm"} %>
+      </div>
+      <div class="form-group">
+        <%= label_tag :project_id %>
+        <%= select_tag :project_id, grouped_options_for_select(grouped_options_for_clients_and_projects), {:class => "form-control input-sm"} %>
+      </div>
+      <div class="form-group text-right">
+        <%= submit_tag("Create Invoice", :class => "btn btn-default") %>
+      </div>
+    <% end %>
+  </div>
+</div>

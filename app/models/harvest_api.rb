@@ -17,6 +17,14 @@ class HarvestApi
     end
   end
 
+  def update_invoice!(present_invoice)
+    ActiveRecordConverter.harvest_invoice_for(present_invoice, @client).tap do |harvest_invoice|
+      harvest_invoice.subject = present_invoice.subject
+      harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
+      ActiveRecordConverter.persist_invoice!(harvest_invoice, present_invoice, @client)
+    end
+  end
+
 private
 
   module ActiveRecordConverter
@@ -37,6 +45,26 @@ private
           :client => Client.find_by(:harvest_id => harvest_project.client_id)
         )
       end
+    end
+
+    def self.harvest_invoice_for(present_invoice, conn)
+      find_existing_invoice(present_invoice.harvest_id, conn) || Harvest::Invoice.new(:client_id => present_invoice.project.client.harvest_id)
+    end
+
+    def self.find_existing_invoice(id, conn)
+      return unless id.present?
+      conn.invoices.find(id)
+    rescue Harvest::NotFound
+    end
+
+    def self.persist_invoice!(harvest_invoice, present_invoice, conn)
+      if harvest_invoice.id?
+        conn.invoices.update(harvest_invoice)
+      else
+        persisted_harvest_invoice = conn.invoices.create(harvest_invoice)
+        present_invoice.update!(:harvest_id => persisted_harvest_invoice.id)
+      end
+
     end
   end
 end

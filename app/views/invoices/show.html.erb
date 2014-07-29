@@ -1,0 +1,27 @@
+
+
+<h2>Invoice created!</h2>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <%= link_to 'Go check out this invoice at Harvest!', "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" %>
+  </div>
+</div>
+<% @invoice.user_timesheets.each do |(user, timesheets)| %>
+  <div class="row">
+    <div class="col-md-2">
+      <strong><%= user.name %></strong>
+    </div>
+    <div class="col-md-8">
+      <ul>
+        <% timesheets.each do |timesheet| %>
+          <li>
+            Notes from the week of <%= timesheet.week.ymd_dash %>:
+            <br/>
+            "<small><%= timesheet.notes %></small>"
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

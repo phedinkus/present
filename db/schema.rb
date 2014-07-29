@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729154648) do
+ActiveRecord::Schema.define(version: 20140729181831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 20140729154648) do
 
   add_index "github_accounts", ["user_id"], name: "index_github_accounts_on_user_id", using: :btree
 
+  create_table "invoices", force: true do |t|
+    t.integer  "project_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
+    t.integer  "harvest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "projects", force: true do |t|
     t.string   "name"
     t.boolean  "active",      default: true
@@ -56,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140729154648) do
     t.integer  "harvest_id"
     t.integer  "weekly_rate", default: 5000
     t.integer  "hourly_rate", default: 175
+    t.integer  "rate_type",   default: 0
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree

@@ -19,4 +19,8 @@ class Timesheet < ActiveRecord::Base
   def entries_for(project)
     projects_timesheets.find { |pt| pt.project == project }.find_or_create_entries
   end
+
+  def week
+    Week.for(year, month, day)
+  end
 end

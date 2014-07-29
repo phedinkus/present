@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Present</title>
+  <title>Test Double - Present</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
@@ -26,7 +26,11 @@
     <footer class="text-center">
       <% if @current_user.present? %>
         <%= link_to "Logout", logout_path %>
+        <% if @current_user.admin? %>
+          | <%= link_to "New invoice", new_invoice_path %>
+        <% end %>
       <% end %>
+
     </footer>
   </div>
 </body>

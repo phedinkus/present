@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   get "weeks/current", :to => "weeks#current", :as => :current_week
   get "weeks/:year/:month/:day", :to => "weeks#show", :as => :show_week
   resources :weeks
-
   resources :timesheets, :path => "weeks", :controller => "weeks"
+
+  resources :invoices
 
   root "application#root"
 end
