@@ -24,4 +24,12 @@ class Week
   def previous
     self.class.new(@beginning - 1)
   end
+
+  def ymd_hash
+    {
+      :year => @year,
+      :month => @month,
+      :day => @day
+    }
+  end
 end

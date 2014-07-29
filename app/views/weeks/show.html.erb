@@ -1,54 +1,81 @@
 <div>
-  <h2><%= @week.beginning.to_date.to_s(:db) %>&mdash;<%= @week.end.to_date.to_s(:db) %> </h2>
-  <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
-    <%= f.hidden_field :id, :value => @timesheet.id %>
-
-    <div class="table-responsive">
-      <table class="table table-hover table-striped table-condensed">
-        <thead>
-          <th>Project</th>
-          <th>Su</th>
-          <th>M</th>
-          <th>Tu</th>
-          <th>W</th>
-          <th>Th</th>
-          <th>F</th>
-          <th>Sa</th>
-          <th>Delete</th>
-        </thead>
-        <tbody>
-          <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
-            <tr>
-              <th><%= project_fields.object.name %></th>
-              <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
-                <td>
-                  <div class="form-group form-group-sm">
-                    <%= entry_fields.select :presence, Entry.presences.keys, {}, {:class => "form-control input-sm"} %>
-                    <%= entry_fields.text_field :hours, :size => 1, :class => "form-control input-sm #{'hidden' unless entry_fields.object.hourly?}" %>
-                  </div>
-                </td>
-              <% end %>
-              <td>
-                <%= project_fields.check_box :_destroy %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <% if @timesheet.addable_projects.present? %>
-      <div class="form-group text-right">
-        <%= f.collection_select :projects, @timesheet.addable_projects, :id, :name, {:class => "form-control input-sm"} %>
-        <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-xs" %>
+  <div class="text-center">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3><%= @week.beginning.to_date.to_s(:db) %>&mdash;<%= @week.end.to_date.to_s(:db) %> </h3>
       </div>
-    <% end %>
-
-    <div class="form-group">
-      <%= f.label :notes %>
-      <%= f.text_area :notes, :class => "form-control" %>
     </div>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-3">
+        <%= link_to show_week_path(@week.previous.ymd_hash) do %>
+          <div class="btn btn-default">Previous week</div>
+        <% end %>
+      </div>
+      <div class="col-md-2">
+        <% if @week.beginning != Week.now.beginning %>
+          <%= link_to current_week_path do %>
+            <div class="btn btn-default btn-primary">This Week</div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-md-2">
+        <%= link_to show_week_path(@week.next.ymd_hash) do %>
+          <div class="btn btn-default">Next week</div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="timesheet-form">
+    <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
+      <%= f.hidden_field :id, :value => @timesheet.id %>
 
-    <%= f.submit :class => "btn btn-default" %>
-  <% end %>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped table-condensed">
+          <thead>
+            <th>Project</th>
+            <th>Su</th>
+            <th>M</th>
+            <th>Tu</th>
+            <th>W</th>
+            <th>Th</th>
+            <th>F</th>
+            <th>Sa</th>
+            <th>Delete</th>
+          </thead>
+          <tbody>
+            <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
+              <tr>
+                <th><%= project_fields.object.name %></th>
+                <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
+                  <td>
+                    <div class="form-group form-group-sm">
+                      <%= entry_fields.select :presence, Entry.presences.keys, {}, {:class => "form-control input-sm"} %>
+                      <%= entry_fields.text_field :hours, :size => 1, :class => "form-control input-sm #{'hidden' unless entry_fields.object.hourly?}" %>
+                    </div>
+                  </td>
+                <% end %>
+                <td>
+                  <%= project_fields.check_box :_destroy %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <% if @timesheet.addable_projects.present? %>
+        <div class="form-group text-right">
+          <%= f.collection_select :projects, @timesheet.addable_projects, :id, :name, {:class => "form-control input-sm"} %>
+          <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-xs" %>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :notes %>
+        <%= f.text_area :notes, :class => "form-control" %>
+      </div>
+
+      <%= f.submit :class => "btn btn-default" %>
+    <% end %>
+  </div>
 </div>
