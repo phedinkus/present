@@ -17,6 +17,10 @@ class AuthorizationsController < ApplicationController
     redirect_to session[:github_oauth_attempted_url]
   end
 
+  def logout
+    session.delete(:session_token)
+  end
+
 private
 
   def github_xss_violation?
