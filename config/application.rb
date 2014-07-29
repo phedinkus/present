@@ -17,7 +17,12 @@ module Present
   class Application < Rails::Application
     config.present = ActiveSupport::OrderedOptions.new
     config.present.url = "http://present.testdouble.com"
+
     config.github = ActiveSupport::OrderedOptions.new
     config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
+
+    config.harvest = ActiveSupport::OrderedOptions.new
+    config.harvest.subdomain = "testdouble"
+    config.harvest.username = ENV['PRESENT_HARVEST_USERNAME']
   end
 end

@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729035952) do
+ActiveRecord::Schema.define(version: 20140729132256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clients", force: true do |t|
+    t.string   "name"
+    t.integer  "harvest_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "entries", force: true do |t|
     t.integer  "projects_timesheet_id"
@@ -44,7 +52,11 @@ ActiveRecord::Schema.define(version: 20140729035952) do
     t.boolean  "active",     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "client_id"
+    t.integer  "harvest_id"
   end
+
+  add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
 
   create_table "projects_timesheets", force: true do |t|
     t.integer  "project_id"

@@ -51,7 +51,15 @@ GEM
     execjs (2.2.1)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    harvested (2.0.0)
+      hashie (~> 1)
+      httparty
+      json
+    hashie (1.2.0)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.11)
     jquery-rails (3.1.1)
       railties (>= 3.0, < 5.0)
@@ -64,6 +72,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.4.0)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     multipart-post (2.0.0)
     pg (0.17.1)
     polyglot (0.3.5)
@@ -133,6 +142,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   debugger
   faraday
+  harvested
   jquery-rails
   pg
   rails (= 4.1.4)
