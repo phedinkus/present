@@ -3,9 +3,9 @@ class ProjectsTimesheet < ActiveRecord::Base
   belongs_to :timesheet
   has_many :entries, :dependent => :destroy
 
-  def find_or_create_entries
+  def find_or_create_entries!
     Entry.days.map do |(name, ordinal)|
-      Entry.find_or_create_by(
+      Entry.find_or_create_by!(
         :projects_timesheet => self,
         :day => ordinal
       )

@@ -17,7 +17,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def entries_for(project)
-    projects_timesheets.find { |pt| pt.project == project }.find_or_create_entries
+    projects_timesheets.find { |pt| pt.project == project }.find_or_create_entries!
   end
 
   def week

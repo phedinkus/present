@@ -3,11 +3,11 @@ class Entry < ActiveRecord::Base
   has_one :project, :through => :projects_timesheet
   has_one :timesheet, :through => :projects_timesheet
 
-  before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
 
   validates_numericality_of :hours
 
-  validates_inclusion_of :presence, :in => :valid_presences
+  validates_inclusion_of :presence, :in => :valid_presences, :allow_nil => true
+  before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
 
   enum :day => {
     :sunday => 0,

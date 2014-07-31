@@ -25,10 +25,6 @@ class Week
     self.class.new(@beginning - 1)
   end
 
-  def to_date
-    Date.civil(@year,@month,@day)
-  end
-
   def ymd_hash
     {
       :year => @year,
@@ -38,7 +34,7 @@ class Week
   end
 
   def ymd_dash
-    to_date.to_s(:db)
+    @beginning.to_date.to_s(:db)
   end
 
   def +(number_of_weeks)

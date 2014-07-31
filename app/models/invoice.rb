@@ -2,7 +2,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :project
 
   def subject
-    "Consulting services from #{prior_week.to_date.to_s(:db)} to #{invoicing_week.to_date.end_of_week(:sunday).to_s(:db)}"
+    "Consulting services from #{prior_week.to_s(:mdy)} to #{invoicing_week.end.to_s(:mdy)}"
   end
 
   def line_items

@@ -20,6 +20,6 @@ module InvoicesHelper
   end
 
   def display_range_for_invoice_range(week)
-    "#{(week - 1).to_date.to_s(:db)} - #{week.to_date.end_of_week(:sunday).to_s(:db)}"
+    "#{(week - 1).beginning.to_s(:mdy)} - #{week.end.to_s(:mdy)}"
   end
 end
