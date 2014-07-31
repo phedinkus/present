@@ -14,6 +14,12 @@ class InvoicesController < ApplicationController
     redirect_to invoice
   end
 
+  def update
+    invoice = Invoice.find(params[:id])
+    HarvestApi.new.update_invoice!(invoice)
+    redirect_to invoice
+  end
+
   def show
     @invoice = Invoice.find(params[:id])
   end

@@ -31,11 +31,17 @@
         </tbody>
       </table>
     </div>
-
-    <div class="text-right">
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-6">
+    <%= form_for @invoice do |f| %>
+      <%= f.hidden_field :id, :value => @invoice.id %>
+      <%= f.submit 'Re-send invoice to Harvest', :class => "btn btn-default" %>
       <%= link_to "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" do %>
-        <div class="btn btn-success">See invoice in Harvest</div>
+        <div class="btn btn-info">View invoice in Harvest</div>
       <% end %>
-    </div>
+    <% end %>
+
   </div>
 </div>
