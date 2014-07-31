@@ -5,7 +5,9 @@ class Entry < ActiveRecord::Base
 
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
 
-  validates_numericality_of :hours, :if => :hourly?
+  validates_numericality_of :hours
+
+  validates_inclusion_of :presence, :in => :valid_presences
 
   enum :day => {
     :sunday => 0,
@@ -34,15 +36,21 @@ class Entry < ActiveRecord::Base
       ).where.not(:presence => Entry.presences[:absent])
   end
 
+  def valid_presences
+    return ["hourly"] if project.hourly?
+    self.class.presences.keys - ["hourly"]
+  end
+
 private
 
   def set_default_presence
-    self.presence = if sunday? || saturday? || timesheet.projects.first != project
+    self.presence = if project.hourly?
+      :hourly
+    elsif sunday? || saturday? || timesheet.projects.first != project
       :absent
     else
       :full
     end
   end
-
 
 end

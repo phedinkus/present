@@ -63,8 +63,11 @@
                 <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
                   <td>
                     <div class="form-group form-group-sm">
-                      <%= entry_fields.select :presence, Entry.presences.keys, {}, {:class => "presence-select form-control input-sm"} %>
-                      <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm #{'hidden' unless entry_fields.object.hourly?}" %>
+                      <% if project_fields.object.hourly? %>
+                        <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm" %>
+                      <% else %>
+                        <%= entry_fields.select :presence, entry_fields.object.valid_presences, {}, {:class => "presence-select form-control input-sm"} %>
+                      <% end %>
                     </div>
                   </td>
                 <% end %>
