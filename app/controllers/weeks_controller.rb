@@ -1,13 +1,13 @@
 class WeeksController < ApplicationController
   def current
     @week = Week.now
-    @timesheet = Timesheet.for(@week, @current_user)
+    @timesheet = Timesheet.find_or_create_for!(@week, @current_user)
     render :show
   end
 
   def show
     @week = Week.for(params[:year], params[:month], params[:day])
-    @timesheet = Timesheet.for(@week, @current_user)
+    @timesheet = Timesheet.find_or_create_for!(@week, @current_user)
   end
 
   def update

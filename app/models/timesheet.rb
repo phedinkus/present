@@ -7,13 +7,9 @@ class Timesheet < ActiveRecord::Base
   accepts_nested_attributes_for :projects, :allow_destroy => true
   accepts_nested_attributes_for :entries
 
-  def self.for(week, user)
-    find_or_create_by!(
-      :year => week.year,
-      :month => week.month,
-      :day => week.day,
-      :user => user
-    )
+  def self.find_or_create_for!(week, user)
+    find_or_create_by!(week.ymd_hash.merge(:user => user))
+  end
   end
 
   def entries_for(project)
