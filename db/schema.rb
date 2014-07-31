@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20140731023500) do
     t.integer  "timesheet_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "sent_to_harvest_at"
   end
 
   add_index "projects_timesheets", ["project_id"], name: "index_projects_timesheets_on_project_id", using: :btree
@@ -89,7 +90,6 @@ ActiveRecord::Schema.define(version: 20140731023500) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.time     "sent_to_harvest_at"
   end
 
   add_index "timesheets", ["user_id"], name: "index_timesheets_on_user_id", using: :btree

@@ -7,20 +7,20 @@ class InvoicesController < ApplicationController
   def create
     week = Week.new(Time.zone.parse(params[:invoicing_week]))
     project = Project.find(params[:project_id])
-    invoice = Invoice.find_or_create_by(week.ymd_hash.merge(:project => project))
+    invoice = Invoice.find_or_create_by(week.ymd_hash.merge(:project => project)).generate_for_harvest
 
-    HarvestApi.new.update_invoice!(invoice)
+    Present::Harvest::Api.new.update_invoice!(invoice)
 
-    redirect_to invoice
+    redirect_to invoice.active_record_invoice
   end
 
   def update
-    invoice = Invoice.find(params[:id])
-    HarvestApi.new.update_invoice!(invoice)
-    redirect_to invoice
+    invoice = Invoice.find(params[:id]).generate_for_harvest
+    Present::Harvest::Api.new.update_invoice!(invoice)
+    redirect_to invoice.active_record_invoice
   end
 
   def show
-    @invoice = Invoice.find(params[:id])
+    @invoice = Invoice.find(params[:id]).generate_for_harvest
   end
 end

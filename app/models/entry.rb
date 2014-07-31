@@ -3,7 +3,6 @@ class Entry < ActiveRecord::Base
   has_one :project, :through => :projects_timesheet
   has_one :timesheet, :through => :projects_timesheet
 
-
   validates_numericality_of :hours
 
   validates_inclusion_of :presence, :in => :valid_presences, :allow_nil => true
@@ -47,6 +46,14 @@ class Entry < ActiveRecord::Base
       t += 1.day
     end
     t
+  end
+
+  def zero?
+    hourly? ? hours == 0 : absent?
+  end
+
+  def nonzero?
+    !zero?
   end
 
 private

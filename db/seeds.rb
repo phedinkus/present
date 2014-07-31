@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 puts "Upserting clients and projects from Harvest into Present's database"
-HarvestApi.new.update_clients_and_projects!
+Present::Harvest::Api.new.update_clients_and_projects!
 puts <<-LOG
   Harvest Export complete:
   ------------------------
