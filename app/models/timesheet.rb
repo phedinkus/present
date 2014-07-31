@@ -23,4 +23,8 @@ class Timesheet < ActiveRecord::Base
   def week
     Week.for(year, month, day)
   end
+
+  def time
+    Time.zone.local(year, month, day)
+  end
 end

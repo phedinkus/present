@@ -41,6 +41,14 @@ class Entry < ActiveRecord::Base
     self.class.presences.keys - ["hourly"]
   end
 
+  def time
+    t = timesheet.time
+    until Date::DAYNAMES[t.wday].downcase == day
+      t += 1.day
+    end
+    t
+  end
+
 private
 
   def set_default_presence
