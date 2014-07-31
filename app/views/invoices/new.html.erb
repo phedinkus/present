@@ -3,7 +3,7 @@
     <%= form_tag("/invoices") do %>
       <div class="form-group">
         <%= label_tag :invoicing_week %>
-        <%= select_tag :invoicing_week, options_for_select(options_for_weeks, Week.now.previous.ymd_dash), { :class => "form-control input-sm"} %>
+        <%= select_tag :invoicing_week, options_for_select(options_for_weeks, Week.now.previous_invoice_week.ymd_dash), { :class => "form-control input-sm"} %>
       </div>
       <div class="form-group">
         <%= label_tag :project_id %>

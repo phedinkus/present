@@ -7,9 +7,8 @@ module Present::Harvest
     def initialize(invoice)
       @invoice = invoice
       @project = invoice.project
-      @entries = Entry.non_zero_entries_for_week_and_project(@invoice.prior_week, @project) +
-        Entry.non_zero_entries_for_week_and_project(@invoice.invoicing_week, @project)
-      @timesheets = @entries.map(&:timesheet).uniq
+      @timesheets = (Timesheet.for(@invoice.prior_week, @project) + Timesheet.for(@invoice.invoicing_week, @project)).reject(&:empty?)
+      @entries = @timesheets.map(&:entries).flatten.uniq
       @line_items = LineItems.generate(invoice, entries, timesheets)
     end
 

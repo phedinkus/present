@@ -50,4 +50,36 @@ class Week
       memo.previous
     end
   end
+
+  def invoice_week?
+    weeks_since(Rails.application.config.present.reference_invoice_week).to_i.even?
+  end
+
+  def weeks_since(earlier_week)
+    ((beginning - earlier_week.beginning) / 1.week.seconds).to_i
+  end
+
+  def previous_invoice_week
+    previous_week_that {|w| w != self && w.invoice_week? }
+  end
+
+  def next_invoice_week
+    next_week_that {|w| w != self && w.invoice_week? }
+  end
+
+  def next_week_that(&block)
+    find_week_by(1, block)
+  end
+
+  def previous_week_that(&block)
+    find_week_by(-1, block)
+  end
+
+  def find_week_by(step, block)
+    w = self
+    until block.call(w)
+      w += step
+    end
+    w
+  end
 end

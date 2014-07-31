@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  has_many :projects_timesheets
   belongs_to :client
 
   enum :rate_type => {

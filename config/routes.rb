@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resources :weeks
   resources :timesheets, :path => "weeks", :controller => "weeks"
 
+  get "invoices/todo", :to => "invoices#todo", :as => :todo_invoices_path
   resources :invoices
+
 
   root "application#root"
 end

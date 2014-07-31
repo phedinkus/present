@@ -23,4 +23,8 @@ class InvoicesController < ApplicationController
   def show
     @invoice = Invoice.find(params[:id]).generate_for_harvest
   end
+
+  def todo
+
+  end
 end

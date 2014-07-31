@@ -13,9 +13,8 @@ module InvoicesHelper
   end
 
   def options_for_weeks
-    (-6..2).map do |i|
-      invoicing_week = Week.now + i
-      [display_range_for_invoice_range(invoicing_week), invoicing_week.ymd_dash]
+    (-16..4).map {|i| Week.now + i}.select(&:invoice_week?).map do |week|
+      [display_range_for_invoice_range(week), week.ymd_dash]
     end
   end
 
