@@ -15,6 +15,7 @@ class Invoice < ActiveRecord::Base
         memo.merge(:quantity => memo[:quantity] + quantity_for(entry))
       end.tap do |line_item|
         line_item[:description] = description_for(user, line_item)
+        line_item[:quantity] = line_item[:quantity].round(2)
       end
     end
   end
