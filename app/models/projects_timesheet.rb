@@ -3,8 +3,13 @@ class ProjectsTimesheet < ActiveRecord::Base
   belongs_to :timesheet
   has_many :entries, :dependent => :destroy
 
-  def self.for(project, timesheets)
-    where(:project => project, :timesheet => timesheets)
+  def self.for_week_and_project(week, project)
+    joins(:timesheet).where(
+      "timesheets.year" => week.year,
+      "timesheets.month" => week.month,
+      "timesheets.day" => week.day,
+      "projects_timesheets.project_id" => project
+    )
   end
 
   def find_or_create_entries!

@@ -25,6 +25,10 @@ class Entry < ActiveRecord::Base
     :hourly => 3
   }
 
+  def self.out_of_date
+    joins(:projects_timesheet).where('entries.updated_at > projects_timesheets.sent_to_harvest_at')
+  end
+
   def valid_presences
     return ["hourly"] if project.hourly?
     self.class.presences.keys - ["hourly"]

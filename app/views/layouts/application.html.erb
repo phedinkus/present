@@ -29,6 +29,7 @@
         | <%= link_to "Logout", logout_path %>
         <% if @current_user.admin? %>
           | <%= link_to "New Invoice", new_invoice_path %>
+          | <%= link_to "Invoices Waiting for Submission", todo_invoices_path %>
         <% end %>
       <% end %>
 

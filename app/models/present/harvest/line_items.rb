@@ -33,29 +33,32 @@ module Present::Harvest
     end
 
     def self.description_for(project, user, line_item, entries)
-      if project.hourly?
-        <<-TEXT.gsub /^\s+/, ""
-          #{user.name}
-          #{description_of_present_entries_date_range(entries)}
-        TEXT
-      else
-        <<-TEXT.gsub /^\s+/, ""
-          #{user.name} (#{line_item[:quantity] * 5.0}/10 days worked)
-          #{description_of_present_entries_date_range(entries)}
-          #{description_of_absences_for(entries).join("\n")}
-        TEXT
-      end
-    end
+      return user.name if project.hourly?
+      <<-TEXT.gsub /^\s+/, ""
+        #{user.name} (#{line_item[:quantity] * 5.0}/10 days worked)
 
-    def self.description_of_present_entries_date_range(entries)
-      return "" if (entry_times = entries.select(&:nonzero?).map(&:time)).blank?
-      "#{entry_times.min.to_s(:mdy)} - #{entry_times.max.to_s(:mdy)}"
+        #{description_of_absences_for(entries)}
+        #{description_of_half_days_for(entries)}
+      TEXT
     end
 
     def self.description_of_absences_for(entries)
-      entries.reject(&:full?).map do |entry|
-        "#{entry.absent? ? 'Absent' : 'Half-day'} on #{entry.time.to_s(:md)}"
-      end
+      return unless (absences = description_of_entry_days(entries.select(&:absent?))).present?
+      "Absent on #{absences}"
+    end
+
+    def self.description_of_half_days_for(entries)
+      return unless (half_days = description_of_entry_days(entries.select(&:half?))).present?
+      "Half-day on #{half_days}"
+    end
+
+    def self.description_of_entry_days(entries)
+      entries
+        .reject(&:saturday?)
+        .reject(&:sunday?)
+        .sort_by { |e| e.time }
+        .map {|e| e.time.to_s(:md)}
+      .join(", ")
     end
 
   end

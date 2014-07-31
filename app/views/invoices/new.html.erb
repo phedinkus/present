@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_tag("/invoices") do %>
+    <%= form_for @invoice do |f| %>
       <div class="form-group">
-        <%= label_tag :invoicing_week %>
-        <%= select_tag :invoicing_week, options_for_select(options_for_weeks, Week.now.previous_invoice_week.ymd_dash), { :class => "form-control input-sm"} %>
+        <%= f.label :invoicing_week %>
+        <%= f.select :invoicing_week, options_for_select(options_for_weeks, @invoice.invoicing_week.ymd_dash), {}, { :class => "form-control input-sm"} %>
       </div>
       <div class="form-group">
-        <%= label_tag :project_id %>
-        <%= select_tag :project_id, grouped_options_for_select(grouped_options_for_clients_and_projects), {:class => "form-control input-sm"} %>
+        <%= f.label :project_id %>
+        <%= f.select :project_id, grouped_options_for_select(grouped_options_for_clients_and_projects), {}, {:class => "form-control input-sm"} %>
       </div>
       <div class="form-group text-right">
-        <%= submit_tag("Send invoice to Harvest", :class => "btn btn-default") %>
+        <%= f.submit "Send invoice to Harvest", :class => "btn btn-default" %>
       </div>
     <% end %>
   </div>

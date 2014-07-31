@@ -9,14 +9,14 @@ class Invoice < ActiveRecord::Base
     ProjectsTimesheet
       .where(:sent_to_harvest_at => nil)
       .joins(:timesheet).merge(Timesheet.current_and_past)
+      .select { |projects_timesheet| projects_timesheet.timesheet.week.invoice_week? }
       .map do |projects_timesheet|
         Invoice.new(projects_timesheet.timesheet.week.ymd_hash.merge(:project => projects_timesheet.project))
       end
   end
 
   def self.existing_invoices_that_need_to_be_sent_to_harvest
-    Invoice.joins(:project => {:projects_timesheets => [:timesheet, :entries]})
-      .where("projects_timesheets.sent_to_harvest_at < timesheets.updated_at OR projects_timesheets.sent_to_harvest_at < entries.updated_at")
+    Invoice.joins(:project => {:projects_timesheets => [:timesheet, :entries]}).merge(Entry.out_of_date)
   end
 
   def subject
