@@ -13,14 +13,14 @@
         <small>Welcome, <%= @current_user.name %>!</small>
       </div>
     <% end %>
-    <% if flash[:error].present? %>
-      <div class="bg-danger">
-        <ul>
-          <% flash[:error].each do |msg| %>
-            <li><%= msg %></li>
+    <% flash.each do |(mode, messages)| %>
+      <% if messages.present? %>
+        <div class="alert alert-<%= css_class_for_flash_key(mode) %>" role="alert">
+          <% messages.each do |msg| %>
+            <p><%= msg %></p>
           <% end %>
-        </ul>
-      </div>
+        </div>
+      <% end %>
     <% end %>
     <%= yield %>
     <footer class="text-center">
