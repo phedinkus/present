@@ -31,7 +31,7 @@ module Present::Harvest
     module ActiveRecordConverter
       def self.upsert_client!(harvest_client)
         Client.find_or_create_by(:harvest_id => harvest_client.id).tap do |project|
-          project.update(
+          project.update!(
             :name => harvest_client.name,
             :active => harvest_client.active?
           )
@@ -40,7 +40,7 @@ module Present::Harvest
 
       def self.upsert_project!(harvest_project)
         Project.find_or_create_by(:harvest_id => harvest_project.id).tap do |project|
-          project.update(
+          project.update!(
             :name => harvest_project.name,
             :active => harvest_project.active?,
             :client => Client.find_by(:harvest_id => harvest_project.client_id)

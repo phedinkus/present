@@ -15,7 +15,7 @@ class WeeksController < ApplicationController
       if params[:button] == "add_project"
         timesheet.projects << Project.find(params[:timesheet][:projects])
       else
-        timesheet.update(params[:timesheet].permit(
+        timesheet.update!(params[:timesheet].permit(
           :notes,
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy]

@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   def login_returning_github_user(github_access_token_response, session_token)
     github_account.update_authorization(github_access_token_response)
-    update(:session_token => session_token)
+    update!(:session_token => session_token)
   end
 
   def admin?

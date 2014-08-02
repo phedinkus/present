@@ -17,7 +17,7 @@ module Present::Harvest
     def you_were_just_submitted_to_harvest(harvest_id)
       now = Time.zone.now
       @invoice.update!(:harvest_id => harvest_id)
-      @projects_timesheets.map { |pt| pt.update(:sent_to_harvest_at => now, :updated_at => now) }
+      @projects_timesheets.map { |pt| pt.update!(:sent_to_harvest_at => now, :updated_at => now) }
     end
 
     def active_record_invoice

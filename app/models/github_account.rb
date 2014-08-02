@@ -10,7 +10,7 @@ class GithubAccount < ActiveRecord::Base
   end
 
   def update_authorization(github_access_token_response)
-    update(self.class.model_attributes_for(github_access_token_response))
+    update!(self.class.model_attributes_for(github_access_token_response))
   end
 
 private

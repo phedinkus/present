@@ -1,5 +1,5 @@
 puts "Initializing System Configuration"
-SystemConfiguration.instance.update(
+SystemConfiguration.instance.update!(
   :reference_invoice_year => 2013,
   :reference_invoice_month => 11,
   :reference_invoice_day => 24
