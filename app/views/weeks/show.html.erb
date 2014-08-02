@@ -14,7 +14,7 @@
             </button>
           <% end %>
           <%= link_to current_week_path do %>
-            <button type="button" class="btn btn-default btn-primary <%= 'invisible' if @week.beginning == Week.now.beginning %>">
+            <button type="button" class="btn btn-default btn-info <%= 'invisible' if @week.beginning == Week.now.beginning %>">
               <span class="glyphicon glyphicon-home"></span>
             </button>
           <% end %>
@@ -31,26 +31,30 @@
     <%= form_for @timesheet, :html => { :role => "form" } do |f| %>
       <%= f.hidden_field :id, :value => @timesheet.id %>
 
-      <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
-        <div class="row">
-          <div class="form-group col-md-4 col-md-offset-8 text-right add-project">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="checkbox">
+            <label>
+              <%= check_box_tag :show_weekends, nil, @timesheet.non_empty_weekend_entries? %>
+              Show weekends
+            </label>
+          </div>
+        </div>
+        <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
+          <div class="form-group form-inline col-md-6 col-md-offset-4 text-right add-project">
             <%= f.select :projects, project_options, {}, {:class => "form-control input-sm"} %>
             <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm" %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
 
       <div class="table-responsive">
         <table class="table table-hover table-striped table-condensed">
           <thead>
             <th>Project</th>
-            <th>Su</th>
-            <th>M</th>
-            <th>Tu</th>
-            <th>W</th>
-            <th>Th</th>
-            <th>F</th>
-            <th>Sa</th>
+            <% Entry.days.keys.each do |day_name| %>
+              <th class="text-center <%= 'weekend' if Entry.weekend?(day_name) %>"><%= Entry.time_for(@timesheet, day_name).to_s(:md_wd) %></th>
+            <% end %>
             <th>Delete</th>
           </thead>
           <tbody>
@@ -63,12 +67,25 @@
                   </p>
                 </td>
                 <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
-                  <td>
-                    <div class="form-group form-group-sm">
+                  <td <%= "class=weekend" if entry_fields.object.weekend?%> >
+                    <div class="presence-select form-group form-group-sm text-center">
                       <% if project_fields.object.hourly? %>
                         <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm" %>
                       <% else %>
-                        <%= entry_fields.select :presence, entry_fields.object.valid_presences, {}, {:class => "presence-select form-control input-sm"} %>
+                        <div class="btn-group btn-group-xs" data-toggle="buttons">
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %>">
+                            <%= entry_fields.radio_button :presence, :full %>
+                            &#10003;
+                          </label>
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.half? %>">
+                            <%= entry_fields.radio_button :presence, :half %>
+                            &frac12;
+                          </label>
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.absent? %>">
+                            <%= entry_fields.radio_button :presence, :absent %>
+                            &#x2717;
+                          </label>
+                        </div>
                       <% end %>
                     </div>
                   </td>
@@ -84,7 +101,7 @@
 
       <div class="form-group">
         <%= f.label :notes %>
-        <%= f.text_area :notes, :class => "form-control" %>
+        <%= f.text_area :notes, :class => "form-control", :rows => 6 %>
       </div>
 
       <%= f.submit :class => "btn btn-default" %>

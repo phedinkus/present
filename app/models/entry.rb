@@ -34,12 +34,24 @@ class Entry < ActiveRecord::Base
     self.class.presences.keys - ["hourly"]
   end
 
-  def time
+  def self.time_for(timesheet, day_name)
     t = timesheet.time
-    until Date::DAYNAMES[t.wday].downcase == day
+    until Date::DAYNAMES[t.wday].downcase == day_name.to_s
       t += 1.day
     end
     t
+  end
+
+  def time
+    self.class.time_for(timesheet, day)
+  end
+
+  def self.weekend?(day_name)
+    ["sunday", "saturday"].include?(day_name.to_s)
+  end
+
+  def weekend?
+    self.class.weekend?(day)
   end
 
   def zero?
@@ -55,7 +67,7 @@ private
   def set_default_presence
     self.presence = if project.hourly?
       :hourly
-    elsif sunday? || saturday? || timesheet.projects.reject(&:special?).first != project
+    elsif weekend? || timesheet.projects.reject(&:special?).first != project
       :absent
     else
       :full

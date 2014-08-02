@@ -41,4 +41,8 @@ class Timesheet < ActiveRecord::Base
   def empty?
     entries.all?(&:zero?)
   end
+
+  def non_empty_weekend_entries?
+    entries.select(&:weekend?).any?(&:nonzero?)
+  end
 end
