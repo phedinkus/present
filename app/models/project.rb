@@ -11,10 +11,6 @@ class Project < ActiveRecord::Base
     where(:active => true)
   end
 
-  def self.order_for_timesheet
-    order('special_type desc nulls first', :created_at)
-  end
-
   after_initialize { |p| p.client = NullClient.new if p.special? }
 
   def sticky?

@@ -1,7 +1,7 @@
 class Timesheet < ActiveRecord::Base
   belongs_to :user
-  has_many :projects_timesheets
-  has_many :projects, :through => :projects_timesheets
+  has_many :projects_timesheets, ->{ order('projects_timesheets.created_at') }
+  has_many :projects, ->{ order('special_type desc nulls first') }, :through => :projects_timesheets
   has_many :entries, :through => :projects_timesheets
 
   accepts_nested_attributes_for :projects, :allow_destroy => true
@@ -13,6 +13,7 @@ class Timesheet < ActiveRecord::Base
     else
       Timesheet.new(params).tap do |timesheet|
         timesheet.projects += Project.all.select(&:sticky?)
+        timesheet.projects += timesheet.previous_timesheets_projects
         timesheet.save!
       end
     end
@@ -24,6 +25,11 @@ class Timesheet < ActiveRecord::Base
 
   def self.future
     where("DATE(timesheets.year||'-'||timesheets.month||'-'||timesheets.day) > now()")
+  end
+
+  def previous_timesheets_projects
+    return [] unless timesheet = self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
+    timesheet.projects
   end
 
   def entries_for(project)
