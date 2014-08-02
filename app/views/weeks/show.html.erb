@@ -60,7 +60,7 @@
           <tbody>
             <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
               <tr <%= 'class=warning' if project_fields.object.special? %>>
-                <td>
+                <td class="form-group form-group-sm text-center">
                   <p>
                     <strong><%= project_fields.object.name %></strong><br/>
                     <small><i><%= project_fields.object.client.name %></i></small>
