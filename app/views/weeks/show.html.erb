@@ -60,7 +60,7 @@
           <tbody>
             <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
               <tr <%= 'class=warning' if project_fields.object.special? %>>
-                <td class="form-group form-group-sm text-center">
+                <td>
                   <p>
                     <strong><%= project_fields.object.name %></strong><br/>
                     <small><i><%= project_fields.object.client.name %></i></small>
@@ -70,7 +70,7 @@
                   <td <%= "class=weekend" if entry_fields.object.weekend?%> >
                     <div class="presence-select form-group form-group-sm text-center">
                       <% if project_fields.object.hourly? %>
-                        <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm" %>
+                        <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm center-block" %>
                       <% else %>
                         <div class="btn-group btn-group-xs" data-toggle="buttons">
                           <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %>">
