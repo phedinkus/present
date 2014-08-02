@@ -48,7 +48,7 @@
         <% end %>
       </div>
 
-      <div class="table-responsive">
+      <div class="row table-responsive">
         <table class="table table-hover table-striped table-condensed">
           <thead>
             <th>Project</th>
@@ -61,10 +61,10 @@
             <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
               <tr <%= 'class=warning' if project_fields.object.special? %>>
                 <td>
-                  <p>
+                  <div>
                     <strong><%= project_fields.object.name %></strong><br/>
                     <small><i><%= project_fields.object.client.name %></i></small>
-                  </p>
+                  </div>
                 </td>
                 <%= f.fields_for :entries, @timesheet.entries_for(project_fields.object) do |entry_fields| %>
                   <td <%= "class=weekend" if entry_fields.object.weekend?%> >
@@ -73,17 +73,17 @@
                         <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm center-block" %>
                       <% else %>
                         <div class="btn-group btn-group-xs" data-toggle="buttons">
-                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %>">
-                            <%= entry_fields.radio_button :presence, :full %>
-                            &#10003;
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.absent? %>">
+                            <%= entry_fields.radio_button :presence, :absent %>
+                            &#x2717;
                           </label>
                           <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.half? %>">
                             <%= entry_fields.radio_button :presence, :half %>
                             &frac12;
                           </label>
-                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.absent? %>">
-                            <%= entry_fields.radio_button :presence, :absent %>
-                            &#x2717;
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %>">
+                            <%= entry_fields.radio_button :presence, :full %>
+                            &#10003;
                           </label>
                         </div>
                       <% end %>
