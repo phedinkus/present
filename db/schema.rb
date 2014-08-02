@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731143250) do
+ActiveRecord::Schema.define(version: 20140802132431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,14 +59,15 @@ ActiveRecord::Schema.define(version: 20140731143250) do
 
   create_table "projects", force: true do |t|
     t.string   "name"
-    t.boolean  "active",      default: true
+    t.boolean  "active",       default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
-    t.integer  "weekly_rate", default: 5000
-    t.integer  "hourly_rate", default: 175
-    t.integer  "rate_type",   default: 0
+    t.integer  "weekly_rate",  default: 5000
+    t.integer  "hourly_rate",  default: 175
+    t.integer  "rate_type",    default: 0
+    t.string   "special_type"
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree

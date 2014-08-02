@@ -1,6 +1,6 @@
 class Timesheet < ActiveRecord::Base
   belongs_to :user
-  has_many :projects_timesheets, ->{ order(:created_at) }
+  has_many :projects_timesheets
   has_many :projects, :through => :projects_timesheets
   has_many :entries, :through => :projects_timesheets
 
@@ -8,7 +8,14 @@ class Timesheet < ActiveRecord::Base
   accepts_nested_attributes_for :entries
 
   def self.find_or_create_for!(week, user)
-    find_or_create_by!(week.ymd_hash.merge(:user => user))
+    if existing = find_by(params = week.ymd_hash.merge(:user => user))
+      existing
+    else
+      Timesheet.new(params).tap do |timesheet|
+        timesheet.projects += Project.all.select(&:sticky?)
+        timesheet.save!
+      end
+    end
   end
 
   def self.current_and_past

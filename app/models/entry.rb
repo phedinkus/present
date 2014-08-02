@@ -55,7 +55,7 @@ private
   def set_default_presence
     self.presence = if project.hourly?
       :hourly
-    elsif sunday? || saturday? || timesheet.projects.first != project
+    elsif sunday? || saturday? || timesheet.projects.reject(&:special?).first != project
       :absent
     else
       :full

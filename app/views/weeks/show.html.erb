@@ -52,8 +52,8 @@
             <th>Delete</th>
           </thead>
           <tbody>
-            <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
-              <tr>
+            <%= f.fields_for :projects, @timesheet.projects.order_for_timesheet do |project_fields| %>
+              <tr <%= 'class=warning' if project_fields.object.special? %>>
                 <td>
                   <p>
                     <strong><%= project_fields.object.name %></strong><br/>
@@ -72,7 +72,7 @@
                   </td>
                 <% end %>
                 <td>
-                  <%= project_fields.check_box :_destroy %>
+                  <%= project_fields.check_box :_destroy unless project_fields.object.special? %>
                 </td>
               </tr>
             <% end %>
