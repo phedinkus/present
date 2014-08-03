@@ -9,6 +9,7 @@ class Invoice < ActiveRecord::Base
     ProjectsTimesheet
       .where(:sent_to_harvest_at => nil)
       .joins(:timesheet).merge(Timesheet.current_and_past)
+      .joins(:project).merge(Project.invoiceable)
       .select { |projects_timesheet| projects_timesheet.timesheet.week.invoice_week? }
       .map do |projects_timesheet|
         Invoice.new(projects_timesheet.timesheet.week.ymd_hash.merge(:project => projects_timesheet.project))

@@ -11,6 +11,10 @@ class Project < ActiveRecord::Base
     where(:active => true)
   end
 
+  def self.invoiceable
+    where('client_id is not null and special_type is null')
+  end
+
   after_initialize { |p| p.client = NullClient.new if p.special? }
 
   def sticky?
