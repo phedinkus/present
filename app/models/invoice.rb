@@ -6,14 +6,14 @@ class Invoice < ActiveRecord::Base
   end
 
   def self.new_invoices_that_need_to_be_sent_to_harvest
-    ProjectsTimesheet
-      .where(:sent_to_harvest_at => nil)
-      .joins(:timesheet).merge(Timesheet.current_and_past)
-      .joins(:project).merge(Project.invoiceable)
-      .select { |projects_timesheet| projects_timesheet.timesheet.week.invoice_week? }
-      .map do |projects_timesheet|
-        Invoice.new(projects_timesheet.timesheet.week.ymd_hash.merge(:project => projects_timesheet.project))
-      end
+    ProjectsTimesheet.
+      where(:sent_to_harvest_at => nil).
+      joins(:timesheet).merge(Timesheet.current_and_past).
+      joins(:project).merge(Project.invoiceable).
+      select { |projects_timesheet| projects_timesheet.timesheet.week.invoice_week? }.
+      map {|projects_timesheet| projects_timesheet.timesheet.week.ymd_hash.merge(:project => projects_timesheet.project) }.
+      uniq.
+      map { |invoice_options| Invoice.new(invoice_options) }
   end
 
   def self.existing_invoices_that_need_to_be_sent_to_harvest
