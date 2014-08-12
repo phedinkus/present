@@ -35,12 +35,16 @@
 </div>
 <div class="row">
   <div class="col-md-6 col-md-offset-6">
-    <%= form_for @invoice.active_record_invoice do |f| %>
-      <%= f.hidden_field :id, :value => @invoice.id %>
-      <%= f.submit 'Re-send invoice to Harvest', :class => "btn btn-default" %>
-      <%= link_to "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" do %>
-        <div class="btn btn-info">View invoice in Harvest</div>
+    <%= form_for @invoice.active_record_invoice, :url => send_invoice_to_harvest_path(@invoice.id) do |f| %>
+      <%= f.submit 'Send invoice to Harvest', :class => "btn btn-default" %>
+      <% if @invoice.harvest_id.present? %>
+        <%= link_to "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" do %>
+          <div class="btn btn-info">View invoice in Harvest</div>
+        <% end %>
+      <% else %>
+        <div class="btn btn-info disabled">View invoice in Harvest</div>
       <% end %>
+
     <% end %>
 
   </div>

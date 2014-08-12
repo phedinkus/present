@@ -104,14 +104,16 @@
         <%= f.text_area :notes, :class => "form-control", :rows => 6 %>
       </div>
 
-      <div class="form-group">
-        <div class="checkbox input-lg">
-          <label>
-            <%= f.check_box :ready_to_invoice %>
-            Ready to invoice?
-          </label>
+      <% if @week.invoice_week? %>
+        <div class="form-group">
+          <div class="checkbox input-lg">
+            <label>
+              <%= f.check_box :ready_to_invoice %>
+              Ready to invoice this week and last week?
+            </label>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <%= f.submit :class => "btn btn-default" %>
     <% end %>
