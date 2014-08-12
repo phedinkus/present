@@ -15,18 +15,26 @@
       <table class="table table-hover table-striped table-condensed">
         <thead>
           <th>User</th>
-          <th>Week</th>
+          <th>Week(s)</th>
+          <th>Ready to invoice?</th>
           <th>Note</th>
         </thead>
         <tbody>
           <% @invoice.timesheets.group_by(&:user).each do |(user, timesheets)| %>
-            <% timesheets.each do |timesheet| %>
-              <tr>
-                <td><%= user.name %></td>
-                <td><%= timesheet.week.beginning.to_s(:mdy) %></td>
-                <td><small><pre><%= timesheet.notes? ? timesheet.notes : "N/A" %></small></pre></td>
-              </tr>
-            <% end %>
+            <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
+            <tr class="<%= 'danger' unless ready_to_invoice %>">
+              <td><%= user.name %></td>
+              <td><%= timesheets.map {|t| t.week.beginning.to_s(:mdy) }.join(", ") %></td>
+              <td>
+                <%= ready_to_invoice ? "Yes" : "No" %>
+              </td>
+              <td>
+                <% timesheets.select {|t| t.notes? }.each do |t| %>
+                  Notes on <%= t.week.beginning.to_s(:mdy) %>:<br/>
+                  <small><pre><%= t.notes %></small></pre>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
         </tbody>
       </table>
