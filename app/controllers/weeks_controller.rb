@@ -16,7 +16,7 @@ class WeeksController < ApplicationController
         timesheet.projects << Project.find(params[:timesheet][:projects])
       else
         timesheet.update!(params[:timesheet].permit(
-          :notes,
+          :notes, :ready_to_invoice,
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy]
         ))

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140802132431) do
+ActiveRecord::Schema.define(version: 20140812182423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20140802132431) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ready_to_invoice", default: false
   end
 
   add_index "timesheets", ["user_id"], name: "index_timesheets_on_user_id", using: :btree
