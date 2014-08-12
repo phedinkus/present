@@ -18,6 +18,7 @@ module Present
     config.present = ActiveSupport::OrderedOptions.new
     config.present.url = "http://present.testdouble.com"
     config.present.admins = ENV['PRESENT_ADMIN_GITHUB_IDS'].split(",")
+    config.present.local_override = ENV['LOCAL_OVERRIDE_AS'] || false
 
     config.github = ActiveSupport::OrderedOptions.new
     config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
