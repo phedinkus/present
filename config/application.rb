@@ -23,7 +23,7 @@ module Present
     config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
 
     config.harvest = ActiveSupport::OrderedOptions.new
-    config.harvest.subdomain = "testdouble"
+    config.harvest.subdomain = ENV['PRESENT_HARVEST_SUBDOMAIN']
     config.harvest.username = ENV['PRESENT_HARVEST_USERNAME']
   end
 end
