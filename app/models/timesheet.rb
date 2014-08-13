@@ -5,6 +5,7 @@ class Timesheet < ActiveRecord::Base
   has_many :entries, :through => :projects_timesheets
 
   accepts_nested_attributes_for :projects, :allow_destroy => true
+  accepts_nested_attributes_for :projects_timesheets
   accepts_nested_attributes_for :entries
 
   def self.find_or_create_for!(week, user)
@@ -32,8 +33,12 @@ class Timesheet < ActiveRecord::Base
     timesheet.projects
   end
 
+  def projects_timesheet_for(project)
+    projects_timesheets.find { |pt| pt.project == project }
+  end
+
   def entries_for(project)
-    projects_timesheets.find { |pt| pt.project == project }.find_or_create_entries!
+    projects_timesheet_for(project).find_or_create_entries!
   end
 
   def week

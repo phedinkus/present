@@ -18,7 +18,8 @@ class WeeksController < ApplicationController
         timesheet.update!(params[:timesheet].permit(
           :notes, :ready_to_invoice,
           :entries_attributes => [:id, :presence, :hours],
-          :projects_attributes => [:id, :_destroy]
+          :projects_attributes => [:id, :_destroy],
+          :projects_timesheets_attributes => [:id, :notes]
         ))
       end
 
