@@ -79,4 +79,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Configure postmark
+  ActionMailer::Base.smtp_settings = {
+    :port           => '25',
+    :address        => ENV['POSTMARK_SMTP_SERVER'],
+    :user_name      => ENV['POSTMARK_API_KEY'],
+    :password       => ENV['POSTMARK_API_KEY'],
+    :domain         => 'present.testdouble.com',
+    :authentication => :plain,
+  }
+  ActionMailer::Base.delivery_method = :smtp
 end
