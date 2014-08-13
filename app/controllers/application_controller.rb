@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
   end
 
   def apply_impersonation
+    return unless @logged_in_user.present?
+
     if @logged_in_user.admin? && session[:impersonated_user_id].present?
       @impersonated_user = @current_user = User.find(session[:impersonated_user_id])
     end
