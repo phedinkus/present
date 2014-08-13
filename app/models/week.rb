@@ -67,6 +67,10 @@ class Week
     next_week_that {|w| w != self && w.invoice_week? }
   end
 
+  def closest_invoice_week
+    next_week_that {|w| w.invoice_week? }
+  end
+
   def next_week_that(&block)
     find_week_by(1, block)
   end

@@ -17,7 +17,9 @@ class Invoice < ActiveRecord::Base
   end
 
   def self.existing_invoices_that_need_to_be_sent_to_harvest
-    Invoice.joins(:project => {:projects_timesheets => [:timesheet, :entries]}).merge(Entry.out_of_date)
+    ProjectsTimesheet.outdated_in_harvest.map do |pt|
+      Invoice.find_by(pt.timesheet.week.closest_invoice_week.ymd_hash.merge(:project => pt.project))
+    end.compact.uniq
   end
 
   def subject
