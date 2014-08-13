@@ -31,13 +31,20 @@ module Present::Harvest
     end
 
     def self.description_for(project, user, line_item, entries)
-      return user.name if project.hourly?
-      <<-TEXT.gsub /^\s+/, ""
-        #{user.name} (#{line_item[:quantity] * 5.0}/10 days worked)
+      description = user.name
+      if project.requires_notes?
+        description += "\n\n" + entries.sample.projects_timesheet.notes
+      end
+      if project.weekly?
+        description += "\n\n"
+        description += <<-TEXT.gsub /^\s+/, ""
+          (#{line_item[:quantity] * 5.0}/10 days worked)
 
-        #{description_of_absences_for(entries)}
-        #{description_of_half_days_for(entries)}
-      TEXT
+          #{description_of_absences_for(entries)}
+          #{description_of_half_days_for(entries)}
+        TEXT
+      end
+      description
     end
 
     def self.description_of_absences_for(entries)
