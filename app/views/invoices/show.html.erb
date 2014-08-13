@@ -1,59 +1,66 @@
-<div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <h3>Invoice to <%= @invoice.project.client.name %></h3>
-    <p>
-      <strong>Project:</strong> <%= @invoice.project.name %>
-      <br/>
-      <small><i><%= @invoice.subject %></i></small>
-    </p>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <h3>Timesheets</h3>
-    <div class="table-responsive">
-      <table class="table table-hover table-striped table-condensed">
-        <thead>
-          <th>User</th>
-          <th>Week(s)</th>
-          <th>Ready to invoice?</th>
-          <th>Note</th>
-        </thead>
-        <tbody>
-          <% @invoice.timesheets.group_by(&:user).each do |(user, timesheets)| %>
-            <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
-            <tr class="<%= 'danger' unless ready_to_invoice %>">
-              <td><%= user.name %></td>
-              <td><%= timesheets.map {|t| t.week.beginning.to_s(:mdy) }.join(", ") %></td>
-              <td>
-                <%= ready_to_invoice ? "Yes" : "No" %>
-              </td>
-              <td>
-                <% timesheets.select {|t| t.notes? }.each do |t| %>
-                  Notes on <%= t.week.beginning.to_s(:mdy) %>:<br/>
-                  <small><pre><%= t.notes %></small></pre>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+<div class="invoices show">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <h3>Invoice to <%= @invoice.project.client.name %></h3>
+      <p>
+        <strong>Project:</strong> <%= @invoice.project.name %>
+        <br/>
+        <small><i><%= @invoice.subject %></i></small>
+      </p>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6 col-md-offset-6">
-    <%= form_for @invoice.active_record_invoice, :url => send_invoice_to_harvest_path(@invoice.id) do |f| %>
-      <%= f.submit 'Send invoice to Harvest', :class => "btn btn-default" %>
-      <% if @invoice.harvest_id.present? %>
-        <%= link_to "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" do %>
-          <div class="btn btn-info">View invoice in Harvest</div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3>Timesheets</h3>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped table-condensed">
+          <thead>
+            <th>User</th>
+            <th>Week(s)</th>
+            <th>Ready to invoice?</th>
+            <th>Note</th>
+          </thead>
+          <tbody>
+            <% @invoice.timesheets.group_by(&:user).each do |(user, timesheets)| %>
+              <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
+              <tr class="<%= 'danger' unless ready_to_invoice %>">
+                <td><%= user.name %></td>
+                <td>
+                  <% if timesheets.size < 2 %>
+                    <span class="warning glyphicon glyphicon-warning-sign" title="Time only submitted for one week of invoicing period"></span>
+                  <% end %>
+                  <%= timesheets.map {|t| t.week.beginning.to_s(:mdy) }.join(", ") %>
+                </td>
+                <td>
+                  <%= ready_to_invoice ? "Yes" : "No" %>
+                </td>
+                <td>
+                  <% timesheets.select {|t| t.notes? }.each do |t| %>
+                    Notes on <%= t.week.beginning.to_s(:mdy) %>:<br/>
+                    <small><pre><%= t.notes %></small></pre>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-6">
+      <%= form_for @invoice.active_record_invoice, :url => send_invoice_to_harvest_path(@invoice.id) do |f| %>
+        <%= f.submit 'Send invoice to Harvest', :class => "btn btn-default" %>
+        <% if @invoice.harvest_id.present? %>
+          <%= link_to "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/invoices/#{@invoice.harvest_id}" do %>
+            <div class="btn btn-info">View invoice in Harvest</div>
+          <% end %>
+        <% else %>
+          <div class="btn btn-info disabled">View invoice in Harvest</div>
         <% end %>
-      <% else %>
-        <div class="btn btn-info disabled">View invoice in Harvest</div>
+
       <% end %>
 
-    <% end %>
-
+    </div>
   </div>
 </div>
