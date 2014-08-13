@@ -1,6 +1,6 @@
 <div class="invoices show">
   <div class="row">
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-4">
       <h3>Invoice to <%= @invoice.project.client.name %></h3>
       <p>
         <strong>Project:</strong> <%= @invoice.project.name %>
@@ -9,46 +9,56 @@
       </p>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <h3>Timesheets</h3>
-      <div class="table-responsive">
-        <table class="table table-hover table-striped table-condensed">
-          <thead>
-            <th>User</th>
-            <th>Week(s)</th>
-            <th>Ready to invoice?</th>
-            <th>Note</th>
-          </thead>
-          <tbody>
-            <% @invoice.timesheets.group_by(&:user).each do |(user, timesheets)| %>
-              <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
-              <tr class="<%= 'danger' unless ready_to_invoice %>">
-                <td><%= user.name %></td>
-                <td>
-                  <% if timesheets.size < 2 %>
-                    <span class="warning glyphicon glyphicon-warning-sign" title="Time only submitted for one week of invoicing period"></span>
-                  <% end %>
-                  <%= timesheets.map {|t| t.week.beginning.to_s(:mdy) }.join(", ") %>
-                </td>
-                <td>
-                  <%= ready_to_invoice ? "Yes" : "No" %>
-                </td>
-                <td>
-                  <% timesheets.select {|t| t.notes? }.each do |t| %>
-                    Notes on <%= t.week.beginning.to_s(:mdy) %>:<br/>
-                    <small><pre><%= t.notes %></small></pre>
-                  <% end %>
-                </td>
-              </tr>
+  <% @invoice.timesheets.group_by(&:user).each do |(user, timesheets)| %>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+          <h3><%= user.name %></h3>
+          <p>
+            <strong>Weeks:</strong>
+            <%= timesheets.map {|t| t.week.beginning.to_s(:mdy) }.join(", ") %>
+            <% if timesheets.size < 2 %>
+              <span class="warning glyphicon glyphicon-warning-sign" title="Time only submitted for one week of invoicing period"></span>
             <% end %>
-          </tbody>
-        </table>
+          </p>
+          <p>
+            <strong>Ready to invoice?</strong>
+            <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
+            <%= ready_to_invoice ? "Yes" : "No" %>
+            <% if !ready_to_invoice %>
+              <span class="danger glyphicon glyphicon-warning-sign" title="User did not mark timesheet ready-to-invoice"></span>
+            <% end %>
+          </p>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-6">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <% projects_timesheets = timesheets.map {|t| t.projects_timesheet_for(@invoice.project) }.select(&:notes?) %>
+        <% if projects_timesheets.present? %>
+          <h4>Project notes <small>(included in invoice)</small></h4>
+          <% projects_timesheets.each do |pt| %>
+            <p>
+              <small><pre><%= pt.notes %></small></pre>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <% if timesheets.any?(&:notes?) %>
+          <h4>Timesheet notes <small>(not included in invoice)</small></h4>
+          <% timesheets.select(&:notes?).each do |t| %>
+            <p>
+              Notes for <%= t.week.beginning.to_s(:mdy) %>:<br/>
+              <small><pre><%= t.notes %></small></pre>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="breather-top row">
+    <div class="text-right">
       <%= form_for @invoice.active_record_invoice, :url => send_invoice_to_harvest_path(@invoice.id) do |f| %>
         <%= f.submit 'Send invoice to Harvest', :class => "btn btn-default" %>
         <% if @invoice.harvest_id.present? %>
@@ -58,9 +68,7 @@
         <% else %>
           <div class="btn btn-info disabled">View invoice in Harvest</div>
         <% end %>
-
       <% end %>
-
     </div>
   </div>
 </div>
