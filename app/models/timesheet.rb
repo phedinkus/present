@@ -64,12 +64,9 @@ class Timesheet < ActiveRecord::Base
   end
 
   def presence_of_projects_timesheets_notes
-    (Array.wrap(previous_timesheet.try(:projects_timesheets)) + projects_timesheets).
+    projects_timesheets.
       select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
-        errors.add :required_summary_notes, <<-TEXT
-          are missing for the '#{pt.project.name}' project
-          on #{week.same?(pt.timesheet.week) ? 'this' : 'last'} week's timesheet
-        TEXT
+        errors.add(:required_summary_notes, "are missing for the '#{pt.project.name}' project")
       end
   end
 end

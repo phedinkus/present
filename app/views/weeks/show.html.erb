@@ -94,7 +94,7 @@
                   <%= project_fields.check_box :_destroy unless project_fields.object.special? %>
                 </td>
               </tr>
-              <% if project_fields.object.requires_notes? %>
+              <% if @week.invoice_week? && project_fields.object.requires_notes? %>
                 <%= f.fields_for :projects_timesheets, @timesheet.projects_timesheet_for(project_fields.object) do |projects_timesheet_fields| %>
                   <tr>
                     <td>
