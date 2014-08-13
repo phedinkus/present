@@ -1,5 +1,6 @@
 class Week
   attr_reader :year, :month, :day, :beginning, :end
+  include Comparable
 
   def self.now
     new(Time.zone.now)
@@ -87,7 +88,8 @@ class Week
     w
   end
 
-  def same?(other_week)
-    beginning == other_week.beginning
+  def <=>(other)
+    return nil unless other.present?
+    beginning <=> other.beginning
   end
 end
