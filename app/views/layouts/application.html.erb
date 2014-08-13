@@ -7,6 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if @impersonated_user.present? %>
+    <div class="alert alert-info" role="alert">
+      Impersonating <%= @impersonated_user.name %>
+      (<%= link_to "Change", impersonations_path %>)
+    </div>
+  <% end %>
   <div class="container">
     <% if @current_user.present? %>
       <div class="text-right">
@@ -30,6 +36,7 @@
         <% if @current_user.admin? %>
           | <%= link_to "New Invoice", new_invoice_path %>
           | <%= link_to "Invoices Waiting for Submission", todo_invoices_path %>
+          | <%= link_to "Impersonate User", impersonations_path %>
         <% end %>
       <% end %>
 
