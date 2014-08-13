@@ -11,7 +11,7 @@ module Present::Harvest
       @timesheets = @projects_timesheets.map(&:timesheet).uniq
       @entries = @projects_timesheets.map(&:entries).flatten
 
-      @line_items = LineItems.generate(invoice, entries, timesheets)
+      @line_items = LineItems.generate(@project, @entries)
     end
 
     def you_were_just_submitted_to_harvest(harvest_id)

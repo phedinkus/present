@@ -1,9 +1,7 @@
 module Present::Harvest
   module LineItems
 
-    def self.generate(invoice, entries, timesheets)
-      project = invoice.project
-
+    def self.generate(project, entries)
       entries.group_by {|e| e.timesheet.user }.map do |(user, entries)|
         entries.reduce({
           :kind => "Service",
