@@ -43,19 +43,6 @@
         <% end %>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <% if timesheets.any?(&:notes?) %>
-          <h4>Timesheet notes <small>(not included in invoice)</small></h4>
-          <% timesheets.select(&:notes?).each do |t| %>
-            <p>
-              Notes for <%= t.week.beginning.to_s(:mdy) %>:<br/>
-              <small><pre><%= t.notes %></small></pre>
-            </p>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
   <% end %>
   <div class="breather-top row">
     <div class="text-right">
