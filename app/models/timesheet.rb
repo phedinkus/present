@@ -8,6 +8,8 @@ class Timesheet < ActiveRecord::Base
   accepts_nested_attributes_for :projects_timesheets
   accepts_nested_attributes_for :entries
 
+  validate :presence_of_projects_timesheets_notes, :if => :ready_to_invoice?
+
   def self.find_or_create_for!(week, user)
     if existing = find_by(params = week.ymd_hash.merge(:user => user))
       existing
@@ -28,8 +30,12 @@ class Timesheet < ActiveRecord::Base
     where("DATE(timesheets.year||'-'||timesheets.month||'-'||timesheets.day) > now()")
   end
 
+  def previous_timesheet
+    self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
+  end
+
   def previous_timesheets_projects
-    return [] unless timesheet = self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
+    return [] unless timesheet = previous_timesheet
     timesheet.projects
   end
 
@@ -55,5 +61,15 @@ class Timesheet < ActiveRecord::Base
 
   def non_empty_weekend_entries?
     entries.select(&:weekend?).any?(&:nonzero?)
+  end
+
+  def presence_of_projects_timesheets_notes
+    (Array.wrap(previous_timesheet.try(:projects_timesheets)) + projects_timesheets).
+      select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
+        errors.add :required_summary_notes, <<-TEXT
+          are missing for the '#{pt.project.name}' project
+          on #{week.same?(pt.timesheet.week) ? 'this' : 'last'} week's timesheet
+        TEXT
+      end
   end
 end

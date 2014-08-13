@@ -82,4 +82,8 @@ class Week
     end
     w
   end
+
+  def same?(other_week)
+    beginning == other_week.beginning
+  end
 end

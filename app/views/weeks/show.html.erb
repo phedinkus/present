@@ -98,7 +98,7 @@
                 <%= f.fields_for :projects_timesheets, @timesheet.projects_timesheet_for(project_fields.object) do |projects_timesheet_fields| %>
                   <tr>
                     <td>
-                      <%= projects_timesheet_fields.label :notes %>
+                      <%= projects_timesheet_fields.label :notes, "Summary notes" %>
                     </td>
                     <td colspan="99">
                       <%= projects_timesheet_fields.text_area :notes, :class => "form-control", :rows => 3 %>
