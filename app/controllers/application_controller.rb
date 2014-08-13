@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin
-    unless @current_user.admin?
+    unless @logged_in_user.admin?
       render :text => "Sorry, this feature is only available to admins!"
     end
   end
