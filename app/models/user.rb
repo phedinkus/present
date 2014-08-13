@@ -7,25 +7,20 @@ class User < ActiveRecord::Base
   end
 
   def self.login_via_github!(github_access_token_response, github_user_response, session_token)
-    if github_account = GithubAccount.find_by(:github_id => github_user_response["id"])
-      github_account.user.login_returning_github_user(github_access_token_response, session_token)
-    else
-      login_new_github_user!(github_access_token_response, github_user_response, session_token)
-    end
-  end
-
-  def self.login_new_github_user!(github_access_token_response, github_user_response, session_token)
-    create!(
-      :name => github_user_response["name"],
-      :session_token => session_token
-    ).tap do |user|
-      GithubAccount.create_from!(user, github_access_token_response, github_user_response)
-    end
-  end
-
-  def login_returning_github_user(github_access_token_response, session_token)
-    github_account.update_authorization(github_access_token_response)
-    update!(:session_token => session_token)
+    GithubAccount.find_or_initialize_by(:github_id => github_user_response["id"]).tap { |ga|
+      ga.assign_attributes(
+        :email => github_user_response["email"],
+        :login => github_user_response["login"],
+        :access_token => github_access_token_response["access_token"],
+        :scopes => github_access_token_response["scope"].split(","),
+        :user => (ga.user || User.new).tap {|u|
+          u.assign_attributes(
+            :name => github_user_response["name"],
+            :session_token => session_token
+          )
+        }
+      )
+    }.tap { |ga| ga.save! }.user
   end
 
   def admin?
