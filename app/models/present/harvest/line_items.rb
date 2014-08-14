@@ -10,8 +10,8 @@ module Present::Harvest
         }) do |memo, entry|
           memo.merge(:quantity => memo[:quantity] + quantity_for(project, entry))
         end.tap do |line_item|
-          line_item[:description] = description_for(project, user, line_item, entries)
           line_item[:quantity] = line_item[:quantity].round(2)
+          line_item[:description] = description_for(project, user, line_item, entries)
         end
       end
     end
