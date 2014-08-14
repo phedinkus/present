@@ -3,20 +3,20 @@ module Present::Harvest
 
     def self.generate(project, entries)
       entries.group_by {|e| e.timesheet.user }.map do |(user, entries)|
-        entries.reduce({
+        {
           :kind => "Service",
-          :quantity => 0.0,
-          :unit_price => project.unit_price
-        }) do |memo, entry|
-          memo.merge(:quantity => memo[:quantity] + quantity_for(project, entry))
-        end.tap do |line_item|
-          line_item[:quantity] = line_item[:quantity].round(2)
-          line_item[:description] = description_for(project, user, line_item, entries)
-        end
+          :quantity => quantity_for_entries(project, entries),
+          :unit_price => project.unit_price,
+          :description => description_for(project, user, entries)
+        }
       end
     end
 
   private
+
+    def self.quantity_for_entries(project, entries)
+      entries.map {|entry| quantity_for(project, entry)}.reduce(:+).round(2)
+    end
 
     def self.quantity_for(project, entry)
       if project.weekly?
@@ -30,7 +30,7 @@ module Present::Harvest
       end
     end
 
-    def self.description_for(project, user, line_item, entries)
+    def self.description_for(project, user, entries)
       description = user.name
       if project.requires_notes?
         description += "\n\n" + entries.map(&:projects_timesheet).find(&:notes?).notes
@@ -38,7 +38,7 @@ module Present::Harvest
       if project.weekly?
         description += "\n\n"
         description += <<-TEXT.gsub /^\s+/, ""
-          (#{line_item[:quantity] * 5.0}/10 days worked)
+          (#{quantity_for_entries(project, entries) * 5}/10.0 days worked)
 
           #{description_of_absences_for(entries)}
           #{description_of_half_days_for(entries)}
