@@ -33,7 +33,7 @@ module Present::Harvest
     def self.description_for(project, user, line_item, entries)
       description = user.name
       if project.requires_notes?
-        description += "\n\n" + entries.sample.projects_timesheet.notes
+        description += "\n\n" + entries.map(&:projects_timesheet).find(&:notes?).notes
       end
       if project.weekly?
         description += "\n\n"
