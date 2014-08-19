@@ -5,16 +5,20 @@ SystemConfiguration.instance.update!(
   :reference_invoice_day => 24
 )
 
-puts "Upserting clients and projects from Harvest into Present's database"
-Present::Harvest::Api.new.update_clients_and_projects!
-puts <<-LOG
-  Harvest Import complete:
-  ------------------------
+begin
+  puts "Upserting clients and projects from Harvest into Present's database"
+  Present::Harvest::Api.new.update_clients_and_projects!
+  puts <<-LOG
+    Harvest Import complete:
+    ------------------------
 
-    Active Clients: #{Client.where(:active => true).count}
-    Active Projects: #{Project.where(:active => true).count}
+      Active Clients: #{Client.where(:active => true).count}
+      Active Projects: #{Project.where(:active => true).count}
 
-LOG
+  LOG
+rescue
+  puts "Failed to connect to Harvest."
+end
 
 puts "Upserting special projects"
 [:vacation, :holiday].each do |type|
