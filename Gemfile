@@ -25,4 +25,5 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.99'
   gem 'rspec-given'
   gem 'capybara'
+  gem 'selenium-webdriver'
 end
