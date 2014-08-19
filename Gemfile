@@ -17,7 +17,12 @@ gem 'jquery-rails'
 
 gem 'spring',        group: :development
 
-gem 'debugger', group: [:development, :test]
-
 gem 'faraday'
 gem 'harvested'
+
+group :development, :test do
+  gem 'debugger'
+  gem 'rspec-rails', '~> 2.99'
+  gem 'rspec-given'
+  gem 'capybara'
+end
