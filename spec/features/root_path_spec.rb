@@ -13,5 +13,6 @@ describe 'the root path of the webapp' do
       )
     )
   }
+  Given { visit('/') }
   Then { expect(page).to have_content("8/17/14") }
 end
