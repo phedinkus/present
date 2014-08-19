@@ -1,4 +1,9 @@
-puts "Initializing System Configuration"
+def out(s)
+  return if Rails.env.test?
+  puts(s)
+end
+
+out "Initializing System Configuration"
 SystemConfiguration.instance.update!(
   :reference_invoice_year => 2013,
   :reference_invoice_month => 11,
@@ -6,9 +11,9 @@ SystemConfiguration.instance.update!(
 )
 
 begin
-  puts "Upserting clients and projects from Harvest into Present's database"
+  out "Upserting clients and projects from Harvest into Present's database"
   Present::Harvest::Api.new.update_clients_and_projects!
-  puts <<-LOG
+  out <<-LOG
     Harvest Import complete:
     ------------------------
 
@@ -17,10 +22,10 @@ begin
 
   LOG
 rescue
-  puts "Failed to connect to Harvest."
+  out "Failed to connect to Harvest."
 end
 
-puts "Upserting special projects"
+out "Upserting special projects"
 [:vacation, :holiday].each do |type|
   Project.find_or_create_by!(
     :name => type.to_s.titleize,
