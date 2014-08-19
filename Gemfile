@@ -22,6 +22,9 @@ gem 'harvested'
 
 group :development, :test do
   gem 'debugger'
+  gem 'pry-rails'
+  gem 'better_errors'
+  gem 'awesome_print'
   gem 'rspec-rails', '~> 2.99'
   gem 'rspec-given'
   gem 'capybara'
