@@ -1,0 +1,2 @@
+web: bundle exec rails s
+ngrok: ngrok --log=stdout --hostname demo.testdouble.com 3000
