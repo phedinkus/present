@@ -21,7 +21,7 @@ module Present::Harvest
     def update_invoice!(present_invoice)
       ActiveRecordConverter.harvest_invoice_for(present_invoice, @client).tap do |harvest_invoice|
         harvest_invoice.subject = present_invoice.subject
-        harvest_invoice.due_at_human_format = "NET 30"
+        harvest_invoice.due_at_human_format = "net 30"
         harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
         ActiveRecordConverter.persist_invoice!(harvest_invoice, present_invoice, @client)
       end
