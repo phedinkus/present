@@ -2,6 +2,7 @@ class Entry < ActiveRecord::Base
   belongs_to :projects_timesheet
   has_one :project, :through => :projects_timesheet
   has_one :timesheet, :through => :projects_timesheet
+  belongs_to :location
 
   validates_numericality_of :hours
 
