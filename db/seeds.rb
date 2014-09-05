@@ -43,7 +43,8 @@ puts "Upserting locations"
   {:city => "Virginia Beach", :state => "VA" },
   {:city => "Ottawa", :state => "ON" },
   {:city => "Saskatoon", :state => "SK" },
-  {:city => "Detroit", :state => "MI" }
+  {:city => "Detroit", :state => "MI" },
+  {:city => "Madison", :state => "WI" }
 ].each do |location|
   Location.find_or_create_by!(
     :city => location[:city],
