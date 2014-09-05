@@ -1,24 +1,20 @@
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <table class="table">
-      <thead>
-        <th>Name</th>
-        <th>Github login</th>
-        <th>Github email</th>
-        <th>Location</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <% @users.each do |user| %>
-          <tr>
-            <td><%= user.name %></td>
-            <td><%= user.github_account.login %></td>
-            <td><%= user.github_account.email %></td>
-            <td><%= user.location %></td>
-            <td><%= link_to "Edit", edit_user_path(user) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+<table class="table table-condensed">
+  <thead>
+    <th>Name</th>
+    <th>Github login</th>
+    <th>Github email</th>
+    <th>Location</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.github_account.login %></td>
+        <td><%= user.github_account.email %></td>
+        <td><%= user.location %></td>
+        <td><%= link_to "Edit", edit_user_path(user) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
