@@ -1,10 +1,46 @@
 $ ->
+  return unless $('#timesheet_form').length > 0
+
+  renderAlert = (message, mode = 'danger') ->
+    $('.alert-area').html """
+        <div class="alert alert-#{mode} fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+          #{message}
+        </div>
+      """
+
+  checkboxMakesVisible = (checkbox, target) ->
+    $checkbox = $(checkbox)
+    cb = ->
+      $(target).toggleClass('hidden', !$checkbox.prop('checked'))
+    $checkbox.on('change', cb)
+    setTimeout(cb, 0) #<-- because Bootstrap!
+
+  checkboxMakesVisible('input[name=show_weekends]', '.weekend')
+  checkboxMakesVisible('input[name=edit_location]', '.location')
+
   $('.timesheet-form .presence-select input[type=radio]').on 'change', (e) ->
     $(e.target)
       .closest('label')
       .toggleClass('btn-info', $(e.target).prop('checked'))
       .siblings().removeClass('btn-info')
 
-  $('input[name=show_weekends]').on 'change', updateWeekendVisibility = ->
-    $('.weekend').toggleClass('hidden', !$('input[name=show_weekends]').prop('checked'))
-  setTimeout(updateWeekendVisibility, 0) #<-- because Bootstrap!
+  $('.location').each (i, el) ->
+    $link = $(el)
+
+    $link.popover(html: true).on 'click', -> $link.popover('show')
+
+    $link.parent().on 'click', '.location-cancel', ->
+      $link.popover('hide')
+
+    $link.parent().on 'click', '.location-set', (e) ->
+      $button = $(e.target).prop('disabled', true)
+
+      xhr = $.post '/entries/set_locations',
+        model_id: $link.data('model-id')
+        model: $link.data('model')
+        location_id: $link.find('~.popover select[name="location_id"]').val()
+
+      xhr.done -> renderAlert("Location updated!", "success")
+      xhr.fail -> renderAlert("Failed to set location!")
+      xhr.always -> $link.popover('hide')

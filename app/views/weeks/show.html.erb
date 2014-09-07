@@ -1,4 +1,5 @@
-<div>
+<div id="timesheet_form">
+  <div class="alert-area"></div>
   <div class="text-center">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
@@ -32,16 +33,30 @@
       <%= f.hidden_field :id, :value => @timesheet.id %>
 
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="checkbox">
             <label>
               <%= check_box_tag :show_weekends, nil, @timesheet.non_empty_weekend_entries? %>
               Show weekends
             </label>
           </div>
+          <div class="checkbox">
+            <label>
+              <%= check_box_tag :edit_location, nil, @timesheet.entries.any? {|e| e.location != @current_user.location } %>
+              Edit location worked
+            </label>
+            <span class="location glyphicon glyphicon-globe"
+              data-toggle="popover"
+              data-trigger="focus"
+              data-title="Timesheet Location"
+              data-content="<%= render("location_popover").gsub(/\"/,"\"") %>"
+              data-model="timesheet"
+              data-model-id="<%= @timesheet.id %>"
+            ></span>
+          </div>
         </div>
         <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
-          <div class="form-group form-inline col-md-6 col-md-offset-4 text-right add-project">
+          <div class="form-group form-inline col-md-6 col-md-offset-2 text-right add-project">
             <%= f.select :projects, project_options, {}, {:class => "form-control input-sm"} %>
             <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm" %>
           </div>

@@ -15,5 +15,7 @@ Rails.application.routes.draw do
 
   resources :impersonations
 
+  post "entries/set_locations", :to => "entries#set_locations"
+
   root "application#root"
 end
