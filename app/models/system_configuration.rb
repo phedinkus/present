@@ -1,4 +1,6 @@
 class SystemConfiguration < ActiveRecord::Base
+  belongs_to :default_location, :class_name => "Location"
+
   def self.instance
     SystemConfiguration.first || SystemConfiguration.create!
   end

@@ -8,6 +8,7 @@ class Entry < ActiveRecord::Base
 
   validates_inclusion_of :presence, :in => :valid_presences, :allow_nil => true
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
+  before_save :set_default_location, :unless => lambda { |e| e.location.present? }
 
   enum :day => {
     :sunday => 0,
@@ -69,6 +70,10 @@ private
     else
       :full
     end
+  end
+
+  def set_default_location
+    self.location = timesheet.user.location
   end
 
 end

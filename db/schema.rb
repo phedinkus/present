@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140905114547) do
+ActiveRecord::Schema.define(version: 20140907013224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20140905114547) do
     t.integer "reference_invoice_year"
     t.integer "reference_invoice_month"
     t.integer "reference_invoice_day"
+    t.integer "default_location_id"
   end
 
   create_table "timesheets", force: true do |t|

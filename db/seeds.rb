@@ -1,10 +1,3 @@
-puts "Initializing System Configuration"
-SystemConfiguration.instance.update!(
-  :reference_invoice_year => 2013,
-  :reference_invoice_month => 11,
-  :reference_invoice_day => 24
-)
-
 puts "Upserting clients and projects from Harvest into Present's database"
 Present::Harvest::Api.new.update_clients_and_projects!
 puts <<-LOG
@@ -51,3 +44,11 @@ puts "Upserting locations"
     :state => location[:state]
   )
 end
+
+puts "Updating System Configuration"
+SystemConfiguration.instance.update!(
+  :reference_invoice_year => 2013,
+  :reference_invoice_month => 11,
+  :reference_invoice_day => 24,
+  :default_location => Location.find_by(:city => "Columbus", :state => "OH")
+)
