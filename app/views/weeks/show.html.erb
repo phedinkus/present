@@ -45,14 +45,19 @@
               <%= check_box_tag :edit_location, nil, @timesheet.entries.any? {|e| e.location != @current_user.location } %>
               Edit location worked
             </label>
-            <span class="location glyphicon glyphicon-globe"
-              data-toggle="popover"
-              data-trigger="focus"
-              data-title="Timesheet Location"
-              data-content="<%= render("location_popover").gsub(/\"/,"\"") %>"
-              data-model="timesheet"
-              data-model-id="<%= @timesheet.id %>"
-            ></span>
+            <div class="location inline-bock">
+              <span class="location-open glyphicon glyphicon-globe"
+                data-toggle="popover"
+                data-trigger="focus"
+                data-title="Timesheet Location"
+                data-content="<%= render("location_popover").gsub(/\"/,"\"") %>"
+                data-model="timesheet"
+                data-model-id="<%= @timesheet.id %>"
+              ></span>
+            </div>
+            <div class="location">
+              <small>Your default location: <b><%= @current_user.location %></b></small>
+            </div>
           </div>
         </div>
         <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>

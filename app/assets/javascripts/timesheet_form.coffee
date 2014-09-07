@@ -26,20 +26,21 @@ $ ->
       .siblings().removeClass('btn-info')
 
   $('.location').each (i, el) ->
-    $link = $(el)
+    $wrap = $(el)
+    $link = $wrap.find('.location-open')
 
     $link.popover(html: true).on 'click', -> $link.popover('show')
 
-    $link.parent().on 'click', '.location-cancel', ->
+    $wrap.on 'click', '.location-cancel', ->
       $link.popover('hide')
 
-    $link.parent().on 'click', '.location-set', (e) ->
+    $wrap.on 'click', '.location-set', (e) ->
       $button = $(e.target).prop('disabled', true)
 
       xhr = $.post '/entries/set_locations',
         model_id: $link.data('model-id')
         model: $link.data('model')
-        location_id: $link.find('~.popover select[name="location_id"]').val()
+        location_id: $wrap.find('select[name="location_id"]').val()
 
       xhr.done -> renderAlert("Location updated!", "success")
       xhr.fail -> renderAlert("Failed to set location!")

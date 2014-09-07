@@ -4,6 +4,9 @@
 .hidden
   display: none
 
+.inline-bock
+  display: inline-block
+
 .timesheet-form
   margin-top: 35px
 
@@ -14,11 +17,12 @@
     width: 100%
 
   .location
-    cursor: pointer
-    color: rgb(125, 125, 125)
+    .location-open
+      cursor: pointer
+      color: rgb(125, 125, 125)
 
-    &.customized
-      color: rgb(46, 139, 230)
+      &.customized
+        color: rgb(46, 139, 230)
 
 .invoices.show
   .warning
