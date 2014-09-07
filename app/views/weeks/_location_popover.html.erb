@@ -1,8 +1,12 @@
 <div class="form">
   <div class="form-group">
-    <%= select_tag :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, @current_user.location_id), { :class => "form-control"} %>
+    <%= select_tag :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, :include_blank => true), { :class => "form-control invisible"} %>
     <div class="help-block">
-      Set location for every entry in this timesheet
+      <% if model.is_a?(Entry) %>
+        Set location for this entry
+      <% else %>
+        Set location for every entry in this timesheet
+      <% end %>
     </div>
   </div>
   <div class="form-group text-center">

@@ -50,13 +50,15 @@
                 data-toggle="popover"
                 data-trigger="focus"
                 data-title="Timesheet Location"
-                data-content="<%= render("location_popover").gsub(/\"/,"\"") %>"
+                data-content="<%= render(:partial => "location_popover", :locals => {:model => @timesheet}).gsub(/\"/,"\"") %>"
                 data-model="timesheet"
                 data-model-id="<%= @timesheet.id %>"
+                data-location-id="<%= @timesheet.entries.sample.location_id if @timesheet.entries.map(&:location).uniq.size == 1 && @timesheet.entries.any? {|e| e.location != @current_user.location } %>"
               ></span>
             </div>
             <div class="location">
-              <small>Your default location: <b><%= @current_user.location %></b></small>
+              <small>Your default location: <b id="current_user_location" data-location-id="<%= @current_user.location.id %>"><%= @current_user.location %></b></small>
+              <span class="glyphicon glyphicon-question-sign has-tooltip" title="Is this incorrect? Contact an admin to change it!"></span>
             </div>
           </div>
         </div>
@@ -107,11 +109,24 @@
                           </label>
                         </div>
                       <% end %>
+                      <% unless project_fields.object.non_billable? %>
+                        <div class="location">
+                          <span class="location-open glyphicon glyphicon-globe <%= 'customized' if entry_fields.object.location != @current_user.location %>"
+                            data-toggle="popover"
+                            data-trigger="focus"
+                            data-title="Timesheet Location"
+                            data-content="<%= render(:partial => "location_popover", :locals => {:model => entry_fields.object}).gsub(/\"/,"\"") %>"
+                            data-model="entry"
+                            data-model-id="<%= entry_fields.object.id %>"
+                            data-location-id="<%= entry_fields.object.location_id %>"
+                          ></span>
+                        </div>
+                      <% end %>
                     </div>
                   </td>
                 <% end %>
                 <td>
-                  <%= project_fields.check_box :_destroy unless project_fields.object.special? %>
+                  <%= project_fields.check_box :_destroy unless project_fields.object.sticky? %>
                 </td>
               </tr>
               <% if @week.invoice_week? && project_fields.object.requires_notes? %>

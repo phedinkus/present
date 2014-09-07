@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_one :github_account
   has_many :timesheets
+  has_many :entries, :through => :timesheets
   belongs_to :location
 
   validates_presence_of :location

@@ -18,6 +18,7 @@ $ ->
 
   checkboxMakesVisible('input[name=show_weekends]', '.weekend')
   checkboxMakesVisible('input[name=edit_location]', '.location')
+  $('.has-tooltip').tooltip()
 
   $('.timesheet-form .presence-select input[type=radio]').on 'change', (e) ->
     $(e.target)
@@ -29,19 +30,26 @@ $ ->
     $wrap = $(el)
     $link = $wrap.find('.location-open')
 
-    $link.popover(html: true).on 'click', -> $link.popover('show')
+    $link.popover(html: true).on 'click', ->
+      $link.popover('show').on 'shown.bs.popover', ->
+        $wrap.find('select[name="location_id"]').val($link.data('locationId')).removeClass('invisible')
 
     $wrap.on 'click', '.location-cancel', ->
       $link.popover('hide')
 
     $wrap.on 'click', '.location-set', (e) ->
       $button = $(e.target).prop('disabled', true)
+      newLocationId = parseInt($wrap.find('select[name="location_id"]').val(), 10)
+      $affectedLinks = if $link.data('model') == "timesheet" then $('.location-open').not($link) else $link
 
+      $link.data('locationId', newLocationId)
       xhr = $.post '/entries/set_locations',
-        model_id: $link.data('model-id')
+        model_id: $link.data('modelId')
         model: $link.data('model')
-        location_id: $wrap.find('select[name="location_id"]').val()
+        location_id: newLocationId
 
-      xhr.done -> renderAlert("Location updated!", "success")
+      xhr.done ->
+        $affectedLinks.toggleClass('customized', $('#current_user_location').data('locationId') != newLocationId)
+        renderAlert("Location updated!", "success")
       xhr.fail -> renderAlert("Failed to set location!")
       xhr.always -> $link.popover('hide')

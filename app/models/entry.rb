@@ -5,10 +5,11 @@ class Entry < ActiveRecord::Base
   belongs_to :location
 
   validates_numericality_of :hours
-
+  validates_presence_of :location
   validates_inclusion_of :presence, :in => :valid_presences, :allow_nil => true
+
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
-  before_save :set_default_location, :unless => lambda { |e| e.location.present? }
+  before_validation :set_default_location, :unless => lambda { |e| e.location.present? }
 
   enum :day => {
     :sunday => 0,

@@ -25,6 +25,10 @@ class Project < ActiveRecord::Base
     special_type?
   end
 
+  def non_billable?
+    ["vacation", "holiday"].include?(special_type)
+  end
+
   def unit_price
     if weekly?
       weekly_rate
