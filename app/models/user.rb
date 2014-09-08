@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :location
 
-  before_save :set_default_location, :unless => lambda { |u| u.location.present? }
+  before_validation :set_default_location, :unless => lambda { |u| u.location.present? }
 
   def self.user_for(session_token)
     find_by(:session_token => session_token)
