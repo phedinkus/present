@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   def self.login_via_github!(github_access_token_response, github_user_response, session_token)
     GithubAccount.find_or_initialize_by(:github_id => github_user_response["id"]).tap { |ga|
       ga.assign_attributes(
-        :email => github_user_response["email"],
+        :email => if github_user_response["email"].present? ? github_user_response["email"] : ga.email,
         :login => github_user_response["login"],
         :access_token => github_access_token_response["access_token"],
         :scopes => github_access_token_response["scope"].split(","),
