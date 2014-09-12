@@ -22,9 +22,10 @@ $ ->
 
   $('.timesheet-form .presence-select input[type=radio]').on 'change', (e) ->
     $(e.target)
-      .closest('label')
-      .toggleClass('btn-info', $(e.target).prop('checked'))
-      .siblings().removeClass('btn-info')
+      .prop('checked', true)
+      .attr('checked', 'checked')
+      .closest('label').toggleClass('btn-info', true)
+      .siblings().removeClass('btn-info').find('input[type=radio]').removeAttr('checked')
 
   $('.location').each (i, el) ->
     $wrap = $(el)
