@@ -34,6 +34,10 @@ class Timesheet < ActiveRecord::Base
     self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
   end
 
+  def next_timesheet
+    self.class.find_by(params = week.next.ymd_hash.merge(:user => user))
+  end
+
   def previous_timesheets_projects
     return [] unless timesheet = previous_timesheet
     timesheet.projects
@@ -57,6 +61,14 @@ class Timesheet < ActiveRecord::Base
 
   def empty?
     entries.all?(&:zero?)
+  end
+
+  def locked?
+    if week.invoice_week?
+      ready_to_invoice?
+    else
+      next_timesheet.try(:ready_to_invoice?)
+    end
   end
 
   def non_empty_weekend_entries?

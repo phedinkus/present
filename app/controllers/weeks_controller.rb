@@ -12,11 +12,15 @@ class WeeksController < ApplicationController
 
   def update
     @current_user.timesheets.find(params[:timesheet][:id]).tap do |timesheet|
+      message = "Saved successfully!"
       if params[:button] == "add_project"
-        timesheet.projects << Project.find(params[:timesheet][:projects])
+        timesheet.projects << project = Project.find(params[:timesheet][:projects]) unless timesheet.locked?
+        message = "Project '#{project.name}' added!"
+      elsif params[:commit] == "Ready to Invoice"
+        timesheet.update(:ready_to_invoice => true)
+        message = "Ready for invoice!"
       else
         timesheet.update(params[:timesheet].permit(
-          :ready_to_invoice,
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy],
           :projects_timesheets_attributes => [:id, :notes]
@@ -24,7 +28,7 @@ class WeeksController < ApplicationController
       end
 
       unless (flash[:error] = timesheet.errors.full_messages).present?
-        flash[:info] = ["Saved successfully!"]
+        flash[:info] = [message]
       end
 
       redirect_to show_week_path(:year => timesheet.year, :month => timesheet.month, :day => timesheet.day)

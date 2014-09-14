@@ -64,8 +64,8 @@
         </div>
         <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
           <div class="form-group form-inline col-md-6 col-md-offset-2 text-right add-project">
-            <%= f.select :projects, project_options, {}, {:class => "form-control input-sm"} %>
-            <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm" %>
+            <%= f.select :projects, project_options, {}, {:class => "form-control input-sm", :disabled => @timesheet.locked?} %>
+            <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm", :disabled => @timesheet.locked? %>
           </div>
         <% end %>
       </div>
@@ -92,18 +92,18 @@
                   <td <%= "class=weekend" if entry_fields.object.weekend?%> >
                     <div class="presence-select form-group form-group-sm text-center">
                       <% if project_fields.object.hourly? %>
-                        <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm center-block" %>
+                        <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm center-block", :disabled => @timesheet.locked? && project_fields.object.billable? %>
                       <% else %>
                         <div class="btn-group btn-group-xs" data-toggle="buttons">
-                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.absent? %>">
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.absent? %> <%= 'disabled' if @timesheet.locked? && project_fields.object.billable? %>">
                             <%= entry_fields.radio_button :presence, :absent %>
                             &#x2717;
                           </label>
-                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.half? %>">
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.half? %> <%= 'disabled' if @timesheet.locked? && project_fields.object.billable? %>">
                             <%= entry_fields.radio_button :presence, :half %>
                             &frac12;
                           </label>
-                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %>">
+                          <label class="btn btn-default btn-xs <%= 'btn-info active' if entry_fields.object.full? %> <%= 'disabled' if @timesheet.locked? && project_fields.object.billable? %>">
                             <%= entry_fields.radio_button :presence, :full %>
                             &#10003;
                           </label>
@@ -126,7 +126,7 @@
                   </td>
                 <% end %>
                 <td>
-                  <%= project_fields.check_box :_destroy unless project_fields.object.sticky? %>
+                  <%= project_fields.check_box :_destroy, :disabled => @timesheet.locked? unless project_fields.object.sticky? %>
                 </td>
               </tr>
               <% if @week.invoice_week? && project_fields.object.requires_notes? %>
@@ -145,19 +145,10 @@
           </tbody>
         </table>
       </div>
-
-      <% if @week.invoice_week? %>
-        <div class="form-group">
-          <div class="checkbox input-lg">
-            <label>
-              <%= f.check_box :ready_to_invoice %>
-              Ready to invoice this week and last week?
-            </label>
-          </div>
-        </div>
-      <% end %>
-
-      <%= f.submit :class => "btn btn-default" %>
+      <div class="form-group text-right">
+        <%= f.submit :class => "btn btn-default" %>
+        <%= f.submit :value => "Ready to Invoice", :class => "btn btn-danger", :disabled => @timesheet.locked?, :data => {:confirm => "Are you sure? Once marked ready, this week's data will be locked."} if @week.invoice_week? %>
+      </div>
     <% end %>
   </div>
 </div>

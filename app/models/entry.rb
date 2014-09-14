@@ -10,6 +10,7 @@ class Entry < ActiveRecord::Base
 
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
   before_validation :set_default_location, :unless => lambda { |e| e.location.present? }
+  before_update :ignore_update, :if => lambda { |e| e.timesheet.locked? && project.billable? }
 
   enum :day => {
     :sunday => 0,
@@ -75,6 +76,10 @@ private
 
   def set_default_location
     self.location = timesheet.user.location
+  end
+
+  def ignore_update
+    reload
   end
 
 end
