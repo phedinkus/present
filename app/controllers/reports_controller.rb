@@ -8,7 +8,9 @@ class ReportsController < ApplicationController
     start_date = Date.parse(params[:start_date])
     end_date = Date.parse(params[:end_date])
 
-    render :csv => Reports::IncomeByLocation.as_csv(start_date, end_date),
-      :filename => "#{start_date}-#{end_date}-income-by-location"
+    reporter = ("Reports::" + params[:type].underscore.classify).constantize
+
+    render :csv => reporter.as_csv(start_date, end_date),
+      :filename => "#{start_date}-#{end_date}-#{params[:type]}"
   end
 end
