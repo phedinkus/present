@@ -1,13 +1,12 @@
 module Reports
-  module IncomeByLocation
-    LocationIncome = Struct.new(:city, :state, :amount)
+  module IncomeByUser
+    UserIncome = Struct.new(:name, :amount)
 
     def self.as_rows(start_date, end_date)
       Entry.between_inclusive(start_date, end_date).
-        group_by(&:location).map do |(location, entries)|
-          LocationIncome.new(
-            location.city,
-            location.state,
+        group_by(&:user).map do |(user, entries)|
+          UserIncome.new(
+            user.name,
             entries.map(&:price).sum
           )
       end
@@ -15,9 +14,9 @@ module Reports
 
     def self.as_csv(start_date, end_date)
       CSV.generate do |csv|
-        csv << ["City", "State/Province", "Amount (USD)"]
+        csv << ["Name", "Amount (USD)"]
         as_rows(start_date, end_date).each do |a|
-          csv << [a.city, a.state, a.amount]
+          csv << [a.name, a.amount]
         end
       end
     end

@@ -12,7 +12,8 @@
       <div class="form-group">
         <%= label_tag :type %>
         <%= select_tag :type, options_for_select([
-          ["Income by Location", "income-by-location"]
+          ["Income by Location", "income-by-location"],
+          ["Income by Agent", "income-by-user"]
         ]), {:class => "form-control input-sm"} %>
       </div>
       <div class="form-group text-right">

@@ -2,6 +2,7 @@ class Entry < ActiveRecord::Base
   belongs_to :projects_timesheet
   has_one :project, :through => :projects_timesheet
   has_one :timesheet, :through => :projects_timesheet
+  has_one :user, :through => :timesheet
   belongs_to :location
 
   validates_numericality_of :hours
@@ -29,9 +30,10 @@ class Entry < ActiveRecord::Base
     :hourly => 3
   }
 
-  def valid_presences
-    return ["hourly"] if project.hourly?
-    self.class.presences.keys - ["hourly"]
+  def self.between_inclusive(start_date, end_date)
+    joins(:timesheet).
+      merge(Timesheet.between_inclusive(start_date,end_date)).
+      select { |e| e.date.between?(start_date, end_date) }
   end
 
   def self.time_for(timesheet, day_name)
@@ -76,6 +78,11 @@ class Entry < ActiveRecord::Base
     end
   end
 private
+
+  def valid_presences
+    return ["hourly"] if project.hourly?
+    self.class.presences.keys - ["hourly"]
+  end
 
   def set_default_presence
     self.presence = if project.hourly?
