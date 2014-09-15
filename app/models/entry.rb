@@ -10,7 +10,7 @@ class Entry < ActiveRecord::Base
 
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
   before_validation :set_default_location, :unless => lambda { |e| e.location.present? }
-  before_update :ignore_update, :if => lambda { |e| e.timesheet.locked? && project.billable? }
+  before_update :restore_disallowed_attributes_when_timesheet_is_locked, :if => lambda { |e| e.timesheet.locked? && project.billable? }
 
   enum :day => {
     :sunday => 0,
@@ -91,8 +91,10 @@ private
     self.location = timesheet.user.location
   end
 
-  def ignore_update
-    reload
+  def restore_disallowed_attributes_when_timesheet_is_locked
+    assign_attributes(Entry.find(id).attributes.except(
+      "location_id"
+    ))
   end
 
   def presence_proportion
