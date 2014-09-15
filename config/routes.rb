@@ -17,5 +17,7 @@ Rails.application.routes.draw do
 
   post "entries/set_locations", :to => "entries#set_locations"
 
+  resources "reports"
+
   root "application#root"
 end

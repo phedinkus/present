@@ -30,6 +30,30 @@ class Timesheet < ActiveRecord::Base
     where("DATE(timesheets.year||'-'||timesheets.month||'-'||timesheets.day) > now()")
   end
 
+  def self.between_inclusive(start_date, end_date)
+    on_or_after(start_date).on_or_before(end_date)
+  end
+
+  def self.on_or_after(date)
+    where("(timesheets.year > :year) or
+           (timesheets.year = :year and timesheets.month > :month) or
+           (timesheets.year = :year and timesheets.month = :month and timesheets.day >= :day)",
+      :year => date.year,
+      :month => date.month,
+      :day => date.day
+    )
+  end
+
+  def self.on_or_before(date)
+    where("(timesheets.year < :year) or
+           (timesheets.year = :year and timesheets.month < :month) or
+           (timesheets.year = :year and timesheets.month = :month and timesheets.day <= :day)",
+      :year => date.year,
+      :month => date.month,
+      :day => date.day
+    )
+  end
+
   def previous_timesheet
     self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
   end

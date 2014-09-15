@@ -46,6 +46,10 @@ class Entry < ActiveRecord::Base
     self.class.time_for(timesheet, day)
   end
 
+  def date
+    time.to_date
+  end
+
   def self.weekend?(day_name)
     ["sunday", "saturday"].include?(day_name.to_s)
   end
@@ -62,6 +66,15 @@ class Entry < ActiveRecord::Base
     !zero?
   end
 
+  def price
+    if project.non_billable?
+      0
+    elsif project.weekly?
+      (1.to_d / 5) * project.weekly_rate * presence_proportion
+    elsif project.hourly?
+      hours.to_d * project.hourly_rate
+    end
+  end
 private
 
   def set_default_presence
@@ -80,6 +93,14 @@ private
 
   def ignore_update
     reload
+  end
+
+  def presence_proportion
+    case presence
+      when "full" then 1.0
+      when "half" then 0.5
+      when "absent" then 0.0
+    end
   end
 
 end
