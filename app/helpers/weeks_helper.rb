@@ -12,4 +12,8 @@ module WeeksHelper
       end
     ]
   end
+
+  def locked?
+    @timesheet.locked? && !@logged_in_user.admin?
+  end
 end
