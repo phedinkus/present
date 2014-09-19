@@ -4,6 +4,7 @@ class Entry < ActiveRecord::Base
   has_one :timesheet, :through => :projects_timesheet
   has_one :user, :through => :timesheet
   belongs_to :location
+  belongs_to :updated_by, :class_name => "User"
 
   validates_numericality_of :hours
   validates_presence_of :location
