@@ -20,11 +20,11 @@ class WeeksController < ApplicationController
         timesheet.update(:ready_to_invoice => true)
         message = "Ready for invoice!"
       else
-        timesheet.update(params[:timesheet].permit(
+        timesheet.update(merge_entries_updated_by!(params[:timesheet].permit(
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy],
           :projects_timesheets_attributes => [:id, :notes]
-        ))
+        )))
       end
 
       unless (flash[:error] = timesheet.errors.full_messages).present?
@@ -32,6 +32,18 @@ class WeeksController < ApplicationController
       end
 
       redirect_to show_week_path(:year => timesheet.year, :month => timesheet.month, :day => timesheet.day)
+    end
+  end
+
+private
+
+  def merge_entries_updated_by!(params)
+    params.tap do |params|
+      if params[:entries_attributes].present?
+        params[:entries_attributes].each do |(ordinal, entry_attributes)|
+          entry_attributes[:updated_by_id] = @logged_in_user.id
+        end
+      end
     end
   end
 end
