@@ -16,15 +16,17 @@ class WeeksController < ApplicationController
       if params[:button] == "add_project"
         timesheet.projects << project = Project.find(params[:timesheet][:projects]) unless timesheet.locked?
         message = "Project '#{project.name}' added!"
-      elsif params[:commit] == "Ready to Invoice"
-        timesheet.update(:ready_to_invoice => true)
-        message = "Ready for invoice!"
       else
         timesheet.update(merge_entries_updated_by!(params[:timesheet].permit(
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy],
           :projects_timesheets_attributes => [:id, :notes]
         )))
+
+        if params[:commit] == "Ready to Invoice"
+          timesheet.update(:ready_to_invoice => true)
+          message = "Saved & Marked Ready for invoice!"
+        end
       end
 
       unless (flash[:error] = timesheet.errors.full_messages).present?
