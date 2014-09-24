@@ -2,7 +2,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :project
 
   def self.todo
-    (new_invoices_that_need_to_be_sent_to_harvest + existing_invoices_that_need_to_be_sent_to_harvest).sort_by(&:invoicing_week)
+    (new_invoices_that_need_to_be_sent_to_harvest + existing_invoices_that_need_to_be_sent_to_harvest).sort_by(&:invoicing_week).reverse
   end
 
   def self.new_invoices_that_need_to_be_sent_to_harvest
