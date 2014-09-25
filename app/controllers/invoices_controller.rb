@@ -3,7 +3,7 @@ class InvoicesController < ApplicationController
   before_action :generate_invoice_from_params, :only => [:create, :update, :show, :send_to_harvest]
 
   def todo
-    @invoices = Invoice.todo.map(&:generate_for_harvest)
+    @invoice_todos = InvoiceTodos.gather(Time.zone.now)
   end
 
   def new

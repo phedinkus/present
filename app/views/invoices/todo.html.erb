@@ -1,30 +1,40 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
+    <h1>Invoice Status (<%= @invoice_todos.weeks.first.beginning.to_s(:mdy) %>&mdash;<%= @invoice_todos.weeks.last.end.to_s(:mdy) %>)</h1>
+  </div>
+  <div class="col-md-8 col-md-offset-2">
     <div class="table-responsive">
       <table class="table table-hover table-striped table-condensed">
         <thead>
-          <th>Week-ending</th>
           <th>Client</th>
           <th>Project</th>
+          <th>Agents</th>
           <th>Sent to Harvest</th>
           <th><!-- Actions --></th>
         </thead>
         <tbody>
-          <% @invoices.each do |invoice| %>
+          <% @invoice_todos.todos.each do |todo| %>
             <tr>
-              <td><%= invoice.invoicing_week.end.to_s(:mdy) %></td>
-              <td><%= invoice.project.client.name %></td>
-              <td><%= invoice.project.name %></td>
-              <td><%= invoice.timesheets.map(&:projects_timesheets).flatten.map(&:sent_to_harvest_at).compact.max.try(:to_s, :mdy) %></td>
+              <td><%= todo.client_name %></td>
+              <td><%= todo.project.name %></td>
+              <td><%= todo.agent_count %></td>
               <td>
-                <%= form_for invoice.active_record_invoice do |f| %>
-                  <% if invoice.persisted? %>
-                    <%= f.hidden_field :id, :value => invoice.id %>
+                <% if todo.all_time_sent_to_harvest %>
+                  <span class="glyphicon glyphicon-ok success"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-remove danger"></span>
+                <% end %>
+              </td>
+              <td>
+                <%= form_for todo.invoice || i = Invoice.new(@invoice_todos.weeks.last.ymd_hash.merge(:project => todo.project)) do |f| %>
+                  <% if todo.invoice %>
+                    <%= f.hidden_field :id, :value => todo.invoice.id %>
+                    <%= f.submit 'Review invoice', :class => "btn btn-default" %>
                   <% else %>
-                    <%= f.hidden_field :invoicing_week, :value => invoice.invoicing_week.ymd_dash %>
-                    <%= f.hidden_field :project_id, :value => invoice.project.id %>
+                    <%= f.hidden_field :invoicing_week, :value => i.invoicing_week.ymd_dash %>
+                    <%= f.hidden_field :project_id, :value => todo.project.id %>
+                    <%= f.submit 'Create invoice', :class => "btn btn-default" %>
                   <% end %>
-                  <%= f.submit 'Review invoice', :class => "btn btn-default" %>
                 <% end %>
               </td>
             </tr>
