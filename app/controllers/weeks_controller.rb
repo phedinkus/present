@@ -14,8 +14,10 @@ class WeeksController < ApplicationController
     @current_user.timesheets.find(params[:timesheet][:id]).tap do |timesheet|
       message = "Saved successfully!"
       if params[:button] == "add_project"
-        timesheet.projects << project = Project.find(params[:timesheet][:projects]) unless timesheet.locked?
-        message = "Project '#{project.name}' added!"
+        if @logged_in_user.admin? || !timesheet.locked?
+          timesheet.projects << project = Project.find(params[:timesheet][:projects])
+          message = "Project '#{project.name}' added!"
+        end
       else
         timesheet.update(merge_entries_updated_by!(params[:timesheet].permit(
           :entries_attributes => [:id, :presence, :hours],
