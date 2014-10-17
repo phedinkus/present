@@ -11,15 +11,19 @@ class Timesheet < ActiveRecord::Base
   validate :presence_of_projects_timesheets_notes, :if => :ready_to_invoice?
 
   def self.find_or_create_for!(week, user)
-    if existing = find_by(params = week.ymd_hash.merge(:user => user))
+    if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
       existing
     else
       Timesheet.new(params).tap do |timesheet|
-        timesheet.projects += Project.all.select(&:sticky?)
-        timesheet.projects += timesheet.previous_timesheets_projects
+        timesheet.projects += Project.sticky.includes(:client)
+        timesheet.projects += timesheet.previous_timesheets_projects.includes(:client)
         timesheet.save!
       end
     end
+  end
+
+  def self.find_and_include_stuff(params)
+    where(params).includes(:entries => :location, :projects_timesheets => {:project => :client}).first
   end
 
   def self.current_and_past
@@ -68,7 +72,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def projects_timesheet_for(project)
-    projects_timesheets.find { |pt| pt.project == project }
+    projects_timesheets.find_by(:project => project)
   end
 
   def entries_for(project)

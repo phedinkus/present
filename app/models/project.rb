@@ -17,6 +17,10 @@ class Project < ActiveRecord::Base
 
   after_initialize { |p| p.client = NullClient.new if p.special? }
 
+  def self.sticky
+    where('special_type is not null')
+  end
+
   def sticky?
     special_type?
   end
