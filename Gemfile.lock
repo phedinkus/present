@@ -34,6 +34,9 @@ GEM
     bootstrap-sass (3.2.0.0)
       sass (~> 3.2)
     builder (3.2.2)
+    bullet (4.12.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (>= 1.6.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -78,6 +81,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    query_diet (0.5.2)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -139,6 +143,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uniform_notifier (1.6.2)
 
 PLATFORMS
   ruby
@@ -147,12 +152,14 @@ DEPENDENCIES
   autoprefixer-rails
   awesome_print
   bootstrap-sass
+  bullet
   coffee-rails (~> 4.0.0)
   faraday
   harvested
   jquery-rails
   pg
   pry-rails
+  query_diet
   rails (= 4.1.4)
   rails_12factor
   raygun4ruby

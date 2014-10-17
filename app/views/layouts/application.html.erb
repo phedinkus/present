@@ -13,6 +13,8 @@
       (<%= link_to "Change", impersonations_path %>)
     </div>
   <% end %>
+  <%= query_diet_widget if Rails.env.development? %>
+
   <div class="container">
     <% if @current_user.present? %>
       <div class="text-right">

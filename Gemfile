@@ -26,3 +26,8 @@ group :development, :test do
   gem 'spring'
   gem 'awesome_print'
 end
+
+group :development do
+  gem 'query_diet'
+  gem 'bullet'
+end
