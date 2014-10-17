@@ -34,7 +34,7 @@ class Entry < ActiveRecord::Base
   def self.between_inclusive(start_date, end_date)
     joins(:timesheet).
       merge(Timesheet.between_inclusive(start_date,end_date)).
-      includes(:timesheet, :user, :project).
+      includes(:timesheet, :user, :project, :location).
       select { |e| e.date.between?(start_date, end_date) }
   end
 
