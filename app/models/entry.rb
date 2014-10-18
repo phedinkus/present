@@ -62,6 +62,10 @@ class Entry < ActiveRecord::Base
     self.class.weekend?(day)
   end
 
+  def weekday?
+    !weekend?
+  end
+
   def zero?
     hourly? ? hours == 0 : absent?
   end
@@ -74,11 +78,21 @@ class Entry < ActiveRecord::Base
     if project.non_billable?
       0
     elsif project.weekly?
-      (1.to_d / 5) * project.weekly_rate * presence_proportion
+      (1.to_d / 5) * project.weekly_rate * presence_day_value
     elsif project.hourly?
       hours.to_d * project.hourly_rate
     end
   end
+
+  def presence_day_value
+    raise "#presence_day_value should only be used if you're sure the project is weekly" if project.hourly?
+    case presence
+      when "full" then 1.0
+      when "half" then 0.5
+      when "absent" then 0.0
+    end
+  end
+
 private
 
   def valid_presences
@@ -105,13 +119,4 @@ private
       "location_id"
     ))
   end
-
-  def presence_proportion
-    case presence
-      when "full" then 1.0
-      when "half" then 0.5
-      when "absent" then 0.0
-    end
-  end
-
 end

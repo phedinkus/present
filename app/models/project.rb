@@ -41,6 +41,14 @@ class Project < ActiveRecord::Base
     ["vacation", "holiday"].include?(special_type)
   end
 
+  def vacation?
+    special_type == "vacation"
+  end
+
+  def holiday?
+    special_type == "holiday"
+  end
+
   def unit_price
     if weekly?
       weekly_rate
