@@ -91,7 +91,7 @@
                     <small><i><%= project.client.name %></i></small>
                   </div>
                 </td>
-                <%= f.fields_for :entries, projects_timesheet.entries do |entry_fields| %>
+                <%= f.fields_for :entries, @timesheet.entries_for(projects_timesheet) do |entry_fields| %>
                   <td <%= "class=weekend" if entry_fields.object.weekend?%> >
                     <div class="presence-select form-group form-group-sm text-center">
                       <% if project.hourly? %>
