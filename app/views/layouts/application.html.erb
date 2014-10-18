@@ -7,13 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% if @impersonated_user.present? %>
-    <div class="alert alert-info" role="alert">
-      Impersonating <%= @impersonated_user.name %>
-      (<%= link_to "Change", impersonations_path %>)
-    </div>
-  <% end %>
   <%= query_diet_widget if Rails.env.development? %>
+  <div class="top">
+    <% if @impersonated_user.present? %>
+      <div class="top-alert alert-info" role="alert">
+        Impersonating <%= @impersonated_user.name %>
+        (<%= link_to "Change", impersonations_path %>)
+      </div>
+    <% end %>
+    <%= yield :top %>
+  </div>
 
   <div class="container">
     <% if @current_user.present? %>
