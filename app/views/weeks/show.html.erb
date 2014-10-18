@@ -93,21 +93,22 @@
                 </td>
                 <%= f.fields_for :entries, @timesheet.entries_for(projects_timesheet) do |entry_fields| %>
                   <td <%= "class=weekend" if entry_fields.object.weekend?%> >
-                    <div class="presence-select form-group form-group-sm text-center">
+                    <div class="form-group form-group-sm text-center">
                       <% if project.hourly? %>
                         <%= entry_fields.text_field :hours, :size => 1, :class => "hours form-control input-sm center-block", :disabled => locked? && project.billable? %>
                       <% else %>
-                        <div class="btn-group btn-group-xs" data-toggle="buttons">
-                          <label class="absent btn btn-default btn-xs <%= 'color active' if entry_fields.object.absent? %> <%= 'disabled' if locked? && project.billable? %>">
-                            <%= entry_fields.radio_button :presence, :absent %>
+                        <div class="presence-select btn-group btn-group-xs" data-toggle="buttons">
+                          <%= entry_fields.hidden_field :presence, :class => "presence-memo" %>
+                          <label data-presence="absent" class="btn btn-default btn-xs <%= 'color active' if entry_fields.object.absent? %> <%= 'disabled' if locked? && project.billable? %>">
+                            <%= radio_button_tag :presence, :absent %>
                             &#x2717;
                           </label>
-                          <label class="half btn btn-default btn-xs <%= 'color active' if entry_fields.object.half? %> <%= 'disabled' if locked? && project.billable? %>">
-                            <%= entry_fields.radio_button :presence, :half %>
+                          <label data-presence="half" class="btn btn-default btn-xs <%= 'color active' if entry_fields.object.half? %> <%= 'disabled' if locked? && project.billable? %>">
+                            <%= radio_button_tag :presence, :half %>
                             &frac12;
                           </label>
-                          <label class="full btn btn-default btn-xs <%= 'color active' if entry_fields.object.full? %> <%= 'disabled' if locked? && project.billable? %>">
-                            <%= entry_fields.radio_button :presence, :full %>
+                          <label data-presence="full" class="btn btn-default btn-xs <%= 'color active' if entry_fields.object.full? %> <%= 'disabled' if locked? && project.billable? %>">
+                            <%= radio_button_tag :presence, :full %>
                             &#10003;
                           </label>
                         </div>

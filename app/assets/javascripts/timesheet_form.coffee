@@ -20,12 +20,12 @@ $ ->
   checkboxMakesVisible('input[name=edit_location]', '.location')
   $('.has-tooltip').tooltip()
 
+
   $('.timesheet-form .presence-select input[type=radio]').on 'change', (e) ->
-    $(e.target)
-      .prop('checked', true)
-      .attr('checked', 'checked')
-      .closest('label').addClass('color')
-      .siblings().removeClass('color').find('input[type=radio]').removeAttr('checked')
+    $label = $(e.target).closest('label')
+    $label.closest('.presence-select').find('.presence-memo').val($label.data('presence'))
+    $label.addClass('color').siblings().removeClass('color')
+
 
   $('.location').each (i, el) ->
     $wrap = $(el)
