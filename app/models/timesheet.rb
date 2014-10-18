@@ -15,7 +15,7 @@ class Timesheet < ActiveRecord::Base
       existing
     else
       Timesheet.new(params).tap do |timesheet|
-        timesheet.projects += timesheet.previous_timesheets_projects.includes(:client)
+        timesheet.projects += timesheet.previous_timesheets_projects
         timesheet.projects += Project.sticky.includes(:client)
         timesheet.save!
       end
@@ -68,7 +68,7 @@ class Timesheet < ActiveRecord::Base
 
   def previous_timesheets_projects
     return [] unless timesheet = previous_timesheet
-    timesheet.projects
+    timesheet.projects.includes(:client)
   end
 
   def projects_timesheet_for(project)
