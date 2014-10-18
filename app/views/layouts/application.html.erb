@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= query_diet_widget if Rails.env.development? %>
+  <%= query_diet_widget if Rails.env.development? && ENV['PROFILE'] %>
   <div class="top">
     <% if @impersonated_user.present? %>
       <div class="top-alert alert-info" role="alert">
