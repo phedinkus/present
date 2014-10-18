@@ -15,8 +15,8 @@ class Timesheet < ActiveRecord::Base
       existing
     else
       Timesheet.new(params).tap do |timesheet|
-        timesheet.projects += Project.sticky.includes(:client)
         timesheet.projects += timesheet.previous_timesheets_projects.includes(:client)
+        timesheet.projects += Project.sticky.includes(:client)
         timesheet.save!
       end
     end
