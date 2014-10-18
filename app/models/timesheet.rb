@@ -23,7 +23,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def self.find_and_include_stuff(params)
-    where(params).includes(:entries => :location, :projects_timesheets => {:project => :client}).first
+    where(params).includes(:projects => :client, :entries => :location).first
   end
 
   def self.current_and_past
@@ -72,7 +72,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def projects_timesheet_for(project)
-    projects_timesheets.find_by(:project => project)
+    projects_timesheets.find {|pt| pt.project == project }
   end
 
   def entries_for(project)

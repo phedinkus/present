@@ -1,6 +1,6 @@
 <div class="form">
   <div class="form-group">
-    <%= select_tag :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, :include_blank => true), { :class => "form-control invisible"} %>
+    <%= select_tag :location_id, options_for_select(locations.map {|l| [l.to_s, l.id]}, :include_blank => true), { :class => "form-control invisible"} %>
     <div class="help-block">
       <% if model.is_a?(Entry) %>
         Set location for this entry
