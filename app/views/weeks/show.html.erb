@@ -81,7 +81,7 @@
             <th>Delete</th>
           </thead>
           <tbody>
-            <%= f.fields_for :projects, @timesheet.projects do |project_fields| %>
+            <%= f.fields_for :projects, sort_projects(@timesheet) do |project_fields| %>
               <% project = project_fields.object %>
               <% projects_timesheet = @timesheet.projects_timesheet_for(project) %>
               <tr <%= 'class=warning' if project.special? %>>

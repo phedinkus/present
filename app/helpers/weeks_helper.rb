@@ -16,4 +16,8 @@ module WeeksHelper
   def locked?
     @timesheet.locked? && !@logged_in_user.admin?
   end
+
+  def sort_projects(timesheet)
+    timesheet.projects_timesheets.sort_by {|pt| [pt.project.special_type.to_s, pt.created_at]  }.map(&:project)
+  end
 end

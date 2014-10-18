@@ -1,7 +1,7 @@
 class Timesheet < ActiveRecord::Base
   belongs_to :user
-  has_many :projects_timesheets, ->{ order('projects_timesheets.created_at') }
-  has_many :projects, ->{ order('special_type desc nulls first') }, :through => :projects_timesheets
+  has_many :projects_timesheets
+  has_many :projects, :through => :projects_timesheets
   has_many :entries, :through => :projects_timesheets
 
   accepts_nested_attributes_for :projects, :allow_destroy => true
