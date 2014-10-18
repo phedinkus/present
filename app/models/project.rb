@@ -15,7 +15,11 @@ class Project < ActiveRecord::Base
     where('client_id is not null and special_type is null')
   end
 
-  after_initialize { |p| p.client = NullClient.new if p.special? }
+  alias_method :original_client, :client
+  def client
+    return NullClient.new if special?
+    self.original_client
+  end
 
   def self.sticky
     where('special_type is not null')
