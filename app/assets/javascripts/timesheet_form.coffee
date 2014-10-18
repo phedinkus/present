@@ -24,8 +24,8 @@ $ ->
     $(e.target)
       .prop('checked', true)
       .attr('checked', 'checked')
-      .closest('label').toggleClass('btn-info', true)
-      .siblings().removeClass('btn-info').find('input[type=radio]').removeAttr('checked')
+      .closest('label').addClass('color')
+      .siblings().removeClass('color').find('input[type=radio]').removeAttr('checked')
 
   $('.location').each (i, el) ->
     $wrap = $(el)
