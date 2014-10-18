@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
 
   before_validation :set_default_location, :unless => lambda { |u| u.location.present? }
 
-  def self.user_for(session_token)
-    find_by(:session_token => session_token)
-  end
-
   def self.login_via_github!(github_access_token_response, github_user_response, session_token)
     GithubAccount.find_or_initialize_by(:github_id => github_user_response["id"]).tap { |ga|
       ga.assign_attributes(
