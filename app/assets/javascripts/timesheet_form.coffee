@@ -54,3 +54,9 @@ $ ->
         renderAlert("Location updated!", "success")
       xhr.fail -> renderAlert("Failed to set location!")
       xhr.always -> $link.popover('hide')
+
+  addingProject = false
+  $('.add-project').on 'click', 'button', (e) ->
+    return false if addingProject
+    $(e.target).addClass('disabled')
+    addingProject = true
