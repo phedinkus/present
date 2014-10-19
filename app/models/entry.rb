@@ -9,6 +9,7 @@ class Entry < ActiveRecord::Base
   validates_numericality_of :hours
   validates_presence_of :location
   validates_inclusion_of :presence, :in => :valid_presences, :allow_nil => true
+  validates_uniqueness_of :day, :scope => :projects_timesheet_id
 
   before_save :set_default_presence, :if => lambda { |e| e.presence.nil? }
   before_validation :set_default_location, :unless => lambda { |e| e.location.present? }
