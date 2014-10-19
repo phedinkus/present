@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919144236) do
+ActiveRecord::Schema.define(version: 20141019181700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140919144236) do
     t.integer  "updated_by_id"
   end
 
+  add_index "entries", ["projects_timesheet_id", "day"], name: "index_entries_on_projects_timesheet_id_and_day", unique: true, using: :btree
   add_index "entries", ["projects_timesheet_id"], name: "index_entries_on_projects_timesheet_id", using: :btree
   add_index "entries", ["updated_by_id"], name: "index_entries_on_updated_by_id", using: :btree
 
