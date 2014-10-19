@@ -6,10 +6,12 @@ default: &default
 development:
   <<: *default
   database: present_development
+  host: localhost
 
 test:
   <<: *default
   database: present_test
+  host: localhost
 
 production:
   <<: *default
