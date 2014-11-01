@@ -1,7 +1,33 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
+    <% if @timesheet_status.looks_good %>
+      <div class="timesheet-status looks-good">
+        <h3>Timesheets look good!</h3>
+      </div>
+    <% else %>
+      <div class="timesheet-status looks-bad">
+        <h3>Timesheet problems:</h3>
+        <ul>
+          <% if @timesheet_status.actual_count < @timesheet_status.expected_count %>
+            <li><%= @timesheet_status.actual_count %> of <%= @timesheet_status.expected_count %> expected timesheets created (for <%= @timesheet_status.user_count %> active users)</li>
+          <% end %>
+          <% @timesheet_status.missing_timesheets.each do |missing_timesheet| %>
+            <li>Missing <%= missing_timesheet.user.name %>'s timesheet for week starting <%= missing_timesheet.week.ymd_dash %></li>
+          <% end %>
+          <% @timesheet_status.not_ready_timesheets.group_by(&:user).each do |(user, timesheets)| %>
+            <li><%= user.name %>'s timesheet not marked ready.</li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
     <h1>Invoice Status (<%= @invoice_todos.weeks.first.beginning.to_s(:mdy) %>&mdash;<%= @invoice_todos.weeks.last.end.to_s(:mdy) %>)</h1>
   </div>
+</div>
+<div class="row">
   <div class="col-md-8 col-md-offset-2">
     <div class="table-responsive">
       <table class="table table-hover table-striped table-condensed">

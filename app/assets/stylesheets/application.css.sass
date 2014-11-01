@@ -1,6 +1,10 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
 
+$danger-color: #D85251
+$success-color: #60B660
+$warn-color: #FF911A
+
 .hidden
   display: none
 
@@ -31,17 +35,16 @@
 
 .invoices.show
   .warning
-    color: #FF911A
+    color: warn-color
 
   .breather-top
     margin-top: 60px
 
-
 .danger
-  color: #D85251
+  color: $danger-color
 
 .success
-  color: #60B660
+  color: $success-color
 
 .top
   .top-alert
@@ -64,6 +67,24 @@
 
   [data-presence=full].color
     @extend .btn-success
+
+//invoice-todo timesheet status
+.timesheet-status
+  border-radius: 4px
+  padding: 0px 10px 0px 10px
+
+
+  &.looks-good
+    border: 1px solid $success-color
+    background-color: lighten($success-color, 40%)
+
+
+  &.looks-bad
+    border: 1px solid $danger-color
+    background-color: lighten($danger-color, 40%)
+
+  h3
+    margin-top: 10px
 
 
 
