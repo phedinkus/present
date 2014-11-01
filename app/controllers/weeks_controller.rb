@@ -19,14 +19,14 @@ class WeeksController < ApplicationController
           message = "Project '#{project.name}' added!"
         end
       else
-        timesheet.update!(merge_entries_updated_by!(params[:timesheet].permit(
+        timesheet.update(merge_entries_updated_by!(params[:timesheet].permit(
           :entries_attributes => [:id, :presence, :hours],
           :projects_attributes => [:id, :_destroy],
           :projects_timesheets_attributes => [:id, :notes]
         )))
 
         if params[:commit] == "Ready to Invoice"
-          timesheet.update!(:ready_to_invoice => true)
+          timesheet.update(:ready_to_invoice => true)
           message = "Saved & Marked Ready for invoice!"
         end
       end
