@@ -14,6 +14,7 @@ class Timesheet < ActiveRecord::Base
     if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
       existing
     else
+      find_or_create_for!(week.previous, user) if week.invoice_week? #=> always ensure previous week is created first.
       Timesheet.new(params).tap do |timesheet|
         timesheet.projects += timesheet.previous_timesheets_projects
         timesheet.projects += Project.sticky.includes(:client)
