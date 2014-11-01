@@ -1,0 +1,13 @@
+Hi Admins!
+
+We tried to send a timesheet reminder to <%= @user.name %> for this week, but
+they didn't have an e-mail address in the system. (This happens when they don't
+publicize their email in their Github profile.)
+
+To add one, set it in production with Rails console:
+
+$ heroku run rails c
+> User.find(<%= @user.id %>).github_account.update!(:email => "THEIR EMAIL")
+
+In the meantime, you should manually let them know their timesheet needs to
+be marked ready for invoice.
