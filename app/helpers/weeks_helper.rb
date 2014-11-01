@@ -23,10 +23,12 @@ module WeeksHelper
 
   def ready_to_invoice_confirm_text(timesheet)
     <<-TEXT
-      Last week: #{timesheet.previous_timesheet.billable_time_human}
-      This week: #{timesheet.billable_time_human }
+Billable summary:
 
-      Once marked ready, this week & last week will be locked
+  Last week: #{timesheet.previous_timesheet.billable_time_human}
+  This week: #{timesheet.billable_time_human }
+
+Once marked ready, this week & last week will be locked
     TEXT
   end
 end
