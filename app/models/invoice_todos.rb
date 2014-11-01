@@ -4,7 +4,7 @@ class InvoiceTodos
 
   def initialize(weeks, todos)
     @weeks = weeks
-    @todos = todos
+    @todos = todos.sort_by(&:client_name)
   end
 
   def self.gather(time)
