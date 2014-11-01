@@ -8,7 +8,7 @@ class Timesheet < ActiveRecord::Base
   accepts_nested_attributes_for :projects_timesheets
   accepts_nested_attributes_for :entries
 
-  validate :presence_of_projects_timesheets_notes, :if => :ready_to_invoice?
+  validate :presence_of_projects_timesheets_notes, :if => ->(t){ t.week.invoice_week? && t.ready_to_invoice?}
 
   def self.find_or_create_for!(week, user)
     if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
