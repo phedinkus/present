@@ -4,7 +4,7 @@ class InvoicesController < ApplicationController
 
   def todo
     @invoice_todos = InvoiceTodos.gather(Time.zone.now)
-    @timesheet_status = Answers::TimesheetStatus.status_for(week = Week.now.previous_invoice_week)
+    @timesheet_status = Answers::TimesheetStatus.status_for(Week.now.previous_invoice_week)
   end
 
   def new
