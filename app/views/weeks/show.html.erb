@@ -161,7 +161,7 @@
       </div>
       <div class="form-group text-right">
         <%= f.submit :class => "btn btn-default" %>
-        <%= f.submit :value => "Ready to Invoice", :class => "btn btn-danger", :disabled => locked?, :data => {:confirm => "Are you sure? Once marked ready, this week's data will be locked."} if @week.invoice_week? %>
+        <%= f.submit :value => "Ready to Invoice", :class => "btn btn-danger", :disabled => locked?, :data => {:confirm => ready_to_invoice_confirm_text(@timesheet)} if @week.invoice_week? %>
       </div>
     <% end %>
   </div>

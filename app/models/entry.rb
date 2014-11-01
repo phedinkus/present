@@ -75,6 +75,14 @@ class Entry < ActiveRecord::Base
     !zero?
   end
 
+  def billable?
+    project.billable?
+  end
+
+  def rate_type
+    project.rate_type
+  end
+
   def price
     if project.non_billable?
       0
@@ -85,13 +93,18 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  def presence_day_value
-    raise "#presence_day_value should only be used if you're sure the project is weekly" if project.hourly?
+  def amount
+    return hours if project.hourly?
     case presence
       when "full" then 1.0
       when "half" then 0.5
       when "absent" then 0.0
     end
+  end
+
+  def presence_day_value
+    raise "#presence_day_value should only be used if you're sure the project is weekly" if project.hourly?
+    amount
   end
 
 private

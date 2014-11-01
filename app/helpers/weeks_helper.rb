@@ -20,4 +20,13 @@ module WeeksHelper
   def sort_projects(timesheet)
     timesheet.projects_timesheets.sort_by {|pt| [pt.project.special_type.to_s, pt.created_at]  }.map(&:project)
   end
+
+  def ready_to_invoice_confirm_text(timesheet)
+    <<-TEXT
+      Last week: #{timesheet.previous_timesheet.billable_time_human}
+      This week: #{timesheet.billable_time_human }
+
+      Once marked ready, this week & last week will be locked
+    TEXT
+  end
 end

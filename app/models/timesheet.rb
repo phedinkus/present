@@ -106,6 +106,14 @@ class Timesheet < ActiveRecord::Base
     entries.select(&:weekend?).any?(&:nonzero?)
   end
 
+  def billable_time_human
+    [entries.select(&:billable?).group_by(&:rate_type).map {|type, entries|
+      "#{entries.map(&:amount).sum} #{type == "weekly" ? 'days' : 'hours'}"
+    }.join(" + "), "No billable time"].find(&:present?)
+  end
+
+private
+
   def presence_of_projects_timesheets_notes
     projects_timesheets.
       select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
