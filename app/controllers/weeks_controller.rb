@@ -26,7 +26,7 @@ class WeeksController < ApplicationController
         )))
 
         if params[:commit] == "Ready to Invoice"
-          timesheet.update(:ready_to_invoice => true)
+          timesheet.mark_ready_to_invoice!
           message = "Saved & Marked Ready for invoice!"
         end
       end

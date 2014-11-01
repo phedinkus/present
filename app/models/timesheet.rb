@@ -59,6 +59,12 @@ class Timesheet < ActiveRecord::Base
     )
   end
 
+  def mark_ready_to_invoice!
+    raise "Only invoice-week timesheets can be marked ready for invoice" unless week.invoice_week?
+    update(:ready_to_invoice => true)
+    previous_timesheet.update!(:ready_to_invoice => true) if errors.empty?
+  end
+
   def previous_timesheet
     self.class.find_by(params = week.previous.ymd_hash.merge(:user => user))
   end
@@ -93,11 +99,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def locked?
-    if week.invoice_week?
-      ready_to_invoice?
-    else
-      next_timesheet.try(:ready_to_invoice?)
-    end
+    ready_to_invoice?
   end
 
   def non_empty_weekend_entries?
