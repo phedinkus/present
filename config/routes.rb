@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :timesheets, :path => "weeks", :controller => "weeks"
 
   get "invoices/todo", :to => "invoices#todo", :as => :todo_invoices
+  get "invoices/todo/:year/:month/:day", :to => "invoices#todo", :as => :todo_invoices_ymd
   patch "invoices/send_to_harvest/:id", :to => "invoices#send_to_harvest", :as => :send_invoice_to_harvest
   resources :invoices
 

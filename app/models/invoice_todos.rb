@@ -7,9 +7,8 @@ class InvoiceTodos
     @todos = todos.sort_by(&:client_name)
   end
 
-  def self.gather(time)
-    weeks = [Week.new(time).previous_invoice_week.previous, Week.new(time).previous_invoice_week]
-
+  def self.gather(week)
+    weeks = [week.previous, week]
     new(weeks,
       ProjectsTimesheet.
         joins(:timesheet).
