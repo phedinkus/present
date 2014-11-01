@@ -1,7 +1,10 @@
-Hey <%= @user.name.split(" ").first %>,
+Hi <%= @user.name.split(" ").first %>,
 
-It's an invoicing week! That means Present needs your billable activities logged for this week and last week. Could you hop on, verify your time, and mark that you're ready for your time to be invoiced to your clients?
+It's an invoicing week! Please login, verify your time, and submit
+your time as "Ready to Invoice".
 
 <%= Rails.application.config.present.url + current_week_path %>
 
-Thanks!
+Thanks,
+
+Doubot
