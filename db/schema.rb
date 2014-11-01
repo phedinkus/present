@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141101150408) do
+ActiveRecord::Schema.define(version: 20141101184840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20141101150408) do
     t.string   "name"
     t.integer  "harvest_id"
     t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "emails", force: true do |t|
+    t.integer  "job_id"
+    t.string   "mailer"
+    t.string   "to"
+    t.string   "subject"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -58,6 +68,13 @@ ActiveRecord::Schema.define(version: 20141101150408) do
     t.integer  "month"
     t.integer  "day"
     t.integer  "harvest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", force: true do |t|
+    t.string   "name"
+    t.time     "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

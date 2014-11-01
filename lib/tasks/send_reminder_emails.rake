@@ -1,17 +1,24 @@
+desc 'Send reminder e-mails to users'
 task :send_reminder_emails => :environment do |t, args|
-  week = Week.now
+  week = Week.now.closest_invoice_week
+  Job.create!(:name => "send_reminder_emails").tap do |job|
+    puts "Starting job #{job.id}; sending reminder e-mails for invoice week starting #{week.ymd_dash}"
+    timesheet_status = Answers::TimesheetStatus.status_for(week)
 
-  if Date.today.friday? && week.invoice_week?
-    puts "Sending reminder e-mails for week ending #{week.end.to_s(:mdy)}"
-    User.where(:active => true).
-      reject {|u| Timesheet.find_or_create_for!(week, u).ready_to_invoice? }.
-      each do |u|
-        TimesheetReminderMailer.reminder_email(u).deliver
-        puts "Reminder sent to #{u.name} (at #{u.github_account.email})"
+    (timesheet_status.missing_timesheets.map(&:user) + timesheet_status.not_ready_timesheets.map(&:user)).compact.uniq.each do |(user, timesheets)|
+      mail = if user.github_account.email.present?
+        TimesheetReminderMailer.reminder_email(user).tap do |mail|
+          mail.deliver
+          puts "Reminder sent to #{user.name} (at #{user.github_account.email})"
+        end
+      else
+        TimesheetReminderMailer.reminder_failed_email(user).tap do |mail|
+          mail.deliver
+          puts "Reminder could not be sent to #{user.name}, notified admins instead."
+        end
       end
-  else
-    puts "Skipped sending reminders:"
-    puts "  * this week is not an invoicing week." if !week.invoice_week?
-    puts "  * today is not Friday, so reminders were not sent." if !Date.today.friday?
-  end
+
+      Email.create!(:job => job, :mailer => "TimesheetReminderMailer", :to => mail.to.join(", "), :subject => mail.subject, :body => mail.body.to_s)
+    end
+  end.update!(:finished_at => Time.zone.now)
 end
