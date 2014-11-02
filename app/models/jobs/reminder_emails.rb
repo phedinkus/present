@@ -1,9 +1,9 @@
 module Jobs
   module ReminderEmails
     def self.send(now = Time.zone.now)
-      return unless now.friday?
+      return unless now.sunday?
       week = Week.new(now)
-      return unless week.invoice_week?
+      return if week.invoice_week?
 
       puts "YAY! I MADE IT #{Time.zone.now}"
 
