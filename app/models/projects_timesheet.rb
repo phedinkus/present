@@ -38,4 +38,9 @@ class ProjectsTimesheet < ActiveRecord::Base
   def invoice
     Invoice.find_by(timesheet.week.closest_invoice_week.ymd_hash.merge(:project => project))
   end
+
+  def any_billable_time?
+    return unless project.billable?
+    entries.map(&:amount).sum > 0
+  end
 end
