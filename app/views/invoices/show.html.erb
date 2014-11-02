@@ -22,7 +22,7 @@
           </p>
           <p>
             <strong>Ready to invoice?</strong>
-            <% ready_to_invoice = timesheets.find {|t| t.week.invoice_week? }.try(:ready_to_invoice?) %>
+            <% ready_to_invoice = timesheets.all?(&:ready_to_invoice?) %>
             <%= ready_to_invoice ? "Yes" : "No" %>
             <% if !ready_to_invoice %>
               <span class="danger glyphicon glyphicon-warning-sign" title="User did not mark timesheet ready-to-invoice"></span>
