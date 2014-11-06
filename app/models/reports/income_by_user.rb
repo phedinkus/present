@@ -23,7 +23,7 @@ module Reports
       CSV.generate do |csv|
         csv << UserIncome.members.map(&:to_s).map(&:titleize)
         as_rows(start_date, end_date).each do |a|
-          csv << [a.name, a.amount,  a.projects_billed, a.days_worked, a.first_billable_entry_at.to_s(:ymd_dash), a.last_billable_entry_at.to_s(:ymd_dash), a.holidays_taken, a.vacation_days_used, a.weekdays_not_billed_or_taken_off]
+          csv << [a.name, a.amount,  a.projects_billed, a.days_worked, a.first_billable_entry_at.try(:to_s, :ymd_dash), a.last_billable_entry_at.try(:to_s, :ymd_dash), a.holidays_taken, a.vacation_days_used, a.weekdays_not_billed_or_taken_off]
         end
       end
     end
