@@ -1,5 +1,5 @@
 class TimesheetReminderMailer < ActionMailer::Base
-  ADMIN_EMAIL = "finances@testdouble.com"
+  ADMIN_EMAIL = "finance@testdouble.com"
   default from: ADMIN_EMAIL
 
   def reminder_email(user)
