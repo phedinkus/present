@@ -61,14 +61,39 @@
 
     input.sentence
       border: none
-      border-bottom: 2px solid #000
+      border-bottom: 2px solid
       margin-bottom: 2px
 
       &:focus
         outline: none
 
+    .disclosure
+      position: absolute
+      margin-top: 2px
+      font-size: .5em
+      pointer-events: none
+
+
     select.sentence
-      // TODO
+      border: none
+      -webkit-appearance: none
+      background-color: inherit
+      border-radius: 0px
+      border-bottom: 2px solid
+      padding-bottom: 1px
+      margin-bottom: 1px
+
+      &:focus
+        outline: none
+
+
+    .set-reminder
+      select
+        min-width: 60px
+
+      .disclosure
+        margin-left: 52px
+
 
   .history
     color: #666

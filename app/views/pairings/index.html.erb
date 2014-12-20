@@ -32,8 +32,9 @@
     <div class="col-md-8 col-centered">
       <%= form_for @current_user, :url => pairing_settings_path, :html => {:class => "form-inline reminder"} do |f| %>
       <div class="yay">(I would</div>
-      <div class="form-group">
-        <%= select_tag :wants_reminder, options_for_select([["Love", true],["Hate", false]], @current_user.days_between_pair_reminders.present?), :include_blank => false, :class => "sentence" %>
+      <div class="form-group set-reminder">
+        <div class="disclosure">&#9660;</div>
+        <%= select_tag :wants_reminder, options_for_select([["Love".html_safe, true],["Hate".html_safe, false]], @current_user.days_between_pair_reminders.present?), :include_blank => false, :class => "sentence" %>
       </div>
       <div class="yay">to be reminded to pair every</div>
       <div class="form-group">
