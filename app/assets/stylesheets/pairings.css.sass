@@ -9,10 +9,13 @@
 
   .row-gap
     @extend .row
-    margin-top: 40px
+    margin-top: 60px
+
+    &.big
+      margin-top: 120px
 
   .poster
-    height: 300px
+    height: 320px
     width: 260px
     border: 1px solid #efefef
     text-align: center
@@ -26,7 +29,6 @@
         display: inline-block
         margin: 18px 2px 2px 2px
         box-shadow: 1px 1px 1px #bbb
-
 
         .nail
           position: absolute
@@ -42,6 +44,7 @@
             margin-left: 90px
 
     .subtitle
+      margin-top: 20px
       font-size: 2.5em
       font-variant: small-caps
 
@@ -50,10 +53,13 @@
     font-size: 1.3em
     font-weight: 500
 
+    &.reminder
+      color: #666
+
     .yay
       display: inline-block
 
-    .pair-description
+    input.sentence
       border: none
       border-bottom: 2px solid #000
       margin-bottom: 2px
@@ -61,13 +67,17 @@
       &:focus
         outline: none
 
+    select.sentence
+      // TODO
 
   .history
     color: #666
 
-    h2
+    .title
+      font-size: 2.5em
       text-align: center
       font-variant: small-caps
+      letter-spacing: 2px
 
     ol
       display: table

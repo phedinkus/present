@@ -12,10 +12,7 @@ class AccidentalPairing < ActiveRecord::Base
   end
 
   def self.since_last_pairing_for(user)
-    if pairing = for_user(user).order('paired_at desc').first
-      Time.zone.now - pairing.paired_at
-    else
-      nil
-    end
+    paired_at = for_user(user).order('paired_at desc').first.try(:paired_at) || user.created_at
+    Time.zone.now - paired_at
   end
 end

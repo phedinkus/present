@@ -22,16 +22,33 @@
       <%= form_for AccidentalPairing.new, :html => {:class => "form-inline"} do |f| %>
         <div class="yay">I just paired and it was</div>
         <div class="form-group">
-          <%= f.text_field :description, :class => "pair-description" %>
+          <%= f.text_field :description, :placeholder => "pretty great", :class => "sentence" %>
         </div>
         <%= f.submit "!", :class => "btn btn-lg btn-info" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row-gap big">
+    <div class="col-md-8 col-centered">
+      <%= form_for @current_user, :url => pairing_settings_path, :html => {:class => "form-inline reminder"} do |f| %>
+      <div class="yay">(I would</div>
+      <div class="form-group">
+        <%= select_tag :wants_reminder, options_for_select([["Love", true],["Hate", false]], @current_user.days_between_pair_reminders.present?), :include_blank => false, :class => "sentence" %>
+      </div>
+      <div class="yay">to be reminded to pair every</div>
+      <div class="form-group">
+        <%= f.number_field :days_between_pair_reminders, :in => [1,99], :placeholder => "n", :class => "days sentence" %>
+      </div>
+      <div class="yay">days</div>
+      <%= f.submit ".", :class => "btn btn-lg btn-info" %>
+      <div class="yay">)</div>
       <% end %>
     </div>
   </div>
   <div class="row-gap">
     <div class="col-md-4 col-md-offset-4">
       <div class="history">
-        <h2>Latest Accidents</h2>
+        <div class="title">Latest Accidents</div>
         <ol>
           <% @accidental_pairings.each do |ap| %>
             <li>On <%= ap.paired_at.to_s(:mdy) %>, I paired and it was <%= ap.description %>!</li>

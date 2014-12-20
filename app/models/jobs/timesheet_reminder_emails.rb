@@ -1,5 +1,5 @@
 module Jobs
-  module ReminderEmails
+  module TimesheetReminderEmails
     def self.send(now = Time.zone.now)
       return unless now.in_time_zone("Eastern Time (US & Canada)").friday?
       week = Week.new(now)

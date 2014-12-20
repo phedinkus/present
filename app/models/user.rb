@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   belongs_to :location
 
   validates_presence_of :location
+  validates_numericality_of :days_between_pair_reminders, :greater_than_or_equal_to => 1, :allow_nil => true
+
 
   before_validation :set_default_location, :unless => lambda { |u| u.location.present? }
 
@@ -23,6 +25,10 @@ class User < ActiveRecord::Base
         }
       )
     }.tap { |ga| ga.save! }.user
+  end
+
+  def self.active
+    where(:active => true)
   end
 
   def admin?

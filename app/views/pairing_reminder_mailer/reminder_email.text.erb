@@ -1,0 +1,15 @@
+Hi <%= @user.name.split(" ").first %>,
+
+It's been <%= AccidentalPairing.days_since_last_pairing_for(@user) %> days since you last logged a non-routine pair-programming session in Present.
+
+(You've asked to be reminded every <%= @user.days_between_pair_reminders %> days.)
+
+Hopefully, you find an opportunity to break with your routine soon and pair on something out of the ordinary!
+
+You can log your next pairing session here:
+
+<%= Rails.application.config.present.url + accidental_pairings_path %>
+
+Thanks,
+
+Doubot
