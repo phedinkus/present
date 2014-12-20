@@ -1,0 +1,43 @@
+<div class="pairing">
+  <div class="row">
+    <div class="col-md-6 col-centered">
+      <div class="poster centered">
+        <div class="days-since">
+          <% @poster_digits.each do |d| %>
+            <div class="digit">
+              <div class="nail left">•</div>
+              <div class="nail right">•</div>
+              <%= d %>
+            </div>
+          <% end %>
+        </div>
+        <div class="subtitle">
+          Days Since Last Pairing Accident
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-gap">
+    <div class="col-md-8 col-centered">
+      <%= form_for AccidentalPairing.new, :html => {:class => "form-inline"} do |f| %>
+        <div class="yay">I just paired and it was</div>
+        <div class="form-group">
+          <%= f.text_field :description, :class => "pair-description" %>
+        </div>
+        <%= f.submit "!", :class => "btn btn-lg btn-info" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row-gap">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="history">
+        <h2>Latest Accidents</h2>
+        <ol>
+          <% @accidental_pairings.each do |ap| %>
+            <li>On <%= ap.paired_at.to_s(:mdy) %>, I paired and it was <%= ap.description %>!</li>
+          <% end %>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

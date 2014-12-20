@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post "entries/set_locations", :to => "entries#set_locations"
 
   resources "reports"
+  resources "accidental_pairings", :path => "pairings", :controller => "pairings"
 
   root "application#root"
 end

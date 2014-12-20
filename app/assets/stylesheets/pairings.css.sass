@@ -1,0 +1,74 @@
+.pairing
+  .centered
+    margin-left: auto
+    margin-right: auto
+
+  .col-centered
+    @extend .center-block
+    float: none
+
+  .row-gap
+    @extend .row
+    margin-top: 40px
+
+  .poster
+    height: 300px
+    width: 260px
+    border: 1px solid #efefef
+    text-align: center
+    box-shadow: 2px 2px 4px #666
+
+    .days-since
+      .digit
+        border: 1px solid #efefef
+        font-size: 14em
+        line-height: .9
+        display: inline-block
+        margin: 18px 2px 2px 2px
+        box-shadow: 1px 1px 1px #bbb
+
+
+        .nail
+          position: absolute
+          top: 16px
+          font-size: .15em
+          color: #666
+          opacity: .3
+
+          &.left
+            margin-left: 8px
+
+          &.right
+            margin-left: 90px
+
+    .subtitle
+      font-size: 2.5em
+      font-variant: small-caps
+
+  form
+    text-align: center
+    font-size: 1.3em
+    font-weight: 500
+
+    .yay
+      display: inline-block
+
+    .pair-description
+      border: none
+      border-bottom: 2px solid #000
+      margin-bottom: 2px
+
+      &:focus
+        outline: none
+
+
+  .history
+    color: #666
+
+    h2
+      text-align: center
+      font-variant: small-caps
+
+    ol
+      display: table
+      margin: 0 auto
