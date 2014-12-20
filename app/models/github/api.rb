@@ -12,7 +12,14 @@ module Github
     end
 
     def test_double_agent?
-      get('/user/orgs').any? { |org| org["login"] == "testdouble" }
+      get('/user/orgs').any? do |org|
+        if org.kind_of?(String)
+          # the API just started spitting these out at some point I have no clue why
+          org == "testdouble"
+        else
+          org["login"] == "testdouble"
+        end
+      end
     end
 
   private
