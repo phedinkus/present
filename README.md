@@ -46,5 +46,5 @@ Finally, you can go through a pretty standard Ruby dance of setting up a rails a
 ```
 $ bundle install
 $ rake db:create db:migrate db:seed
-$ rails s
+$ ./script/start.dev
 ```
