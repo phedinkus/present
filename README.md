@@ -48,3 +48,5 @@ $ bundle install
 $ rake db:create db:migrate db:seed
 $ ./script/start.dev
 ```
+
+And then visit [demo.testdouble.com](demo.testdouble.com) in a browser.
