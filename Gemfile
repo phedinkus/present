@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
-gem 'rails', '4.1.7'
+gem 'rails', '4.2'
 gem 'pg'
 
 group :production do
