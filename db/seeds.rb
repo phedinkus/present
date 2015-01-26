@@ -23,6 +23,7 @@ end
 
 puts "Upserting locations"
 [
+  {:city => "Denver", :state => "CO" },
   {:city => "Broomfield", :state => "CO" },
   {:city => "Yorktown", :state => "IN" },
   {:city => "Chicago", :state => "IL" },
