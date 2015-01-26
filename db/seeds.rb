@@ -36,6 +36,7 @@ puts "Upserting locations"
   {:city => "Hilliard", :state => "OH" },
   {:city => "Johnstown", :state => "OH" },
   {:city => "Jonestown", :state => "PA" },
+  {:city => "Salt Lake City", :state => "UT" },
   {:city => "Virginia Beach", :state => "VA" },
   {:city => "Madison", :state => "WI" },
   {:city => "Ottawa", :state => "ON" },
