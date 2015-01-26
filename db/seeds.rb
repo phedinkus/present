@@ -23,10 +23,12 @@ end
 
 puts "Upserting locations"
 [
+  {:city => "Oakland", :state => "CA" },
   {:city => "Denver", :state => "CO" },
   {:city => "Broomfield", :state => "CO" },
   {:city => "Yorktown", :state => "IN" },
   {:city => "Chicago", :state => "IL" },
+  {:city => "Detroit", :state => "MI" },
   {:city => "Grand Rapids", :state => "MI" },
   {:city => "Columbus", :state => "OH" },
   {:city => "Westerville", :state => "OH" },
@@ -35,11 +37,9 @@ puts "Upserting locations"
   {:city => "Johnstown", :state => "OH" },
   {:city => "Jonestown", :state => "PA" },
   {:city => "Virginia Beach", :state => "VA" },
-  {:city => "Ottawa", :state => "ON" },
-  {:city => "Saskatoon", :state => "SK" },
-  {:city => "Detroit", :state => "MI" },
   {:city => "Madison", :state => "WI" },
-  {:city => "Oakland", :state => "CA" }
+  {:city => "Ottawa", :state => "ON" },
+  {:city => "Saskatoon", :state => "SK" }
 ].each do |location|
   Location.find_or_create_by!(
     :city => location[:city],
