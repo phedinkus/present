@@ -17,7 +17,12 @@ module Jobs
     private
 
     def self.needs_reminder?(user)
-      AccidentalPairing.days_since_last_pairing_for(user) % user.days_between_pair_reminders == 0
+      return unless (days_since_pairing = days_since_pairing?(user)) > 0
+      days_since_pairing % user.days_between_pair_reminders == 0
+    end
+
+    def self.days_since_pairing?(user)
+      AccidentalPairing.days_since_last_pairing_for(user)
     end
 
   end
