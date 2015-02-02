@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def require_login
     return @logged_in_user = @current_user = User.find_by(:name => Rails.application.config.present.local_override) if Rails.application.config.present.local_override.present?
 
-    unless @logged_in_user = @current_user = User.find_by(:session_token => session[:session_token])
+    unless @logged_in_user = @current_user = User.active.find_by(:session_token => session[:session_token])
       session[:github_oauth_attempted_url] = request.url
       redirect_to Github::OAuth.login_url_for_state(session[:github_oauth_state] = SecureRandom.base64(100))
     end

@@ -14,6 +14,8 @@ class AuthorizationsController < ApplicationController
     session[:session_token] = SecureRandom.base64(100)
     @current_user = User.login_via_github!(auth, github.user, session[:session_token])
 
+    return render :text => "Sorry, your account has been de-activated." unless @current_user.active?
+
     redirect_to session[:github_oauth_attempted_url]
   end
 
