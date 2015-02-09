@@ -34,24 +34,42 @@ There are a few values hard-coded into the application specific to test double, 
 
 ### Setup
 
+
+#### Environment
+
+First copy the example environment file `.env.example` to `.env`.
+
+```bash
+cp .env.example .env
+```
+
+Then update the variables with their corresponding values.
+
+```bash
+PRESENT_WEEKLY_RATE=""
+PRESENT_HOURLY_RATE=""
+PRESENT_ADMIN_GITHUB_IDS="username1,username2"
+PRESENT_HARVEST_SUBDOMAIN=""
+PRESENT_HARVEST_USERNAME=""
+PRESENT_HARVEST_PASSWORD=""
+```
+
+#### Authentication
+
 GitHub authentication is used to restrict access to only members belonging to a given GitHub Organization. [Register a new OAuth application](https://github.com/settings/applications/new); be sure to set the **authorization callback url** and **homepage url** correctly. For example, when running on _localhost_ these would be:
 
 - Homepage URL: http://localhost:3000
 - Authorization callback URL: http://localhost:3000/authorizations/github
 
-Once created, add your GitHub **client id** and **client secret** to your environment along with the following required environment variables:
+Once created, update your GitHub **client id** and **client secret** to your environment along with the following required environment variables in your `.env` file:
 
 ```bash
-export PRESENT_GITHUB_CLIENT_SECRET=""
-export PRESENT_GITHUB_CLIENT_ID=""
-export PRESENT_GITHUB_ORGANIZATION_NAME=""
-export PRESENT_WEEKLY_RATE=""
-export PRESENT_HOURLY_RATE=""
-export PRESENT_ADMIN_GITHUB_IDS="username1,username2"
-export PRESENT_HARVEST_SUBDOMAIN=""
-export PRESENT_HARVEST_USERNAME=""
-export PRESENT_HARVEST_PASSWORD=""
+PRESENT_GITHUB_CLIENT_SECRET="client_id"
+PRESENT_GITHUB_CLIENT_ID="client_secret"
+PRESENT_GITHUB_ORGANIZATION_NAME="organization_name"
 ```
+
+### Running the application
 
 Finally, you can go through a pretty standard Ruby dance of setting up a rails app:
 
@@ -59,8 +77,6 @@ Finally, you can go through a pretty standard Ruby dance of setting up a rails a
 bundle install
 bin/rake db:create db:migrate db:seed
 ```
-
-### Running the application
 
 Start the server with the following:
 
