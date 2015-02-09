@@ -85,3 +85,13 @@ bundle exec rails s
 ```
 
 And then visit http://localhost:3000 in a browser.
+
+### Backing and restoring from a production backup
+
+If you need to debug with production data locally, you can do so with:
+
+```
+$ ./script/production_backup.sh
+```
+
+Then edit your "development" connection in `database.yml` to point to a database named "present_development"
