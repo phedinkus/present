@@ -21,6 +21,7 @@ module Present
 
     config.github = ActiveSupport::OrderedOptions.new
     config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
+    config.github.organization_name = ENV['PRESENT_GITHUB_ORGANIZATION_NAME']
 
     config.harvest = ActiveSupport::OrderedOptions.new
     config.harvest.subdomain = ENV['PRESENT_HARVEST_SUBDOMAIN']

@@ -44,6 +44,7 @@ Once created, add your GitHub **client id** and **client secret** to your enviro
 ```bash
 export PRESENT_GITHUB_CLIENT_SECRET=""
 export PRESENT_GITHUB_CLIENT_ID=""
+export PRESENT_GITHUB_ORGANIZATION_NAME=""
 export PRESENT_WEEKLY_RATE=""
 export PRESENT_HOURLY_RATE=""
 export PRESENT_ADMIN_GITHUB_IDS="username1,username2"
