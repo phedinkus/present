@@ -75,12 +75,13 @@ Finally, you can go through a pretty standard Ruby dance of setting up a rails a
 
 ```bash
 bundle install
-bin/rake db:create db:migrate db:seed
+bundle exec rake db:create db:migrate db:seed
 ```
 
 Start the server with the following:
 
 ```bash
-bin/rails server
+bundle exec rails s
 ```
+
 And then visit http://localhost:3000 in a browser.
