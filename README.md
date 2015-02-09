@@ -26,9 +26,22 @@ There are a few values hard-coded into the application specific to test double, 
 
 ## Getting up and running
 
-You'll need postgres up & running. You'll also need a whole bunch of environment variables set:
+### Prerequisites
+- Ruby
+- Postgres
+- Harvest account _(for clients and invoicing)_
+- GitHub OAuth application _(for access)_
 
-``` bash
+### Setup
+
+GitHub authentication is used to restrict access to only members belonging to a given GitHub Organization. [Register a new OAuth application](https://github.com/settings/applications/new); be sure to set the **authorization callback url** and **homepage url** correctly. For example, when running on _localhost_ these would be:
+
+- Homepage URL: http://localhost:3000
+- Authorization callback URL: http://localhost:3000/authorizations/github
+
+Once created, add your GitHub **client id** and **client secret** to your environment along with the following required environment variables:
+
+```bash
 export PRESENT_GITHUB_CLIENT_SECRET=""
 export PRESENT_GITHUB_CLIENT_ID=""
 export PRESENT_WEEKLY_RATE=""
@@ -39,14 +52,18 @@ export PRESENT_HARVEST_USERNAME=""
 export PRESENT_HARVEST_PASSWORD=""
 ```
 
-As implied above, you'll need a Github app with a valid callback URL and a Harvest account (I use `ngrok` with a set hostname for this).
-
 Finally, you can go through a pretty standard Ruby dance of setting up a rails app:
 
-```
-$ bundle install
-$ rake db:create db:migrate db:seed
-$ ./script/start.dev
+```bash
+bundle install
+bin/rake db:create db:migrate db:seed
 ```
 
-And then visit [demo.testdouble.com](demo.testdouble.com) in a browser.
+### Running the application
+
+Start the server with the following:
+
+```bash
+bin/rails server
+```
+And then visit http://localhost:3000 in a browser.
