@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    (@user = User.find(params[:id])).update!(params[:user].permit(:location_id))
+    (@user = User.find(params[:id])).update!(params[:user].permit(:location_id, :full_time, :active))
     flash[:info] = ["Information updated for #{@user.name}!"]
     redirect_to edit_user_path(@user)
   end
