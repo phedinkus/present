@@ -80,6 +80,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.default_url_options = { host: 'present.testdouble.com' }
+
   # Configure postmark
   ActionMailer::Base.smtp_settings = {
     :port           => '25',

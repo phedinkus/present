@@ -15,9 +15,9 @@ module Github
       get('/user/orgs').any? do |org|
         if org.kind_of?(String)
           # the API just started spitting these out at some point I have no clue why
-          org == "testdouble"
+          org == Rails.application.config.github.organization_name
         else
-          org["login"] == "testdouble"
+          org["login"] == Rails.application.config.github.organization_name
         end
       end
     end

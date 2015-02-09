@@ -26,27 +26,62 @@ There are a few values hard-coded into the application specific to test double, 
 
 ## Getting up and running
 
-You'll need postgres up & running. You'll also need a whole bunch of environment variables set:
+### Prerequisites
+- Ruby
+- Postgres
+- Harvest account _(for clients and invoicing)_
+- GitHub OAuth application _(for access)_
 
-``` bash
-export PRESENT_GITHUB_CLIENT_SECRET=""
-export PRESENT_GITHUB_CLIENT_ID=""
-export PRESENT_WEEKLY_RATE=""
-export PRESENT_HOURLY_RATE=""
-export PRESENT_ADMIN_GITHUB_IDS="username1,username2"
-export PRESENT_HARVEST_SUBDOMAIN=""
-export PRESENT_HARVEST_USERNAME=""
-export PRESENT_HARVEST_PASSWORD=""
+### Setup
+
+
+#### Environment
+
+First copy the example environment file `.env.example` to `.env`.
+
+```bash
+cp .env.example .env
 ```
 
-As implied above, you'll need a Github app with a valid callback URL and a Harvest account (I use `ngrok` with a set hostname for this).
+Then update the variables with their corresponding values.
+
+```bash
+PRESENT_WEEKLY_RATE=""
+PRESENT_HOURLY_RATE=""
+PRESENT_ADMIN_GITHUB_IDS="username1,username2"
+PRESENT_HARVEST_SUBDOMAIN=""
+PRESENT_HARVEST_USERNAME=""
+PRESENT_HARVEST_PASSWORD=""
+```
+
+#### Authentication
+
+GitHub authentication is used to restrict access to only members belonging to a given GitHub Organization. [Register a new OAuth application](https://github.com/settings/applications/new); be sure to set the **authorization callback url** and **homepage url** correctly. For example, when running on _localhost_ these would be:
+
+- Homepage URL: http://localhost:3000
+- Authorization callback URL: http://localhost:3000/authorizations/github
+
+Once created, update your GitHub **client id** and **client secret** to your environment along with the following required environment variables in your `.env` file:
+
+```bash
+PRESENT_GITHUB_CLIENT_ID="blahblah982374dsblah"
+PRESENT_GITHUB_CLIENT_SECRET="blahas83828blahthelongerofthetwo"
+PRESENT_GITHUB_ORGANIZATION_NAME="someorg"
+```
+
+### Running the application
 
 Finally, you can go through a pretty standard Ruby dance of setting up a rails app:
 
-```
-$ bundle install
-$ rake db:create db:migrate db:seed
-$ ./script/start.dev
+```bash
+bundle install
+bundle exec rake db:create db:migrate db:seed
 ```
 
-And then visit [demo.testdouble.com](demo.testdouble.com) in a browser.
+Start the server with the following:
+
+```bash
+bundle exec rails s
+```
+
+And then visit http://localhost:3000 in a browser.

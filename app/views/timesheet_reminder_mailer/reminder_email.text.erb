@@ -3,7 +3,7 @@ Hi <%= @user.name.split(" ").first %>,
 It's an invoicing week! Please login, verify your time, and submit
 your time as "Ready to Invoice".
 
-<%= Rails.application.config.present.url + current_week_path %>
+<%= current_week_url %>
 
 Thanks,
 

@@ -54,6 +54,9 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.1)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.2.1)
     faraday (0.9.0)
@@ -174,6 +177,7 @@ DEPENDENCIES
   bootstrap-sass
   bullet
   coffee-rails (~> 4.0.0)
+  dotenv-rails
   faraday
   harvested
   jquery-rails
