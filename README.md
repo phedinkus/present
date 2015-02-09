@@ -64,9 +64,9 @@ GitHub authentication is used to restrict access to only members belonging to a 
 Once created, update your GitHub **client id** and **client secret** to your environment along with the following required environment variables in your `.env` file:
 
 ```bash
-PRESENT_GITHUB_CLIENT_SECRET="client_id"
-PRESENT_GITHUB_CLIENT_ID="client_secret"
-PRESENT_GITHUB_ORGANIZATION_NAME="organization_name"
+PRESENT_GITHUB_CLIENT_ID="blahblah982374dsblah"
+PRESENT_GITHUB_CLIENT_SECRET="blahas83828blahthelongerofthetwo"
+PRESENT_GITHUB_ORGANIZATION_NAME="someorg"
 ```
 
 ### Running the application
