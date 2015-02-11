@@ -16,6 +16,14 @@
         </div>
       <% end %>
       <div class="form-group">
+        <%= f.label :active %>
+        <%= f.check_box :active %>
+      </div>
+      <div class="form-group">
+        <%= f.label :full_time %>
+        <%= f.check_box :full_time %>
+      </div>
+      <div class="form-group">
         <%= f.label :location %>
         <%= f.select :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, @user.location_id), {}, { :class => "form-control"} %>
       </div>

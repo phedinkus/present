@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141220152221) do
+ActiveRecord::Schema.define(version: 20150209205827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accidental_pairings", force: true do |t|
+  create_table "accidental_pairings", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "description"
     t.datetime "paired_at"
@@ -24,25 +24,25 @@ ActiveRecord::Schema.define(version: 20141220152221) do
     t.datetime "updated_at"
   end
 
-  create_table "clients", force: true do |t|
-    t.string   "name"
+  create_table "clients", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.integer  "harvest_id"
     t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "emails", force: true do |t|
+  create_table "emails", force: :cascade do |t|
     t.integer  "job_id"
-    t.string   "mailer"
-    t.string   "to"
-    t.string   "subject"
+    t.string   "mailer",     limit: 255
+    t.string   "to",         limit: 255
+    t.string   "subject",    limit: 255
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "entries", force: true do |t|
+  create_table "entries", force: :cascade do |t|
     t.integer  "projects_timesheet_id"
     t.integer  "day"
     t.integer  "presence"
@@ -57,20 +57,20 @@ ActiveRecord::Schema.define(version: 20141220152221) do
   add_index "entries", ["projects_timesheet_id"], name: "index_entries_on_projects_timesheet_id", using: :btree
   add_index "entries", ["updated_by_id"], name: "index_entries_on_updated_by_id", using: :btree
 
-  create_table "github_accounts", force: true do |t|
+  create_table "github_accounts", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "github_id"
-    t.string   "login"
-    t.string   "access_token"
-    t.text     "scopes",       array: true
+    t.string   "login",        limit: 255
+    t.string   "access_token", limit: 255
+    t.text     "scopes",                   array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email"
+    t.string   "email",        limit: 255
   end
 
   add_index "github_accounts", ["user_id"], name: "index_github_accounts_on_user_id", using: :btree
 
-  create_table "invoices", force: true do |t|
+  create_table "invoices", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "year"
     t.integer  "month"
@@ -80,37 +80,37 @@ ActiveRecord::Schema.define(version: 20141220152221) do
     t.datetime "updated_at"
   end
 
-  create_table "jobs", force: true do |t|
-    t.string   "name"
+  create_table "jobs", force: :cascade do |t|
+    t.string   "name",        limit: 255
     t.time     "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "locations", force: true do |t|
-    t.string   "city"
-    t.string   "state"
+  create_table "locations", force: :cascade do |t|
+    t.string   "city",       limit: 255
+    t.string   "state",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "projects", force: true do |t|
-    t.string   "name"
-    t.boolean  "active",         default: true
+  create_table "projects", force: :cascade do |t|
+    t.string   "name",           limit: 255
+    t.boolean  "active",                     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
-    t.integer  "weekly_rate",    default: 5000
-    t.integer  "hourly_rate",    default: 175
-    t.integer  "rate_type",      default: 0
-    t.string   "special_type"
-    t.boolean  "requires_notes", default: false
+    t.integer  "weekly_rate",                default: 5000
+    t.integer  "hourly_rate",                default: 175
+    t.integer  "rate_type",                  default: 0
+    t.string   "special_type",   limit: 255
+    t.boolean  "requires_notes",             default: false
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
 
-  create_table "projects_timesheets", force: true do |t|
+  create_table "projects_timesheets", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "timesheet_id"
     t.datetime "created_at"
@@ -122,14 +122,14 @@ ActiveRecord::Schema.define(version: 20141220152221) do
   add_index "projects_timesheets", ["project_id"], name: "index_projects_timesheets_on_project_id", using: :btree
   add_index "projects_timesheets", ["timesheet_id"], name: "index_projects_timesheets_on_timesheet_id", using: :btree
 
-  create_table "system_configurations", force: true do |t|
+  create_table "system_configurations", force: :cascade do |t|
     t.integer "reference_invoice_year"
     t.integer "reference_invoice_month"
     t.integer "reference_invoice_day"
     t.integer "default_location_id"
   end
 
-  create_table "timesheets", force: true do |t|
+  create_table "timesheets", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "year"
     t.integer  "month"
@@ -141,14 +141,15 @@ ActiveRecord::Schema.define(version: 20141220152221) do
 
   add_index "timesheets", ["user_id"], name: "index_timesheets_on_user_id", using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "session_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "name",                        limit: 255
+    t.string   "session_token",               limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
-    t.boolean  "active",                      default: true, null: false
+    t.boolean  "active",                                  default: true, null: false
     t.integer  "days_between_pair_reminders"
+    t.boolean  "full_time",                               default: true, null: false
   end
 
 end
