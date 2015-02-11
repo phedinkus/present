@@ -102,6 +102,10 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def amount_in_hours
+    project.hourly? ? amount : amount * 8.0
+  end
+
   def presence_day_value
     raise "#presence_day_value should only be used if you're sure the project is weekly" if project.hourly?
     amount

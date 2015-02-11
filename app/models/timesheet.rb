@@ -8,7 +8,8 @@ class Timesheet < ActiveRecord::Base
   accepts_nested_attributes_for :projects_timesheets
   accepts_nested_attributes_for :entries
 
-  validate :presence_of_projects_timesheets_notes, :if => ->(t){ t.week.invoice_week? && t.ready_to_invoice?}
+  validate :validate_presence_of_projects_timesheets_notes, :if => ->(t){ t.ready_to_invoice? && t.week.invoice_week? && !t.user.admin? }
+  validate :validate_full_time_week, :if => ->(t){ t.ready_to_invoice? && t.user.full_time? }
 
   def self.find_or_create_for!(week, user)
     if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
@@ -59,10 +60,22 @@ class Timesheet < ActiveRecord::Base
     )
   end
 
-  def mark_ready_to_invoice!
+  def update_as_ready_to_invoice
     raise "Only invoice-week timesheets can be marked ready for invoice" unless week.invoice_week?
-    update(:ready_to_invoice => true)
-    previous_timesheet.update!(:ready_to_invoice => true) if errors.empty?
+
+    invoice_timesheets.tap do |timesheets|
+      timesheets.each { |t| t.ready_to_invoice = true  }
+      timesheets.save if timesheets.map(&:valid?).all?
+      errors.messages.merge!(merge_error_messages(timesheets))
+    end
+  end
+
+  def invoice_timesheets
+    if week.invoice_week?
+      [previous_timesheet, self]
+    else
+      [self, next_timesheet]
+    end
   end
 
   def previous_timesheet
@@ -114,10 +127,24 @@ class Timesheet < ActiveRecord::Base
 
 private
 
-  def presence_of_projects_timesheets_notes
+  def validate_presence_of_projects_timesheets_notes
     projects_timesheets.
       select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
         errors.add(:required_summary_notes, "are missing for the '#{pt.project.name}' project")
       end
   end
+
+  def validate_full_time_week
+    days_worked = (entries.map(&:amount_in_hours).reduce(:+) / 8.0).to_d
+    if days_worked < 5
+      errors.add(:week_of, "#{week.ymd_dash}: #{"%g" % days_worked} days were accounted for (5 are required, including vacation & internal time)")
+    end
+  end
+
+  def merge_error_messages(models)
+    models.each_with_object({}) do |model, obj|
+      obj.merge!(model.errors.messages) { |k, h1, h2| h1 + h2 }
+    end
+  end
+
 end
