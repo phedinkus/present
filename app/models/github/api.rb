@@ -25,7 +25,7 @@ module Github
   private
 
     def get(url)
-      JSON.parse(@connection.get(url, :access_token => @access_token).body)
+      JSON.parse(@connection.get(url, {:access_token => @access_token}, {'Accept' => 'application/vnd.github.moondragon+json'}).body)
     end
   end
 end
