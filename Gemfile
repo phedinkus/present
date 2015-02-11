@@ -27,6 +27,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'spring'
   gem 'awesome_print'
+  gem 'better_errors'
+  gem 'binding_of_caller' #<- allows repl from the better_errors page
 end
 
 group :development do
