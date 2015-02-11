@@ -5,7 +5,8 @@ module Github
     def self.login_url_for_state(state)
       "#{BASE_URL}/authorize?" + {
         :client_id => Rails.application.config.github.client_id,
-        :state => state
+        :state => state,
+        :scope => "read:org"
       }.to_param
     end
 
