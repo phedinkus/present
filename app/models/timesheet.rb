@@ -65,7 +65,7 @@ class Timesheet < ActiveRecord::Base
 
     invoice_timesheets.tap do |timesheets|
       timesheets.each { |t| t.ready_to_invoice = true  }
-      timesheets.save if timesheets.map(&:valid?).all?
+      timesheets.each(&:save) if timesheets.map(&:valid?).all?
       errors.messages.merge!(merge_error_messages(timesheets))
     end
   end
