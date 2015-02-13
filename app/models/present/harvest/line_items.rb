@@ -20,11 +20,7 @@ module Present::Harvest
 
     def self.quantity_for(project, entry)
       if project.weekly?
-        case entry.presence
-          when "full" then 1.0 / 5.0
-          when "half" then 0.5 / 5.0
-          else 0
-        end
+        entry.amount / 5.0
       else
         entry.hours
       end
