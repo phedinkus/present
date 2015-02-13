@@ -6,13 +6,14 @@
         <%= f.text_field :name %>
       </div>
       <%= f.fields_for @user.github_account do |github_account_fields| %>
+        <%= github_account_fields.hidden_field :id %>
         <div class="form-group">
           <%= github_account_fields.label :login %>
           <%= github_account_fields.text_field :login, :disabled => true %>
         </div>
         <div class="form-group">
           <%= github_account_fields.label :email %>
-          <%= github_account_fields.text_field :email, :disabled => true %>
+          <%= github_account_fields.text_field :email %>
         </div>
       <% end %>
       <div class="form-group">

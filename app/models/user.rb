@@ -4,9 +4,10 @@ class User < ActiveRecord::Base
   has_many :entries, :through => :timesheets
   belongs_to :location
 
+  accepts_nested_attributes_for :github_account
+
   validates_presence_of :location
   validates_numericality_of :days_between_pair_reminders, :greater_than_or_equal_to => 1, :allow_nil => true
-
 
   before_validation :set_default_location, :unless => lambda { |u| u.location.present? }
 
