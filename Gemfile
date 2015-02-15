@@ -31,6 +31,9 @@ group :development, :test do
 
   gem 'minitest-rails'
   gem 'minitest-given'
+  gem 'minitest-rails-capybara'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :development do
