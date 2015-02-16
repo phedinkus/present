@@ -20,16 +20,19 @@
         <div class="btn-group">
           <%= link_to show_week_path(@week.previous.ymd_hash) do %>
             <button type="button" class="btn btn-default">
+              <span class="hidden">Previous Week</span>
               <span class="glyphicon glyphicon-chevron-left"></span>
             </button>
           <% end %>
           <%= link_to current_week_path do %>
             <button type="button" class="btn btn-default btn-info <%= 'invisible' if @week.beginning == Week.now.beginning %>">
+              <span class="hidden">Current Week</span>
               <span class="glyphicon glyphicon-home"></span>
             </button>
           <% end %>
           <%= link_to show_week_path(@week.next.ymd_hash) do %>
             <button type="button" class="btn btn-default">
+              <span class="hidden">Next Week</span>
               <span class="glyphicon glyphicon-chevron-right"></span>
             </button>
           <% end %>
@@ -73,6 +76,7 @@
         </div>
         <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
           <div class="form-group form-inline col-md-6 col-md-offset-2 text-right add-project">
+            <%= f.label :projects, "Add Project", :class => "hidden" %>
             <%= f.select :projects, project_options, {}, {:class => "form-control input-sm", :disabled => locked?} %>
             <%= f.button "Add Project", :value => :add_project, :class => "btn btn-default btn-info btn-sm", :disabled => locked? %>
           </div>
