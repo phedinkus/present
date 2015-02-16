@@ -2,9 +2,9 @@ module Present::Harvest
   class Api
     def initialize
       @client = Harvest.hardy_client(
-        Rails.application.config.harvest.subdomain,
-        Rails.application.config.harvest.username,
-        Rails.application.secrets.harvest_password
+        :subdomain => Rails.application.config.harvest.subdomain,
+        :username => Rails.application.config.harvest.username,
+        :password => Rails.application.secrets.harvest_password
       )
     end
 

@@ -78,13 +78,13 @@ GEM
       sorcerer (>= 0.3.7)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
-    harvested (2.0.0)
-      hashie (~> 1)
+    harvested (3.1.1)
+      hashie
       httparty
       json
-    hashie (1.2.0)
+    hashie (3.4.0)
     hike (1.2.3)
-    httparty (0.13.1)
+    httparty (0.13.3)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
