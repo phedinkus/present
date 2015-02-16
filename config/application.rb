@@ -16,11 +16,11 @@ Bundler.require(*Rails.groups)
 module Present
   class Application < Rails::Application
     config.present = ActiveSupport::OrderedOptions.new
-    config.present.admins = ENV['PRESENT_ADMIN_GITHUB_IDS'].split(",")
+    config.present.admins = Rails.application.secrets.admin_github_ids
     config.present.local_override = ENV['LOCAL_OVERRIDE_AS'] || false
 
     config.github = ActiveSupport::OrderedOptions.new
-    config.github.client_id = ENV['PRESENT_GITHUB_CLIENT_ID']
+    config.github.client_id = Rails.application.secrets.github_client_id
     config.github.organization_name = ENV['PRESENT_GITHUB_ORGANIZATION_NAME']
 
     config.harvest = ActiveSupport::OrderedOptions.new
