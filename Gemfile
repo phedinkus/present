@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.2.0'
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
@@ -28,6 +28,12 @@ group :development, :test do
   gem 'spring'
   gem 'awesome_print'
   gem 'web-console'
+
+  gem 'minitest-rails'
+  gem 'minitest-given'
+  gem 'minitest-rails-capybara'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :development do
