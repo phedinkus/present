@@ -6,6 +6,7 @@ class SystemConfiguration < ActiveRecord::Base
   end
 
   def reference_invoice_week
+    return unless [reference_invoice_year, reference_invoice_month, reference_invoice_day].all?(&:present?)
     Week.for(reference_invoice_year, reference_invoice_month, reference_invoice_day)
   end
 end
