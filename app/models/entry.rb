@@ -98,7 +98,7 @@ class Entry < ActiveRecord::Base
     case presence
       when "full" then 1.0
       when "half" then 0.5
-      when "absent" then 0.0
+      else 0.0
     end
   end
 
