@@ -3,7 +3,7 @@
     <%= form_tag nil, :role => "form" do %>
       <div class="form-group">
         <%= label_tag :user %>
-        <%= select_tag :impersonated_user_id, options_for_select(User.all.reject {|u| u == @logged_in_user }.map {|u| [u.name, u.id]}, @current_user.id), :class => "form-control" %>
+        <%= select_tag :impersonated_user_id, options_for_select(User.all.order(:name).reject {|u| u == @logged_in_user }.map {|u| [u.name, u.id]}, @current_user.id), :class => "form-control" %>
       </div>
       <div class="form-group text-right">
         <%= submit_tag "Impersonate", :class => "btn btn-default" %>
