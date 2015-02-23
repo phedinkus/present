@@ -17,7 +17,8 @@ puts "Upserting special projects"
     :weekly_rate => 0,
     :hourly_rate => 0,
     :rate_type => "weekly",
-    :special_type => type.to_s
+    :sticky => true,
+    :billable => false
   )
 end
 

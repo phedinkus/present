@@ -19,7 +19,7 @@ module WeeksHelper
   end
 
   def sort_projects(timesheet)
-    timesheet.projects_timesheets.sort_by {|pt| [pt.project.special_type.to_s, pt.created_at]  }.map(&:project)
+    timesheet.projects_timesheets.sort_by {|pt| [pt.project.sticky.to_s, pt.created_at]  }.map(&:project)
   end
 
   def ready_to_invoice_confirm_text(timesheet)

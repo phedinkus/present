@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209205827) do
+ActiveRecord::Schema.define(version: 20150223032804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,8 +104,9 @@ ActiveRecord::Schema.define(version: 20150209205827) do
     t.integer  "weekly_rate",                default: ENV['PRESENT_WEEKLY_RATE']
     t.integer  "hourly_rate",                default: ENV['PRESENT_HOURLY_RATE']
     t.integer  "rate_type",                  default: 0
-    t.string   "special_type",   limit: 255
     t.boolean  "requires_notes",             default: false
+    t.boolean  "sticky",                     default: false
+    t.boolean  "billable",                   default: true
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree

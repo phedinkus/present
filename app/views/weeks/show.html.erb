@@ -96,7 +96,7 @@
             <%= f.fields_for :projects, sort_projects(@timesheet) do |project_fields| %>
               <% project = project_fields.object %>
               <% projects_timesheet = @timesheet.projects_timesheet_for(project) %>
-              <tr <%= 'class=warning' if project.special? %>>
+              <tr <%= 'class=warning' if project.sticky? %>>
                 <td>
                   <div>
                     <strong><%= project.name %></strong><br/>
