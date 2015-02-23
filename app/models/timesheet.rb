@@ -127,6 +127,11 @@ class Timesheet < ActiveRecord::Base
 
 private
 
+  def days_worked
+    return 0 if entries.blank?
+    (entries.map(&:amount_in_hours).reduce(:+) / 8.0).to_d
+  end
+
   def validate_presence_of_projects_timesheets_notes
     projects_timesheets.
       select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
@@ -135,7 +140,6 @@ private
   end
 
   def validate_full_time_week
-    days_worked = (entries.map(&:amount_in_hours).reduce(:+) / 8.0).to_d
     if days_worked < 5
       errors.add(:week_of, "#{week.ymd_dash}: #{"%g" % days_worked} days were accounted for (5 are required, including vacation & internal time)")
     end

@@ -12,41 +12,29 @@ class Project < ActiveRecord::Base
   end
 
   def self.invoiceable
-    where('client_id is not null and special_type is null')
+    where('client_id is not null and billable = ?', true)
   end
 
   alias_method :original_client, :client
   def client
-    return NullClient.new if special?
+    return NullClient.new if non_billable?
     self.original_client
   end
 
   def self.sticky
-    where('special_type is not null')
-  end
-
-  def sticky?
-    special_type?
-  end
-
-  def special?
-    special_type?
-  end
-
-  def billable?
-    !non_billable?
+    where('sticky = ?', true)
   end
 
   def non_billable?
-    ["vacation", "holiday"].include?(special_type)
+    !billable?
   end
 
   def vacation?
-    special_type == "vacation"
+    non_billable? && name == "Vacation"
   end
 
   def holiday?
-    special_type == "holiday"
+    non_billable? && name == "Holiday"
   end
 
   def unit_price
