@@ -147,7 +147,7 @@
                   <%= project_fields.check_box :_destroy, :disabled => locked? unless project.sticky? %>
                 </td>
               </tr>
-              <% if @week.invoice_week? && project.requires_notes? %>
+              <% if project.requires_notes? %>
                 <%= f.fields_for :projects_timesheets, projects_timesheet do |projects_timesheet_fields| %>
                   <tr>
                     <td>
