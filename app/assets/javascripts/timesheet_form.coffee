@@ -20,6 +20,9 @@ $ ->
   checkboxMakesVisible('input[name=edit_location]', '.location')
   $('.has-tooltip').tooltip()
 
+  $('body').on 'keydown', (e) ->
+    return unless e.keyCode == 13 && e.metaKey == true
+    $('.timesheet-form form').submit()
 
   $('.timesheet-form .presence-select input[type=radio]').on 'change', (e) ->
     $label = $(e.target).closest('label')
