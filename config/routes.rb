@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   patch "invoices/send_to_harvest/:id", :to => "invoices#send_to_harvest", :as => :send_invoice_to_harvest
   resources :invoices
 
+  resources :projects
+
   resources :users
 
   resources :impersonations
