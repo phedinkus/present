@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <%= form_for @project, :role => "form" do |f| %>
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, :disabled => true %>
+      </div>
+      <div class="form-group">
+        <%= f.label :rate_type %>
+        <%= f.select :rate_type, options_for_select(["hourly", "weekly"], @project.rate_type), {}, { :class => "form-control"} %>
+      </div>
+      <div class="form-group">
+        <%= f.label :weekly_rate %>
+        <%= f.number_field :weekly_rate %>
+      </div>
+      <div class="form-group">
+        <%= f.label :hourly_rate %>
+        <%= f.number_field :hourly_rate %>
+      </div>
+      <div class="form-group">
+        <%= f.label :active %>
+        <%= f.check_box :active %>
+      </div>
+      <div class="form-group">
+        <%= f.label :billable %>
+        <%= f.check_box :billable %>
+      </div>
+      <div class="form-group">
+        <%= f.label :requires_notes %>
+        <%= f.check_box :requires_notes %>
+      </div>
+      <div class="form-group">
+        <%= f.label :sticky %>
+        <%= f.check_box :sticky %>
+      </div>
+      <div class="text-right">
+        <%= f.submit "Save", :class => "btn btn-default" %>
+      </div>
+    <% end %>
+  </div>
+</div>
