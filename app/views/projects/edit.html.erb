@@ -7,7 +7,7 @@
       </div>
       <div class="form-group">
         <%= f.label :rate_type %>
-        <%= f.select :rate_type, options_for_select(["hourly", "weekly"], @project.rate_type), {}, { :class => "form-control"} %>
+        <%= f.select :rate_type, options_for_select(["hourly", "weekly"], @project.rate_type), {}, { :class => "form-control", :disabled => @project.entries.any?} %>
       </div>
       <div class="form-group">
         <%= f.label :weekly_rate %>
