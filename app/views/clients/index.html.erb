@@ -3,6 +3,7 @@
     <th>Name</th>
     <th>Projects</th>
     <th>Active</th>
+    <!-- <th>Harvest</th> -->
     <th></th>
   </thead>
   <tbody>
@@ -11,8 +12,14 @@
         <td><%= client.name %></td>
         <td><%= client.projects.count %></td>
         <td><%= client.active? ? 'Active' : 'Inactive' %></td>
+        <!-- <td>
+          <%= link_to "In Harvest", "https://#{Rails.application.config.harvest.subdomain}.harvestapp.com/clients/#{client.harvest_id}/edit" %>
+        </td> -->
         <td><%= link_to "Edit", edit_client_path(client) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<div class="text-right">
+  <%= link_to "New Client", new_client_path, :class => "btn btn-default" %>
+</div>
