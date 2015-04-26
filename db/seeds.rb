@@ -1,5 +1,5 @@
 puts "Upserting clients and projects from Harvest into Present's database"
-Present::Harvest::Api.new.update_clients_and_projects!
+Present::Harvest::DownloadProjectsAndClients.new.download!
 puts <<-LOG
   Harvest Import complete:
   ------------------------
