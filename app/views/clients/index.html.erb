@@ -1,0 +1,18 @@
+<table class="table table-condensed">
+  <thead>
+    <th>Name</th>
+    <th>Projects</th>
+    <th>Active</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td><%= client.name %></td>
+        <td><%= client.projects.count %></td>
+        <td><%= client.active? ? 'Active' : 'Inactive' %></td>
+        <td><%= link_to "Edit", edit_client_path(client) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
