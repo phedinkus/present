@@ -28,7 +28,7 @@
       <% if messages.present? %>
         <div class="alert alert-<%= css_class_for_flash_key(mode) %> fade in" role="alert">
           <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-          <% messages.each do |msg| %>
+          <% Array.wrap(messages).each do |msg| %>
             <p><%= msg %></p>
           <% end %>
         </div>
