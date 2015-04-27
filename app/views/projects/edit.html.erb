@@ -1,9 +1,13 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <%= form_for @project, :role => "form" do |f| %>
+    <div class="form-group">
+      <%= f.label :client_id %>
+      <%= f.select :client_id, options_for_select(Client.order('LOWER(name)').map {|c| [c.name, c.id]}, @project.client_id), {:include_blank => @project.id?}, { :class => "form-control", :disabled => @project.id?} %>
+    </div>
       <div class="form-group">
         <%= f.label :name %>
-        <%= f.text_field :name, :disabled => true %>
+        <%= f.text_field :name %>
       </div>
       <div class="form-group">
         <%= f.label :rate_type %>

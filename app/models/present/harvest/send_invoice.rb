@@ -1,0 +1,37 @@
+module Present::Harvest
+  class SendInvoice
+    def initialize
+      @connection = Connection.create
+    end
+
+    def send!(present_invoice)
+      harvest_invoice_for(present_invoice, @connection).tap do |harvest_invoice|
+        harvest_invoice.subject = present_invoice.subject
+        harvest_invoice.due_at_human_format = "net 30"
+        harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
+        persist_invoice!(harvest_invoice, present_invoice, @connection)
+      end
+    end
+
+  private
+
+    def harvest_invoice_for(present_invoice, conn)
+      find_existing_invoice(present_invoice.harvest_id, conn) || Harvest::Invoice.new(:client_id => present_invoice.project.client.harvest_id)
+    end
+
+    def find_existing_invoice(id, conn)
+      return unless id.present?
+      conn.invoices.find(id)
+    rescue Harvest::NotFound
+    end
+
+    def persist_invoice!(harvest_invoice, present_invoice, conn)
+      persisted_harvest_invoice = if harvest_invoice.id?
+        conn.invoices.update(harvest_invoice)
+      else
+        conn.invoices.create(harvest_invoice)
+      end
+      present_invoice.you_were_just_submitted_to_harvest(persisted_harvest_invoice.id)
+    end
+  end
+end

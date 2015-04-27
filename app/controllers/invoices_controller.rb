@@ -29,7 +29,7 @@ class InvoicesController < ApplicationController
   end
 
   def send_to_harvest
-    Present::Harvest::Api.new.update_invoice!(@invoice)
+    Present::Harvest::SendInvoice.new.send!(@invoice)
     flash[:info] = ["Sent invoice to Harvest!"]
     redirect_to @invoice.active_record_invoice
   end
