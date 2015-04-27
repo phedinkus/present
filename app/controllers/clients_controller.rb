@@ -11,7 +11,7 @@ class ClientsController < ApplicationController
   end
 
   def create
-    @client = Client.new(params[:client].permit(:name, :active))
+    @client = Client.new(client_params)
     Client.transaction do
       begin
         @client.save!
@@ -34,8 +34,14 @@ class ClientsController < ApplicationController
   end
 
   def update
-    (client = Client.find(params[:id])).update!(params[:client].permit(:name, :active))
+    (client = Client.find(params[:id])).update!(client_params)
     flash[:info] = ["Information updated for #{client.name}!"]
     redirect_to edit_client_path(client)
+  end
+
+private
+
+  def client_params
+    params[:client].permit(:name, :active)
   end
 end

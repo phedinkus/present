@@ -1,18 +1,21 @@
 <table class="table table-condensed">
   <thead>
-    <th>Client</th>
     <th>Project</th>
+    <th>Client</th>
     <th>Active</th>
     <th></th>
   </thead>
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= project.client.name %></td>
         <td><%= project.name %></td>
-        <td><%= project.active? ? 'Active' : 'Inactive' %></td>
+        <td><%= project.client.present? ? link_to(project.client.name, edit_client_path(project.client)) : "N/A" %></td>
+        <td><%= project.active? ? 'Yes' : 'No' %></td>
         <td><%= link_to "Edit", edit_project_path(project) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<div class="text-right">
+  <%= link_to "New Project", new_project_path, :class => "btn btn-default" %>
+</div>

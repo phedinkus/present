@@ -3,6 +3,8 @@ class Project < ActiveRecord::Base
   has_many :entries, :through => :projects_timesheets
   belongs_to :client
 
+  validates_presence_of :name
+
   enum :rate_type => {
     :weekly => 0,
     :hourly => 1
@@ -18,8 +20,7 @@ class Project < ActiveRecord::Base
 
   alias_method :original_client, :client
   def client
-    return NullClient.new if non_billable?
-    self.original_client
+    self.original_client || NullClient.new
   end
 
   def self.sticky
