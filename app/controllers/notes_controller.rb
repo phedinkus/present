@@ -13,7 +13,7 @@ private
 
   def make_ivar_mess(project)
     @project = project
-    @week = params[:week].present? ? Week.new(Time.zone.parse(params[:week])) : Week.now
+    @week = params[:year].present? ? Week.for(params[:year], params[:month], params[:day]) : Week.now
     @user_notes = user_notes_for(@project, @week)
   end
 
