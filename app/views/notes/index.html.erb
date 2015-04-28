@@ -1,0 +1,43 @@
+<!-- rip this out with something better yuck copy pasta yuck -->
+<div class="text-center">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h3><%= @week.beginning.to_s(:mdy) %>&mdash;<%= @week.end.to_s(:mdy) %> </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="btn-group">
+        <%= link_to path_for_project_notes(@week.previous) do %>
+          <button type="button" class="btn btn-default">
+            <span class="hidden">Previous Week</span>
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </button>
+        <% end %>
+        <%= link_to path_for_project_notes do %>
+          <button type="button" class="btn btn-default btn-info <%= 'invisible' if @week.beginning == Week.now.beginning %>">
+            <span class="hidden">Current Week</span>
+            <span class="glyphicon glyphicon-home"></span>
+          </button>
+        <% end %>
+        <%= link_to path_for_project_notes(@week.next) do %>
+          <button type="button" class="btn btn-default">
+            <span class="hidden">Next Week</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- okay stop ripping here -->
+
+
+<div class="row">
+  <% @user_notes.each do |(user, note)| %>
+    <div>
+      <div><%= user.name %></div>
+      <div><pre><code><%= note %></code></pre></div>
+    </div>
+  <% end %>
+</div>

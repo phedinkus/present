@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
   resources :clients
 
-  resources :projects
+  get "internal_notes", :to => "notes#internal", :as => :internal_notes
+  resources :projects do
+    get "notes/:year/:month/:day", :to => "notes#index", :as => :notes_for_week
+    resources :notes
+  end
 
   resources :users
 

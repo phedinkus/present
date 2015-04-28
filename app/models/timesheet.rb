@@ -50,6 +50,14 @@ class Timesheet < ActiveRecord::Base
     )
   end
 
+  def self.for_week(week)
+    where(
+      :year => week.year,
+      :month => week.month,
+      :day => week.day
+    )
+  end
+
   def self.on_or_before(date)
     where("(timesheets.year < :year) or
            (timesheets.year = :year and timesheets.month < :month) or
