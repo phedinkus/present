@@ -39,6 +39,7 @@
       <% if @current_user.present? %>
         <%= link_to "Home", root_path %>
         | <%= link_to "Pairing", accidental_pairings_path %>
+        | <%= link_to "Internal Notes", internal_notes_path %>
         <% if @current_user.admin? %>
           | <%= link_to "New Invoice", new_invoice_path %>
           | <%= link_to "Invoices Waiting for Submission", todo_invoices_path %>
