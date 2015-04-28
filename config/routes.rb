@@ -14,7 +14,10 @@ Rails.application.routes.draw do
 
   resources :clients
 
-  resources :projects
+  get "internal_notes", :to => "notes#internal", :as => :internal_notes
+  resources :projects do
+    resources :notes
+  end
 
   resources :users
 

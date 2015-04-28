@@ -1,0 +1,6 @@
+<% @user_notes.each do |(user, note)| %>
+  <div>
+    <div><%= user.name %></div>
+    <div><pre><code><%= note %></code></pre></div>
+  </div>
+<% end %>
