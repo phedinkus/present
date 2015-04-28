@@ -147,6 +147,15 @@
                   <%= project_fields.check_box :_destroy, :disabled => locked? unless project.sticky? %>
                 </td>
               </tr>
+              <% if project.vacation? %>
+                <tr class='warning'>
+                  <td colspan="99" class="text-center">
+                    <span class="glyphicon glyphicon-info-sign">
+                      <b><%= @current_user.remaining_vacation_days_for(@week.year) %> days of PTO remain for <%= @week.year %>.</b>
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
               <% if project.requires_notes? %>
                 <%= f.fields_for :projects_timesheets, projects_timesheet do |projects_timesheet_fields| %>
                   <tr>

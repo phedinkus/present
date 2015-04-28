@@ -36,7 +36,19 @@ class User < ActiveRecord::Base
     Rails.application.config.present.admins.include?(github_account.login)
   end
 
+  def remaining_vacation_days_for(year)
+    ENV['PRESENT_PTO_DAYS_PER_YEAR'].to_i - vacation_days_used_for(year)
+  end
+
+
 private
+  def vacation_days_used_for(year)
+    entries.joins(:projects_timesheet, :timesheet).
+      where('timesheets.year' => year).
+      to_a.select {|e| e.project.vacation? && e.weekday? }.
+      map(&:presence_day_value).
+      sum
+  end
 
   def set_default_location
     self.location = SystemConfiguration.instance.default_location
