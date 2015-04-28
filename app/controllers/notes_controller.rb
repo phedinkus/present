@@ -1,12 +1,12 @@
 class NotesController < ApplicationController
-
   def internal
-    make_ivar_mess(Project.find_by(:name => "Internal", :requires_notes => true))
+    make_ivar_mess(Project.find_by(:name => "Internal", :requires_notes => true, :billable => false))
     render :index
   end
 
   def index
     make_ivar_mess(Project.find(params[:project_id]))
+    require_admin if @project.billable?
   end
 
 private
