@@ -86,12 +86,22 @@ bundle exec rails s
 
 And then visit http://localhost:3000 in a browser.
 
-### Backing and restoring from a production backup
+### Backing and restoring from a heroku backup
 
-If you need to debug with production data locally, you can do so with:
+If you need to debug with heroku data locally, you can do so with:
 
 ```
 $ ./script/production_backup.sh
 ```
 
 Then edit your "development" connection in `database.yml` to point to a database named "present_development"
+
+#### Running offline
+
+Once you've set up at least one user in a database, you can work entirely offline by setting the `LOCAL_OVERRIDE_AS` environment variable to bypass the OAuth flow.
+
+To run offline in development, you may:
+
+```
+$ LOCAL_OVERRIDE_AS="Justin Searls" rails s
+```
