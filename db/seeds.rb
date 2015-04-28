@@ -10,7 +10,7 @@ puts <<-LOG
 LOG
 
 puts "Upserting special projects"
-[:vacation, :holiday].each do |type|
+[:paid_time_off, :holiday].each do |type|
   Project.find_or_create_by!(
     :name => type.to_s.titleize,
     :active => true,
