@@ -6,8 +6,13 @@ class WeeksController < ApplicationController
   end
 
   def show
-    @week = Week.for(params[:year], params[:month], params[:day])
-    @timesheet = Timesheet.find_or_create_for!(@week, @current_user)
+    if params[:id].present?
+      @timesheet = Timesheet.find_by({:id => params[:id], :user => @current_user})
+      @week = @timesheet.week
+    else
+      @week = Week.for(params[:year], params[:month], params[:day])
+      @timesheet = Timesheet.find_or_create_for!(@week, @current_user)
+    end
   end
 
   def update
