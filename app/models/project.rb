@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
   end
 
   def vacation?
-    non_billable? && name == "Vacation"
+    non_billable? && ["vacation", "paid time off"].include?(name.downcase)
   end
 
   def holiday?
