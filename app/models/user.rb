@@ -37,14 +37,27 @@ class User < ActiveRecord::Base
     Rails.application.config.present.admins.include?(github_account.login)
   end
 
+  # TODO: Extracting the vacation & proration stuff would be a good refactor.
   def remaining_vacation_days_for(year)
-    ENV['PRESENT_PTO_DAYS_PER_YEAR'].to_i - vacation_days_used_for(year)
+    vacation_day_allotment_for(year.to_d) - vacation_days_used_for(year.to_d)
   end
-
 
 private
   def set_default_values
     self.hire_date ||= Date.today
+  end
+
+  def vacation_day_allotment_for(year)
+    vacation_days_per_year = ENV['PRESENT_PTO_DAYS_PER_YEAR'].to_d
+    if hire_date.year == year
+      days_in_year = Date.civil(year.to_i).end_of_year.yday
+      day_of_year_hired = hire_date.strftime('%j').to_d
+      ((vacation_days_per_year / days_in_year) * (days_in_year - day_of_year_hired)).round(0,BigDecimal::ROUND_UP)
+    elsif year < hire_date.year
+      0
+    else
+      vacation_days_per_year
+    end
   end
 
   def vacation_days_used_for(year)
