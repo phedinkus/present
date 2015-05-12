@@ -28,6 +28,10 @@
         <%= f.label :location %>
         <%= f.select :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, @user.location_id), {}, { :class => "form-control"} %>
       </div>
+      <div class="form-group">
+        <%= f.label :hire_date %>
+        <%= f.date_field :hire_date, :placeholder => "yyyy-mm-dd", :class => "form-control" %>
+      </div>
       <div class="text-right">
         <%= f.submit "Save", :class => "btn btn-default" %>
       </div>

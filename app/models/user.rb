@@ -6,9 +6,10 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :github_account
 
-  validates_presence_of :location
+  validates_presence_of :location, :hire_date
   validates_numericality_of :days_between_pair_reminders, :greater_than_or_equal_to => 1, :allow_nil => true
 
+  after_initialize :set_default_values
   before_validation :set_default_location, :unless => lambda { |u| u.location.present? }
 
   def self.login_via_github!(github_access_token_response, github_user_response, session_token)
@@ -42,6 +43,10 @@ class User < ActiveRecord::Base
 
 
 private
+  def set_default_values
+    self.hire_date ||= Date.today
+  end
+
   def vacation_days_used_for(year)
     entries.joins(:projects_timesheet, :timesheet).
       where('timesheets.year' => year).
