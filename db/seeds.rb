@@ -29,6 +29,7 @@ puts "Upserting locations"
   {:city => "Broomfield", :state => "CO" },
   {:city => "Yorktown", :state => "IN" },
   {:city => "Chicago", :state => "IL" },
+  {:city => "Louisville", :state => "KY" },
   {:city => "Detroit", :state => "MI" },
   {:city => "Grand Rapids", :state => "MI" },
   {:city => "Columbus", :state => "OH" },
