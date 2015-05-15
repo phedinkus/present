@@ -19,7 +19,10 @@ module WeeksHelper
   end
 
   def sort_projects(timesheet)
-    timesheet.projects_timesheets.sort_by {|pt| [pt.project.sticky.to_s, pt.created_at]  }.map(&:project)
+    timesheet.projects_timesheets
+      .sort_by {|pt| [pt.project.sticky.to_s, pt.created_at]  }
+      .map(&:project)
+      .reject {|p| !@current_user.full_time? && (p.vacation? || p.holiday?) }
   end
 
   def ready_to_invoice_confirm_text(timesheet)
