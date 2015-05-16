@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.0'
+ruby '2.1.6'
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
@@ -39,4 +39,8 @@ end
 group :development do
   gem 'query_diet'
   gem 'bullet'
+end
+
+group :test do
+  gem "codeclimate-test-reporter", :require => false
 end
