@@ -1,6 +1,6 @@
 # Test Double Present™
 
-[![Stories in Ready](https://badge.waffle.io/testdouble/present.png?label=ready&title=Ready)](http://waffle.io/testdouble/present) [![Badgers](https://img.shields.io/badge/Badgers-We%20don%E2%80%99t%20need%20no%20stinking%20badgers-Red.svg)](https://www.youtube.com/watch?v=gx6TBrfCW54)
+[![Stories in Ready](https://badge.waffle.io/testdouble/present.png?label=ready&title=Ready)](http://waffle.io/testdouble/present) [![Badgers](https://img.shields.io/badge/Badgers-We%20don%E2%80%99t%20need%20no%20stinking%20badgers-Red.svg)](https://www.youtube.com/watch?v=gx6TBrfCW54) [![Code Climate](https://codeclimate.com/github/testdouble/present/badges/gpa.svg)](https://codeclimate.com/github/testdouble/present)
 
 
 This is an open source application for tracking activities on a weekly billing model and generating invoices via the Harvest API.
