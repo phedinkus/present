@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
 echo "--> Starting backup on the server"
-heroku pgbackups:capture
+heroku pg:backups capture
 
 echo "--> Fetching postgres backup"
-curl -o present_backup.dump `heroku pgbackups:url`
+curl -o present_backup.dump `heroku pg:backups public-url`
 
 echo "--> Restoring backup to local postgres as `present_backup`"
 createdb present_backup || true
