@@ -11,6 +11,18 @@ class Timesheet < ActiveRecord::Base
   validate :validate_presence_of_projects_timesheets_notes, :if => ->(t){ t.ready_to_invoice? && t.week.invoice_week? && !t.user.admin? }
   validate :validate_full_time_week, :if => ->(t){ t.ready_to_invoice? && t.user.full_time? }
 
+  def self.find_or_build_for!(week, user)
+    if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
+      existing
+    else
+      find_or_create_for!(week.previous, user) if week.invoice_week? #=> always ensure previous week is created first.
+      Timesheet.new(params).tap do |timesheet|
+        timesheet.projects += timesheet.previous_timesheets_projects
+        timesheet.projects += Project.sticky.includes(:client)
+      end
+    end
+  end
+
   def self.find_or_create_for!(week, user)
     if existing = find_and_include_stuff(params = week.ymd_hash.merge(:user => user))
       existing

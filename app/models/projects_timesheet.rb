@@ -28,10 +28,7 @@ class ProjectsTimesheet < ActiveRecord::Base
     return entries if entries.loaded? && entries.present?
 
     Entry.days.map do |(name, ordinal)|
-      Entry.find_or_create_by!(
-        :projects_timesheet => self,
-        :day => ordinal
-      )
+      self.entries.build(:day => ordinal)
     end
   end
 
