@@ -26,9 +26,11 @@ Rails.application.routes.draw do
 
   post "entries/set_locations", :to => "entries#set_locations"
 
-  resources "reports"
+  resources :reports
   patch "pairings/user_settings", :to => "pairings#update_user_settings", :as => :pairing_settings #<-- why no work? Goes to pairings#update
   resources "accidental_pairings", :path => "pairings", :controller => "pairings"
+
+  resources :dossiers
 
   root "application#root"
 end
