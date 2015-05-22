@@ -101,8 +101,8 @@ ActiveRecord::Schema.define(version: 20150521173044) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
-    t.integer  "weekly_rate",                default: 50
-    t.integer  "hourly_rate",                default: 17
+    t.integer  "weekly_rate",                default: ENV['PRESENT_WEEKLY_RATE']
+    t.integer  "hourly_rate",                default: ENV['PRESENT_HOURLY_RATE']
     t.integer  "rate_type",                  default: 0
     t.boolean  "requires_notes",             default: false
     t.boolean  "sticky",                     default: false
