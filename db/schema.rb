@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512120811) do
+ActiveRecord::Schema.define(version: 20150521173044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,8 +101,8 @@ ActiveRecord::Schema.define(version: 20150512120811) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
-    t.integer  "weekly_rate",                default: ENV['PRESENT_WEEKLY_RATE']
-    t.integer  "hourly_rate",                default: ENV['PRESENT_HOURLY_RATE']
+    t.integer  "weekly_rate",                default: 50
+    t.integer  "hourly_rate",                default: 17
     t.integer  "rate_type",                  default: 0
     t.boolean  "requires_notes",             default: false
     t.boolean  "sticky",                     default: false
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20150512120811) do
   end
 
   add_index "projects_timesheets", ["project_id"], name: "index_projects_timesheets_on_project_id", using: :btree
+  add_index "projects_timesheets", ["timesheet_id", "project_id"], name: "index_projects_timesheets_on_timesheet_id_and_project_id", unique: true, using: :btree
   add_index "projects_timesheets", ["timesheet_id"], name: "index_projects_timesheets_on_timesheet_id", using: :btree
 
   create_table "system_configurations", force: :cascade do |t|
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 20150512120811) do
     t.boolean  "ready_to_invoice", default: false
   end
 
+  add_index "timesheets", ["user_id", "year", "month", "day"], name: "index_timesheets_on_user_id_and_year_and_month_and_day", unique: true, using: :btree
   add_index "timesheets", ["user_id"], name: "index_timesheets_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
