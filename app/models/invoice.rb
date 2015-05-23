@@ -1,4 +1,6 @@
 class Invoice < ActiveRecord::Base
+  extend Queries::YearMonthDay
+
   belongs_to :project
 
   def subject

@@ -1,4 +1,6 @@
 class Timesheet < ActiveRecord::Base
+  extend Queries::YearMonthDay
+
   belongs_to :user
   has_many :projects_timesheets
   has_many :projects, :through => :projects_timesheets
@@ -26,46 +28,6 @@ class Timesheet < ActiveRecord::Base
 
   def self.find_and_include_stuff(params)
     where(params).includes(:projects => :client, :entries => :location).first
-  end
-
-  def self.current_and_past
-    where("DATE(timesheets.year||'-'||timesheets.month||'-'||timesheets.day) < now()")
-  end
-
-  def self.future
-    where("DATE(timesheets.year||'-'||timesheets.month||'-'||timesheets.day) > now()")
-  end
-
-  def self.between_inclusive(start_date, end_date)
-    on_or_after(start_date).on_or_before(end_date)
-  end
-
-  def self.on_or_after(date)
-    where("(timesheets.year > :year) or
-           (timesheets.year = :year and timesheets.month > :month) or
-           (timesheets.year = :year and timesheets.month = :month and timesheets.day >= :day)",
-      :year => date.year,
-      :month => date.month,
-      :day => date.day
-    )
-  end
-
-  def self.for_week(week)
-    where(
-      :year => week.year,
-      :month => week.month,
-      :day => week.day
-    )
-  end
-
-  def self.on_or_before(date)
-    where("(timesheets.year < :year) or
-           (timesheets.year = :year and timesheets.month < :month) or
-           (timesheets.year = :year and timesheets.month = :month and timesheets.day <= :day)",
-      :year => date.year,
-      :month => date.month,
-      :day => date.day
-    )
   end
 
   def update_as_ready_to_invoice
