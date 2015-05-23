@@ -39,6 +39,10 @@ class Entry < ActiveRecord::Base
       select { |e| e.date.between?(start_date, end_date) }
   end
 
+  def self.billable
+    joins(:project).merge(Project.invoiceable)
+  end
+
   def self.time_for(timesheet, day_name)
     t = timesheet.time
     until Date::DAYNAMES[t.wday].downcase == day_name.to_s

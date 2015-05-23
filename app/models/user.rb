@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     where(:active => true)
   end
 
+  def self.alpha_sort
+    order('full_time desc', :name)
+  end
+
   def admin?
     Rails.application.config.present.admins.include?(github_account.login)
   end

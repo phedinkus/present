@@ -1,9 +1,9 @@
 <% @dossiers.each do |dossier| %>
   <div class="row">
-    <div class="col-md-2 text-right"%>
+    <div class="col-md-4 text-right"%>
       <%= dossier.user.name %>
     </div>
-    <%= dossier.missions.each do |mission| %>
+    <% dossier.missions.each do |mission| %>
       <div class="col-md-2"%>
         <%= mission.name %>
       </div>

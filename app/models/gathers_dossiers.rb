@@ -1,8 +1,13 @@
 class GathersDossiers
-  def gather(time = Time.zone.now, mission_count = 3)
-    User.active.map do |user|
+
+  def initialize(reference_time = Time.zone.now)
+    @reference_time = reference_time
+  end
+
+  def gather(mission_count = 3)
+    User.alpha_sort.active.map do |user|
       Dossier.new(user, mission_count.times.map { |i|
-        mission_for(user, time + i.months)
+        mission_for(user, @reference_time + i.months)
       })
     end
   end
@@ -14,7 +19,20 @@ private
       :user => user,
       :year => time.year,
       :month => time.month).tap do |m|
-        if m.project.
+        m.project ||= most_billed_recent_project(m.user)
     end
+  end
+
+  def speculate_project_for(mission)
+    if @reference_time > mission.time
+      recently_billed_projects(mission.user)
+    end
+
+  end
+
+  def most_billed_recent_project(user)
+    user.entries.billable.
+      joins(:timesheet).merge(Timesheet.between_inclusive(@reference_time - 3.weeks, @reference_time))
+      .group_by(&:project).max_by { |(project, entries)| entries.size }.try(:first)
   end
 end
