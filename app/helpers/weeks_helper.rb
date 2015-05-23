@@ -1,9 +1,9 @@
 module WeeksHelper
-  def grouped_options_for_clients_and_projects_for(timesheet)
+  def grouped_options_for_clients_and_projects(timesheet = nil)
     clients_with_and_including_addable_projects = Client.
       includes(:projects).
       where(:active => true).
-      where.not("projects.id" => timesheet.projects).
+      where.not("projects.id" => timesheet.try(:projects)).
       where("projects.active" => true).
       order('clients.name, projects.name')
 

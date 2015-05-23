@@ -14,7 +14,24 @@
         </td>
         <% dossier.missions.each do |mission| %>
           <td>
-            <%= mission.name %>
+            <%= form_for mission do |f| %>
+              <div class="form-group form-inline">
+                <%= f.hidden_field :year %>
+                <%= f.hidden_field :month %>
+                <%= f.hidden_field :user_id %>
+                <%= f.label :project_id, "Assign Project", :class => "hidden" %>
+                <%= f.select :project_id, grouped_options_for_clients_and_projects, {:allow_blank => true}, {:class => "form-control input-sm", :style => 'max-width: 80%'} %>
+                <% if mission.new_record? %>
+                  <button type="submit" class="btn btn-xs btn-success">
+                    <span class="glyphicon glyphicon-ok-sign" />
+                  </button>
+                <% else %>
+                  <button type="submit" class="btn btn-x btn-danger">
+                    <span class="glyphicon glyphicon-remove-sign" />
+                  </button>
+                <% end %>
+              </div>
+            <% end %>
           </td>
         <% end %>
       </tr>

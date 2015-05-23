@@ -74,7 +74,7 @@
             </div>
           </div>
         </div>
-        <% if (project_options = grouped_options_for_clients_and_projects_for(@timesheet)).present? %>
+        <% if (project_options = grouped_options_for_clients_and_projects(@timesheet)).present? %>
           <div class="form-group form-inline col-md-6 col-md-offset-2 text-right add-project">
             <%= f.label :projects, "Add Project", :class => "hidden" %>
             <%= f.select :projects, project_options, {}, {:class => "form-control input-sm", :disabled => locked?} %>

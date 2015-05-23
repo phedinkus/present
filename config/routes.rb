@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   patch "pairings/user_settings", :to => "pairings#update_user_settings", :as => :pairing_settings #<-- why no work? Goes to pairings#update
   resources "accidental_pairings", :path => "pairings", :controller => "pairings"
 
+  resources :missions
   resources :dossiers
 
   root "application#root"
