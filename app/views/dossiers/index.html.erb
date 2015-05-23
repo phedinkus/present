@@ -1,12 +1,23 @@
-<% @dossiers.each do |dossier| %>
-  <div class="row">
-    <div class="col-md-4 text-right"%>
-      <%= dossier.user.name %>
-    </div>
-    <% dossier.missions.each do |mission| %>
-      <div class="col-md-2"%>
-        <%= mission.name %>
-      </div>
+<h1>Where are the Agents?</h1>
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <th>Agent Name</th>
+    <% @dossiers.sample.missions.each do |mission| %>
+      <th><%= mission.time.to_s(:mon_year) %></th>
     <% end %>
-  </div>
-<% end %>
+  </thead>
+  <tbody>
+    <% @dossiers.each do |dossier| %>
+      <tr>
+        <td>
+          <%= dossier.user.name %>
+        </td>
+        <% dossier.missions.each do |mission| %>
+          <td>
+            <%= mission.name %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -5,11 +5,16 @@ class Mission < ActiveRecord::Base
   validates_presence_of :month, :year, :user_id
 
   def name
-    project.try(:name) || project_placeholder_description
+    if real_project
+      "#{real_project.client.name} - #{real_project.name}"
+    else
+      project_placeholder_description
+    end
   end
 
+  alias :real_project :project
   def project
-    if real_project = super
+    if real_project
       real_project
     else
       project_placeholder_description
