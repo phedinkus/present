@@ -24,9 +24,6 @@
                   <%= f.hidden_field :project_placeholder_description %>
                   <%= f.label :project_id, "Assign Project", :class => "hidden" %>
                   <%= f.select :project_id, grouped_options_for_clients_and_projects, {:include_blank => true}, {:class => "form-control input-sm", 'data-placeholder' => 'Pick a Project'} %>
-                  <button type="submit" class="btn btn-xs btn-info">
-                    <span class="glyphicon glyphicon-floppy-disk" />
-                  </button>
                 </div>
               <% end %>
             </td>

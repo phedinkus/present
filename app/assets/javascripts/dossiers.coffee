@@ -5,7 +5,6 @@ class MissionView
     @$projectPlaceholderHidden = @$select.closest('form').find('[name="mission[project_placeholder_description]"]')
     @wireUpEvents()
 
-  # As soon as Chosen renders:
   init: ->
     @overridePlaceholder(@$projectPlaceholderHidden.val()) if @$projectPlaceholderHidden.val()
 
@@ -22,10 +21,12 @@ class MissionView
         @setProjectPlaceholder(e)
     @$select.on('change', @onChange)
 
+
   onChange: =>
     _.defer =>
       if @$chosen.find('.overridden-placeholder').length == 0
         @$projectPlaceholderHidden.val('')
+      @ajaxSubmit()
 
   ajaxSubmit: =>
     $.post @$form.attr('action'), @$form.serialize(), (response) =>
@@ -53,4 +54,4 @@ $ ->
   ).chosen
     allow_single_deselect: true
     no_results_text: "Set project description to"
-    width: "80%"
+    width: "100%"

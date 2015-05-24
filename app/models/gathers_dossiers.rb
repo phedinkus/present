@@ -21,7 +21,7 @@ private
       :month => time.month).tap do |m|
         next if m.status.present?
         m.project ||= most_billed_recent_project(m.user)
-        m.status ||= m.project.present? ? :tentative : :available
+        m.status ||= m.project.present? ? :deployed : :available
     end
   end
 
