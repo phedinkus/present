@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522205643) do
+ActiveRecord::Schema.define(version: 20150524133344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20150522205643) do
     t.string  "project_placeholder_description"
     t.integer "year"
     t.integer "month"
+    t.integer "status"
   end
 
   add_index "missions", ["user_id", "year", "month"], name: "index_missions_on_user_id_and_year_and_month", unique: true, using: :btree

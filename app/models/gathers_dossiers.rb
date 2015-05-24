@@ -20,6 +20,7 @@ private
       :year => time.year,
       :month => time.month).tap do |m|
         m.project ||= most_billed_recent_project(m.user)
+        m.status ||= m.project.present? ? :tentative : :available
     end
   end
 

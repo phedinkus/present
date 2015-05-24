@@ -4,6 +4,12 @@ class Mission < ActiveRecord::Base
 
   validates_presence_of :month, :year, :user_id
 
+  enum :status => {
+    :available => 0,
+    :tentative => 1,
+    :deployed => 2
+  }
+
   def name
     if real_project
       "#{real_project.client.name} - #{real_project.name}"
