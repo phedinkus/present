@@ -14,7 +14,7 @@
             <%= dossier.user.name %>
           </td>
           <% dossier.missions.each do |mission| %>
-            <td class="<%= bootstrap_class_for_mission_status(mission) %>">
+            <td data-status="<%= mission.status %>">
               <%= form_for mission do |f| %>
                 <div class="form-group form-inline">
                   <%= f.hidden_field :id %>

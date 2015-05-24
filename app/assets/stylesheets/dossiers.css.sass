@@ -1,4 +1,14 @@
 #dossiers-page
+  td
+    &[data-status=available]
+      @extend .success
+
+    &[data-status=tentative]
+      @extend .warning
+
+    &[data-status=deployed]
+      @extend .danger
+
   .chosen-container
     .no-results
       cursor: pointer

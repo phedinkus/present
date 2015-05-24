@@ -10,8 +10,8 @@ class MissionsController < ApplicationController
 private
 
   def upsert
-    UpsertsMissions.new.upsert(params[:mission].permit(:id, :user_id, :year, :month, :project_id, :project_placeholder_description))
-    redirect_to dossiers_path
+    mission = UpsertsMissions.new.upsert(params[:mission].permit(:id, :user_id, :year, :month, :project_id, :project_placeholder_description))
+    render :json => mission
   end
 
   class UpsertsMissions
@@ -21,7 +21,7 @@ private
         :user_id => params[:user_id],
         :year => params[:year],
         :month => params[:month]
-      ).update!(sane_project_params_for(params))
+      ).tap { |p| p.update!(sane_project_params_for(params)) }
     end
 
   private
