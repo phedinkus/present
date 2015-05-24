@@ -17,21 +17,16 @@
             <td class="<%= bootstrap_class_for_mission_status(mission) %>">
               <%= form_for mission do |f| %>
                 <div class="form-group form-inline">
+                  <%= f.hidden_field :id %>
                   <%= f.hidden_field :year %>
                   <%= f.hidden_field :month %>
                   <%= f.hidden_field :user_id %>
                   <%= f.hidden_field :project_placeholder_description %>
                   <%= f.label :project_id, "Assign Project", :class => "hidden" %>
                   <%= f.select :project_id, grouped_options_for_clients_and_projects, {:include_blank => true}, {:class => "form-control input-sm", 'data-placeholder' => 'Pick a Project'} %>
-                  <% if mission.new_record? %>
-                    <button type="submit" class="btn btn-xs btn-success">
-                      <span class="glyphicon glyphicon-ok-sign" />
-                    </button>
-                  <% else %>
-                    <button type="submit" class="btn btn-x btn-danger">
-                      <span class="glyphicon glyphicon-remove-sign" />
-                    </button>
-                  <% end %>
+                  <button type="submit" class="btn btn-xs btn-info">
+                    <span class="glyphicon glyphicon-floppy-disk" />
+                  </button>
                 </div>
               <% end %>
             </td>
