@@ -1,40 +1,43 @@
-<h1 class="dossiers-page">Where are the Agents?</h1>
-<table class="table table-striped table-hover">
-  <thead>
-    <th>Agent Name</th>
-    <% @dossiers.sample.missions.each do |mission| %>
-      <th><%= mission.time.to_s(:mon_year) %></th>
-    <% end %>
-  </thead>
-  <tbody>
-    <% @dossiers.each do |dossier| %>
-      <tr>
-        <td>
-          <%= dossier.user.name %>
-        </td>
-        <% dossier.missions.each do |mission| %>
-          <td class="<%= bootstrap_class_for_mission_status(mission) %>">
-            <%= form_for mission do |f| %>
-              <div class="form-group form-inline">
-                <%= f.hidden_field :year %>
-                <%= f.hidden_field :month %>
-                <%= f.hidden_field :user_id %>
-                <%= f.label :project_id, "Assign Project", :class => "hidden" %>
-                <%= f.select :project_id, grouped_options_for_clients_and_projects, {:allow_blank => true}, {:class => "form-control input-sm", :style => 'max-width: 80%'} %>
-                <% if mission.new_record? %>
-                  <button type="submit" class="btn btn-xs btn-success">
-                    <span class="glyphicon glyphicon-ok-sign" />
-                  </button>
-                <% else %>
-                  <button type="submit" class="btn btn-x btn-danger">
-                    <span class="glyphicon glyphicon-remove-sign" />
-                  </button>
-                <% end %>
-              </div>
-            <% end %>
+<div id="dossiers-page">
+  <h1>Where are the Agents?</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <th>Agent Name</th>
+      <% @dossiers.sample.missions.each do |mission| %>
+        <th><%= mission.time.to_s(:mon_year) %></th>
+      <% end %>
+    </thead>
+    <tbody>
+      <% @dossiers.each do |dossier| %>
+        <tr>
+          <td>
+            <%= dossier.user.name %>
           </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          <% dossier.missions.each do |mission| %>
+            <td class="<%= bootstrap_class_for_mission_status(mission) %>">
+              <%= form_for mission do |f| %>
+                <div class="form-group form-inline">
+                  <%= f.hidden_field :year %>
+                  <%= f.hidden_field :month %>
+                  <%= f.hidden_field :user_id %>
+                  <%= f.hidden_field :project_placeholder_description %>
+                  <%= f.label :project_id, "Assign Project", :class => "hidden" %>
+                  <%= f.select :project_id, grouped_options_for_clients_and_projects, {:include_blank => true}, {:class => "form-control input-sm", 'data-placeholder' => 'Pick a Project'} %>
+                  <% if mission.new_record? %>
+                    <button type="submit" class="btn btn-xs btn-success">
+                      <span class="glyphicon glyphicon-ok-sign" />
+                    </button>
+                  <% else %>
+                    <button type="submit" class="btn btn-x btn-danger">
+                      <span class="glyphicon glyphicon-remove-sign" />
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
