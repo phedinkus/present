@@ -20,7 +20,7 @@ class MissionView
 
   onChange: =>
     _.defer =>
-      if @$chosen.find('.overridden-placeholder').length > 0
+      if @$chosen.find('.overridden-placeholder').length == 0
         @$projectPlaceholderHidden.val('')
 
   setProjectPlaceholder: =>
