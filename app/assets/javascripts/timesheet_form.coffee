@@ -63,7 +63,7 @@ $ ->
     return false if addingProject
     $(e.target).addClass('disabled')
     addingProject = true
+  $('.add-project select').on('chosen:ready', (e) -> $(e.target).siblings('.chosen-container').addClass('text-left')).chosen(width: "40%")
 
   resizeToHeight = -> $(this).css(height: 'auto', 'overflow-y': 'hidden').height(@scrollHeight)
   $('textarea.notes').each(resizeToHeight).on('input', resizeToHeight)
-
