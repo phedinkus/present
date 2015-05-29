@@ -20,6 +20,17 @@ describe "Smoke", :capybara do
   Then { Pages::HarvestInvoice.verify! }
 end
 
+module ChosenSelect
+  def select_from_chosen(item_text, options)
+    field = find_field(options[:from], visible: false)
+    option_value = page.evaluate_script("$(\"##{field[:id]} option:contains('#{item_text}')\").val()")
+    page.execute_script("value = ['#{option_value}']\; if ($('##{field[:id]}').val()) {$.merge(value, $('##{field[:id]}').val())}")
+    option_value = page.evaluate_script("value")
+    page.execute_script("$('##{field[:id]}').val(#{option_value})")
+    page.execute_script("$('##{field[:id]}').trigger('chosen:updated')")
+  end
+end
+
 module Pages
   module Github
     extend Capybara::DSL
@@ -33,6 +44,7 @@ module Pages
 
   module Timesheet
     extend Capybara::DSL
+    extend ChosenSelect
 
     def self.visit!
       visit "/"
@@ -57,7 +69,7 @@ module Pages
     end
 
     def self.add_billable_project!
-      select("Build Stuff", :from => "Add Project")
+      select_from_chosen("Build Stuff", :from => "Add Project")
       click_button("Add Project")
       page.must_have_content("Project 'Build Stuff' added!")
     end
