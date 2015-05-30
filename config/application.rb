@@ -24,7 +24,9 @@ module Present
     config.github.organization_name = ENV['PRESENT_GITHUB_ORGANIZATION_NAME']
 
     config.harvest = ActiveSupport::OrderedOptions.new
-    config.harvest.subdomain = ENV['PRESENT_HARVEST_SUBDOMAIN']
-    config.harvest.username = ENV['PRESENT_HARVEST_USERNAME']
+    config.harvest.subdomain = Rails.application.secrets.harvest_subdomain
+    config.harvest.username = Rails.application.secrets.harvest_username
+
+    config.autoload_paths = ["#{Rails.root}/lib"]
   end
 end
