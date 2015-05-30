@@ -89,12 +89,14 @@ class Timesheet < ActiveRecord::Base
     entries.select(&:weekend?).any?(&:nonzero?)
   end
 
-  def billable_time_human
-    [entries.select(&:billable?).group_by(&:rate_type).map {|type, entries|
-      "#{entries.map(&:amount).sum} #{type == "weekly" ? 'days' : 'hours'}"
-    }.join(" + "), "No billable time"].find(&:present?)
-  end
+  def human_readable_billable_time
+    billable_entries_by_rate_type = entries.select(&:billable?).group_by(&:rate_type)
+    return "No billable time" if billable_entries_by_rate_type.empty?
 
+    billable_entries_by_rate_type.map do |type, entries|
+      "#{entries.map(&:amount).sum} #{type == "weekly" ? 'days' : 'hours'}"
+    end.join(" + ")
+  end
 private
 
   def days_worked
