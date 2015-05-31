@@ -2,8 +2,8 @@ language: ruby
 cache: bundler
 sudo: false
 rvm: 2.2.0
-before_script: RAILS_ENV=test bundle exec rake db:setup
-script: bundle exec rake test
+before_script: rake db:test:prepare
+script: rake test
 env:
   global:
   - HEADLESS=true
@@ -17,3 +17,7 @@ env:
   - secure: G+B66Xy7JRChf7g0rrgSTX3CM6m2SPbVhy/oBpOhySsAKdmkAnP/A84glGd5gttWx+oEKFJ9GQCdlxnJwuKu/yBZO2zfTLoOGLyzoaCEGzkFOh4qBdqUZfe85EPKrgr3VmSzavyW+KQwk7kdSk5kcQCvQIQ50YVJgVb/ajonP9U=
   - secure: TYhVpqfwykr3kIxTR0H3o87FH3xluAdO6aQCCQpvAv8mn63iCd9/fHXz07dKP7cqCtku/Glt8PufXFmoqiIKB2vpZSH3yH/wIiwuYgwlOJ9WulM3nUSW/bzdW3itzr7pXeb08WFnNC0Cf7LE2pWzbJ4kDHODXkXlg3E91LLobcg=
   - secure: JK8Y9Vm0bRi0ketkYeeU9FomrFPHpWqEejofX72BcTKcrnUe53QZ1NmZgJjk1+nzSZSw+CGFN/jJeEMwcBwobT4w2+cw7PVZI8znUpTOh7pBBs7H2F3Z9YB4cWkPRkH0nqZjCUIRkF/e9tC9f/D0mvTBsa0Hrb/NfExjq6+Tt18=
+  - secure: KRzGAdEV4uEE3RA4j2cWGL1CF6co2Am12nrNuWFJnoRjpkeWrIOLHPwrJ/KE7+mAFpDfe+YcsAwKDUHMF4x1lzrwBgoNZSLRn0ImaT+AZWy+IMUZsxbhznC27hvm1La+As/h/3JIbyaKUxhCDjx+9LWzbYUUgUEciQvsOLajtDk=
+  - secure: M0LXmqXMxgY8/s5SjgvB8mbcMv5uM5Qv8Ca26uBNvWhQSQzBM24ElSbsUEgr2Y2M61Vw5C+gwq3neTUQYzGikNgeG0mXWgBzRY69nqmCS2xSRGR1uvHlibibu5Ql/IayvEZ7e21+U2cg18eia7QvrZFOd1nbCkRnUuPtFEzpwLY=
+  - secure: f7cFtYYgoBgaAfOCQe6LV29WfQ7pvS0UP/Bg0hNKEFvHe+bVHNw77ILUaR/F6LLze5LFn92lPJtBfVy6NvY2pXsOoWD04EeQDnXI4xyMWj9yd8qSu8IwULmSj+0GzC0RkirgFpOEaPPkQoM8ScqX98qC/Vuh3wPsj1Ygb80UEt4=
+  - secure: UV+5JJnSFwmyRfLowhPwoZITZLEqjEVGmDR+kEpfbGIWeAQhdnxpBY5rms6mZAVb9MSH7jbQgiyMOq0jM8rcR7XpUGTG17NUxsEO7GmdJiDcuPp629miUduy0eigmPxSVujhpyG/PQyGsfIHL0i3jTufk7HYhhuGAh9LMYIViak=

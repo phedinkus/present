@@ -53,7 +53,7 @@ class Week
   end
 
   def invoice_week?
-    weeks_since(Rails.application.config.present.reference_invoice_week).to_i.even?
+    weeks_since(SystemConfiguration.reference_invoice_week).to_i.even?
   end
 
   def weeks_since(earlier_week)

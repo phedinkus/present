@@ -5,8 +5,12 @@ class SystemConfiguration < ActiveRecord::Base
     SystemConfiguration.first || SystemConfiguration.create!
   end
 
-  def reference_invoice_week
-    return unless [reference_invoice_year, reference_invoice_month, reference_invoice_day].all?(&:present?)
-    Week.for(reference_invoice_year, reference_invoice_month, reference_invoice_day)
+  def self.reference_invoice_week
+    @reference_invoice_week ||= begin
+      config = instance
+      if [config.reference_invoice_year, config.reference_invoice_month, config.reference_invoice_day].all?(&:present?)
+        Week.for(config.reference_invoice_year, config.reference_invoice_month, config.reference_invoice_day)
+      end
+    end
   end
 end
