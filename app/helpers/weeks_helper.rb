@@ -29,8 +29,8 @@ module WeeksHelper
     <<-TEXT
 Billable summary:
 
-  Last week: #{timesheet.previous_timesheet.billable_time_human}
-  This week: #{timesheet.billable_time_human }
+  Last week: #{timesheet.previous_timesheet.human_readable_billable_time}
+  This week: #{timesheet.human_readable_billable_time }
 
 Once marked ready, this week & last week will be locked
     TEXT
