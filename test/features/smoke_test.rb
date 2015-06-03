@@ -1,7 +1,9 @@
 require "test_helper"
 
 describe "Smoke", :capybara do
+
   Given do
+    ActiveRecord::Base.descendants.map(&:delete_all)
     Api::Harvest.wipe!
     Seeds::Project.seed!
     Seeds::Location.seed!
