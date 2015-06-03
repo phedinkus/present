@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
-ruby '2.2.0'
+if ENV['DYNO']
+  ruby '2.2.0'
+else
+  raise 'Ruby version must be >= than 2.1' unless  RUBY_VERSION.to_f >= 2.1
+end
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
