@@ -5,7 +5,9 @@ then
   echo "-----> Existing .env file found, 'rm .env' to overwrite it next time."
 else
   echo "-----> Installing .env file. WARNING: This will fail if you're not a Test Double Agent!"
-  curl "https://raw.githubusercontent.com/testdouble/mi5/master/env-files/present.development.env" -o .env
+  git clone git@github.com:testdouble/mi5.git loldeleteme
+  mv loldeleteme/env-files/present.development.env .env
+  rm -rf loldeleteme
   echo "-----> Development .env installed."
 fi
 
