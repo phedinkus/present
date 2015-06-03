@@ -26,6 +26,14 @@ There are a few values hard-coded into the application specific to test double, 
 
 ## Getting up and running
 
+Do you work at Test Double? Congratulations! There is a really easy script to get you set up! Just run this:
+
+```
+$ ./script/setup
+```
+
+If you don't work at Test Double, here's some general advice to getting started:
+
 ### Prerequisites
 - Ruby
 - Postgres

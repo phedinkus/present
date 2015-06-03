@@ -1,0 +1,21 @@
+#!/usr/bin/env bash -e
+
+if [ -e .env ]
+then
+  echo "-----> Existing .env file found, 'rm .env' to overwrite it next time."
+else
+  echo "-----> Installing .env file. WARNING: This will fail if you're not a Test Double Agent!"
+  curl "https://raw.githubusercontent.com/testdouble/mi5/master/env-files/present.development.env" -o .env
+  echo "-----> Development .env installed."
+fi
+
+echo "-----> Sourcing .env"
+source .env
+
+echo "-----> Installing dependencies"
+bundle
+
+echo "-----> Setting up database"
+bundle exec rake db:setup
+
+echo "-----> Setup complete. Run 'rails s' to start a server"
