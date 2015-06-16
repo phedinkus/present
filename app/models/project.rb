@@ -3,7 +3,9 @@ class Project < ActiveRecord::Base
   has_many :entries, :through => :projects_timesheets
   belongs_to :client
 
-  validates_presence_of :name
+  validates_presence_of :name, :weekly_rate, :hourly_rate
+
+  after_initialize :assign_defaults
 
   enum :rate_type => {
     :weekly => 0,
@@ -45,5 +47,12 @@ class Project < ActiveRecord::Base
     else
       hourly_rate
     end
+  end
+
+private
+
+  def assign_defaults
+    self.weekly_rate ||= Rails.application.secrets.weekly_rate
+    self.hourly_rate ||= Rails.application.secrets.hourly_rate
   end
 end

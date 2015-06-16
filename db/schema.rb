@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524133344) do
+ActiveRecord::Schema.define(version: 20150616192106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 20150524133344) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
-    t.integer  "weekly_rate",                default: ENV['PRESENT_WEEKLY_RATE']
-    t.integer  "hourly_rate",                default: ENV['PRESENT_HOURLY_RATE']
+    t.integer  "weekly_rate"
+    t.integer  "hourly_rate"
     t.integer  "rate_type",                  default: 0
     t.boolean  "requires_notes",             default: false
     t.boolean  "sticky",                     default: false
