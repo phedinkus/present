@@ -7,6 +7,7 @@ script: rake test
 env:
   global:
   - HEADLESS=true
+  - CI=true
   - secure: KC6iFFO1StiwBR6qZOzjTIgzV1Wm3q3rRsmt67+eO+9v0KhJ630ke0s40L23573OieqaedaMKPU2Q2xfhs3h+3l9Xko2CkdNm/1AWujofxSBd31rnFshQ+M0anqiz4iD4ZARtTv2zpPfjMO94asXgrc7FvJ7WYp3laVhnd3+b3Y=
   - secure: es2VvXh4m1jk8dWfTQflFHObPkuCz6ZwUdcgXQICEmws9jHiq88ulWuxv3HG8+nUMochqHyNtAJvfsVBh84xM/v5KZqrurmvPPqooGokri2vLaDeIL0syV86Yzk1gm0fzIsWrRR7xFQRrDCuVDXpDmiGff9iiUkYUfa+1cGh/CY=
   - secure: fxJ5u8QWS4VQIQ5iE7mrKwxnSrG4pWIh/IHREDxabH1EgXfCMhEP4AbCiaasrc6kYPEXvJNgHKXeZSqk5j41SIO5SCJr+x+8ov9byZcU0kzc4oA5mhBnAfwwX4SsGVKJOF5nyfBBwwR3vk/9zwT+jZW0TRUIjZD9DfZidGIktW4=

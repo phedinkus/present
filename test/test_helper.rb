@@ -1,6 +1,8 @@
 # Coverage stuff
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+if ENV['CI']
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
 
 #Rails stuff
 ENV["RAILS_ENV"] = "test"
