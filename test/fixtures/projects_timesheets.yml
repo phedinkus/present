@@ -1,0 +1,7 @@
+one_sea_lab:
+  project: sea_lab
+  timesheet: one
+
+two_sea_lab:
+  project: sea_lab
+  timesheet: two

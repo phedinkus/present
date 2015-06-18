@@ -1,0 +1,6 @@
+sea_lab:
+  name: "Sea Lab Rescue"
+  client: cecil_tunt
+  weekly_rate: 400
+  hourly_rate: 20
+  rate_type: "weekly"
