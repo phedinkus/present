@@ -7,7 +7,7 @@ class LineItemsTest < ActiveSupport::TestCase
     @entries = [:one_sea_lab, :two_sea_lab].map {|pt| projects_timesheets(pt).entries }.flatten
   end
 
-  test ".generate" do
+  test "defaults to a single row of two full weeks" do
     @results = @subject.generate(@project, @entries)
 
     assert_equal 1, @results.size

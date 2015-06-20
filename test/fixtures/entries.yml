@@ -1,6 +1,6 @@
 # Generate two weeks of entries, present every weekday
-<% [:one_sea_lab].each do |pt_name| %>
-<% ['sunday'].each do |day_name| %>
+<% [:one_sea_lab, :two_sea_lab].each do |pt_name| %>
+<% Entry.days.keys.each do |day_name| %>
 <%= pt_name %>_<%= day_name %>:
   projects_timesheet: <%= pt_name %>
   day: <%= day_name %>
