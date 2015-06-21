@@ -3,7 +3,7 @@
 <% Entry.days.keys.each do |day_name| %>
 <%= pt_name %>_<%= day_name %>:
   projects_timesheet: <%= pt_name %>
-  day: <%= day_name %>
+  day: <%= Entry.days[day_name] %>
   presence: <%= ["sunday", "saturday"].include?(day_name) ? "absent" : "present" %>
   location: new_york
 <% end %>
