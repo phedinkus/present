@@ -38,6 +38,7 @@ module Present::Harvest
 
           #{description_of_absences_for(entries)}
           #{description_of_half_days_for(entries)}
+          #{description_of_weekend_days_for(entries)}
         TEXT
       end
       description
@@ -57,10 +58,14 @@ module Present::Harvest
       "Half-day on #{half_days}"
     end
 
-    def self.description_of_entry_days(entries)
+    def self.description_of_weekend_days_for(entries)
+      return unless (weekend_days = description_of_entry_days(entries.select(&:weekend?).reject(&:absent?), true)).present?
+      "Worked on weekend #{weekend_days}"
+    end
+
+    def self.description_of_entry_days(entries, include_weekends = false)
       entries
-        .reject(&:saturday?)
-        .reject(&:sunday?)
+        .reject { |e| e.weekend? unless include_weekends }
         .sort_by { |e| e.time }
         .map {|e| e.time.to_s(:md)}
       .join(", ")

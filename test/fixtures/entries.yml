@@ -4,7 +4,7 @@
 <%= pt_name %>_<%= day_name %>:
   projects_timesheet: <%= pt_name %>
   day: <%= Entry.days[day_name] %>
-  presence: <%= ["sunday", "saturday"].include?(day_name) ? "absent" : "present" %>
+  presence: <%= Entry.presences[["sunday", "saturday"].include?(day_name) ? "absent" : "full"] %>
   location: new_york
 <% end %>
 <% end %>
