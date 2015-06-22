@@ -53,4 +53,20 @@ class LineItemsTest < ActiveSupport::TestCase
       :description=> "Sterling Mallory Archer\n\n(11.0/10.0 days worked)\nWorked on weekend 5/31\n"
     }]
   end
+
+  test "does crazy stuff" do
+    entries(:two_sea_lab_saturday).full!
+    entries(:one_sea_lab_monday).half!
+    entries(:two_sea_lab_tuesday).absent!
+    arrange
+
+    results = act
+
+    assert_equal results, [{
+      :kind=> "Service",
+      :quantity=> 1.9,
+      :unit_price=> @project.weekly_rate,
+      :description=> "Sterling Mallory Archer\n\n(9.5/10.0 days worked)\nAbsent on 6/9\nHalf-day on 6/1\nWorked on weekend 6/13\n"
+    }]
+  end
 end
