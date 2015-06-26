@@ -22,6 +22,15 @@
     <% end %>
   </div>
 </div>
+<div class="row text-center">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render :partial => "shared/week_picker", :locals => {
+      :path_helper => method(:todo_invoices_ymd_path),
+      :previous_week => @week.previous_invoice_week,
+      :next_week => @week.next_invoice_week.next_invoice_week
+    } %>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <h1>Invoice Status (<%= @invoice_todos.weeks.first.beginning.to_s(:mdy) %>&mdash;<%= @invoice_todos.weeks.last.end.to_s(:mdy) %>)</h1>

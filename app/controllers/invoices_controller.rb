@@ -3,14 +3,14 @@ class InvoicesController < ApplicationController
   before_action :generate_invoice_from_params, :only => [:create, :update, :show, :send_to_harvest]
 
   def todo
-    week = if [params[:year], params[:month], params[:day]].all?(&:present?)
-      Week.for(params[:year], params[:month], params[:day]).previous_invoice_week
+    @week = if [params[:year], params[:month], params[:day]].all?(&:present?)
+      Week.for(params[:year], params[:month], params[:day])
     else
-      Week.now.previous_invoice_week
-    end
+      Week.now
+    end.previous_invoice_week
 
-    @invoice_todos = InvoiceTodos.gather(week)
-    @timesheet_status = Answers::TimesheetStatus.status_for(week)
+    @invoice_todos = InvoiceTodos.gather(@week)
+    @timesheet_status = Answers::TimesheetStatus.status_for(@week)
   end
 
   def new

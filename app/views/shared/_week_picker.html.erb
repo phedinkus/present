@@ -1,0 +1,27 @@
+<%
+    path_helper ||= method(:show_week_path)
+    week ||= @week
+    previous_week ||= week.previous
+    next_week ||= week.next
+%>
+
+<div class="btn-group">
+  <%= link_to path_helper.call(previous_week.ymd_hash) do %>
+    <button type="button" class="btn btn-default">
+    <span class="hidden">Previous Week</span>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </button>
+<% end %>
+  <%= link_to path_helper.call(Week.now.ymd_hash) do %>
+    <button type="button" class="btn btn-default btn-info <%= 'invisible' if week.beginning == Week.now.beginning %>">
+    <span class="hidden">Current Week</span>
+    <span class="glyphicon glyphicon-home"></span>
+  </button>
+<% end %>
+  <%= link_to path_helper.call(next_week.ymd_hash) do %>
+    <button type="button" class="btn btn-default">
+    <span class="hidden">Next Week</span>
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </button>
+<% end %>
+</div>
