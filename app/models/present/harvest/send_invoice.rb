@@ -9,6 +9,7 @@ module Present::Harvest
         harvest_invoice.subject = present_invoice.subject
         harvest_invoice.due_at_human_format = "net 30"
         harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
+        harvest_invoice.notes = present_invoice.notes
         persist_invoice!(harvest_invoice, present_invoice, @connection)
       end
     end

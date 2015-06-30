@@ -1,7 +1,7 @@
 module Present::Harvest
   class GeneratedInvoice
     extend Forwardable
-    def_delegators :@invoice, :id, :harvest_id, :project, :subject, :invoicing_week, :prior_week, :persisted?
+    def_delegators :@invoice, :id, :harvest_id, :project, :subject, :invoicing_week, :prior_week, :persisted?, :notes
     attr_reader :entries, :timesheets, :line_items
 
     def initialize(invoice)

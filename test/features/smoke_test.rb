@@ -176,6 +176,7 @@ module Pages
       page.must_have_content("2.00")
       page.must_have_content(number_to_currency(rate))
       page.must_have_content("Amount Due #{number_to_currency(rate * 2)}")
+      page.must_have_content("Thank you!")
     end
   end
 

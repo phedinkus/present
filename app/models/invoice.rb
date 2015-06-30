@@ -18,4 +18,8 @@ class Invoice < ActiveRecord::Base
   def generate_for_harvest
     Present::Harvest::GeneratedInvoice.new(self)
   end
+
+  def notes
+    "Thank you!"
+  end
 end
