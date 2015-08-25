@@ -170,12 +170,14 @@ module Pages
 
     def self.verify!
       rate = ENV['PRESENT_WEEKLY_RATE'].to_d
+      formatted_rate = number_to_currency(rate)
 
       page.must_have_content("Service")
       page.must_have_content("(10.0/10.0 days worked)")
       page.must_have_content("2.00")
-      page.must_have_content(number_to_currency(rate))
-      page.must_have_content("Amount Due #{number_to_currency(rate * 2)}")
+      page.must_have_content(formatted_rate)
+      page.must_have_content("Amount Due #{number_to_currency(rate*2)}")
+      page.must_have_content("Thank you!\n\nUnit Price and Quantity reflect a weekly rate of #{formatted_rate}")
     end
   end
 

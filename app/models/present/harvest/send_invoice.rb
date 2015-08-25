@@ -1,3 +1,5 @@
+include ActionView::Helpers::NumberHelper
+
 module Present::Harvest
   class SendInvoice
     def initialize
@@ -9,6 +11,7 @@ module Present::Harvest
         harvest_invoice.subject = present_invoice.subject
         harvest_invoice.due_at_human_format = "net 30"
         harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
+        harvest_invoice.notes = notes_for(present_invoice)
         persist_invoice!(harvest_invoice, present_invoice, @connection)
       end
     end
@@ -32,6 +35,11 @@ module Present::Harvest
         conn.invoices.create(harvest_invoice)
       end
       present_invoice.you_were_just_submitted_to_harvest(persisted_harvest_invoice.id)
+    end
+
+    def notes_for(present_invoice)
+      "Thank you!\n\n"\
+      "Unit Price and Quantity reflect a #{present_invoice.rate_type} rate of #{number_to_currency(present_invoice.unit_price)}"
     end
   end
 end

@@ -2,6 +2,8 @@ class Invoice < ActiveRecord::Base
   extend Queries::YearMonthDay
 
   belongs_to :project
+  delegate :rate_type, to: :project
+  delegate :unit_price, to: :project
 
   def subject
     "Consulting services from #{prior_week.beginning.to_s(:mdy)} to #{invoicing_week.end.to_s(:mdy)}"
