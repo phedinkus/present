@@ -28,9 +28,7 @@ gem 'faraday'
 gem 'harvested'
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'spring'
-  gem 'awesome_print'
   gem 'web-console'
 
   gem 'minitest-rails'
@@ -48,3 +46,8 @@ end
 group :test do
   gem "codeclimate-test-reporter", :require => false
 end
+
+# Debugging / Console Enhancements
+gem 'pry-rails'
+gem 'awesome_print'
+gem 'table_print'
