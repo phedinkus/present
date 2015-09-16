@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.update!(permitted_edit_params(user, @current_user))
     flash[:info] = ["Information updated for #{user.name}!"]
-    redirect_to users_path
+    redirect_to agents_path
   end
 
 private
