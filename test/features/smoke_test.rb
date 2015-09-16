@@ -63,13 +63,13 @@ module Pages
 
     def self.login_if_necessary!
       return unless login_necessary?
-      fill_in "Username or Email", :with => ENV['PRESENT_TEST_GITHUB_ID']
+      fill_in "Username or email address", :with => ENV['PRESENT_TEST_GITHUB_ID']
       fill_in "Password", :with => ENV['PRESENT_TEST_GITHUB_PASSWORD']
       click_button "Sign in"
     end
 
     def self.login_necessary?
-      all('label', :text => "Username or Email").present?
+      all('label', :text => "Username or email address").present?
     end
   end
 
