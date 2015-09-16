@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  get "agents" => "users#index"
 
   resources :impersonations
 

@@ -1,37 +1,58 @@
-<div class="row">
+<div class="users edit row">
   <div class="col-md-8 col-md-offset-2">
     <%= form_for @user, :role => "form" do |f| %>
       <div class="form-group">
         <%= f.label :name %>
         <%= f.text_field :name %>
       </div>
-      <%= f.fields_for @user.github_account do |github_account_fields| %>
-        <%= github_account_fields.hidden_field :id %>
+      <div class="form-group">
+        <%= f.label :email, "Work Email" %>
+        <%= f.text_field :email %>
+      </div>
+      <div class="form-group">
+        <%= f.label :twitter_handle %>
+        <div class="input-group">
+          <span class="input-group-addon">@</span>
+          <%= f.text_field :twitter_handle %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :phone_number, "Phone (e.g. 123-456-7890)" %>
+        <%= f.text_field :phone_number %>
+      </div>
+      <div class="form-group">
+        <%= f.label :tagline %>
+        <%= f.text_field :tagline %>
+      </div>
+      <% if @current_user.admin? %>
+        <%= f.fields_for @user.github_account do |github_account_fields| %>
+          <%= github_account_fields.hidden_field :id %>
+          <div class="form-group">
+            <%= github_account_fields.label :login %>
+            <%= github_account_fields.text_field :login, :disabled => true %>
+          </div>
+          <div class="form-group">
+            <%= github_account_fields.label :email %>
+            <%= github_account_fields.text_field :email %>
+          </div>
+        <% end %>
         <div class="form-group">
-          <%= github_account_fields.label :login %>
-          <%= github_account_fields.text_field :login, :disabled => true %>
+          <%= f.label :active %>
+          <%= f.check_box :active %>
         </div>
         <div class="form-group">
-          <%= github_account_fields.label :email %>
-          <%= github_account_fields.text_field :email %>
+          <%= f.label :full_time %>
+          <%= f.check_box :full_time %>
+        </div>
+        <div class="form-group">
+          <%= f.label :location %>
+          <%= f.select :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, @user.location_id), {}, { :class => "form-control"} %>
+        </div>
+        <div class="form-group">
+          <%= f.label :hire_date %>
+          <%= f.date_field :hire_date, :placeholder => "yyyy-mm-dd", :class => "form-control" %>
         </div>
       <% end %>
-      <div class="form-group">
-        <%= f.label :active %>
-        <%= f.check_box :active %>
-      </div>
-      <div class="form-group">
-        <%= f.label :full_time %>
-        <%= f.check_box :full_time %>
-      </div>
-      <div class="form-group">
-        <%= f.label :location %>
-        <%= f.select :location_id, options_for_select(Location.all.map {|l| [l.to_s, l.id]}, @user.location_id), {}, { :class => "form-control"} %>
-      </div>
-      <div class="form-group">
-        <%= f.label :hire_date %>
-        <%= f.date_field :hire_date, :placeholder => "yyyy-mm-dd", :class => "form-control" %>
-      </div>
       <div class="text-right">
         <%= f.submit "Save", :class => "btn btn-default" %>
       </div>

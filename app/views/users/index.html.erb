@@ -1,20 +1,59 @@
-<table class="table table-condensed">
-  <thead>
-    <th>Name</th>
-    <th>Github login</th>
-    <th>Github email</th>
-    <th>Location</th>
-    <th></th>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.github_account.login %></td>
-        <td><%= user.github_account.email %></td>
-        <td><%= user.location %></td>
-        <td><%= link_to "Edit", edit_user_path(user) %></td>
-      </tr>
+<div class="users index">
+  <% [:double_agents, :special_agents, :sleeper_agents].map { |g| [g, @grouped_users[g]]}.each do |(group, users)| %>
+    <div class="group">
+      <%= group.to_s.titleize %>
+    </div>
+    <% users.each do |user| %>
+      <div class="user-profile">
+        <div class="photo">
+          <img src="https://secure.gravatar.com/avatar/<%= Digest::MD5.new.hexdigest(user.github_account.email.try(:downcase)) %>?s=200"></img>
+        </div>
+        <div class="info">
+          <div class="name">
+            <%= user.name %>
+          </div>
+          <div class="tagline">
+            <%= user.tagline %>
+          </div>
+          <div class="contact-info">
+            <ul>
+              <li>
+                <span class="glyphicon glyphicon-phone"/>
+                <% phone = user.phone_number %>
+                <a href="tel:<%= phone %>">
+                  <%= phone %>
+                </a>
+              </li>
+              <li>
+                <span class="glyphicon glyphicon-envelope"/>
+                <% email = user.email || user.github_account.email %>
+                <a href="mailto:<%= email %>">
+                  <%= email %>
+                </a>
+              </li>
+              <li>
+                Twitter:
+                <% if twitter = user.twitter_handle %>
+                  <a href="https://twitter.com/<%= twitter %>">
+                    @<%= twitter%>
+                  </a>
+                <% end %>
+              </li>
+              <li>
+                Github:
+                <a href="https://github.com/<%= user.github_account.login %>">
+                  <%= user.github_account.login %>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="edit">
+          <% if @current_user == user || @current_user.admin? %>
+            <%= link_to "Edit", edit_user_path(user), :class => "btn btn-default"  %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616192106) do
+ActiveRecord::Schema.define(version: 20150916175226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,10 @@ ActiveRecord::Schema.define(version: 20150616192106) do
     t.integer  "days_between_pair_reminders"
     t.boolean  "full_time",                               default: true,         null: false
     t.date     "hire_date",                               default: '2014-12-31', null: false
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "twitter_handle"
+    t.string   "tagline"
   end
 
 end
