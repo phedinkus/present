@@ -1,12 +1,13 @@
 <div class="users index">
   <% [:double_agents, :special_agents, :sleeper_agents].map { |g| [g, @grouped_users[g]]}.each do |(group, users)| %>
+    <% next unless users.present? %>
     <div class="group">
       <%= group.to_s.titleize %>
     </div>
     <% users.each do |user| %>
       <div class="user-profile">
         <div class="photo">
-          <img src="https://secure.gravatar.com/avatar/<%= Digest::MD5.new.hexdigest(user.github_account.email.try(:downcase)) %>?s=200"></img>
+          <img src="https://secure.gravatar.com/avatar/<%= Digest::MD5.new.hexdigest(user.github_account.email.try(:downcase) || "") %>?s=200"></img>
         </div>
         <div class="info">
           <div class="name">
