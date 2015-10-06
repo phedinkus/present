@@ -1,6 +1,8 @@
 module Jobs
   module PairingReminderEmails
     def self.send(now = Time.zone.now)
+      return if weekend?(now)
+
       Job.create!(:name => "send_pairing_reminder_emails").tap do |job|
         puts "Starting job #{job.id}; sending pairing reminder e-mails for #{now.to_s(:mdy)}"
 
@@ -25,5 +27,9 @@ module Jobs
       AccidentalPairing.days_since_last_pairing_for(user)
     end
 
+    def self.weekend?(now)
+      now = now.in_time_zone("Eastern Time (US & Canada)")
+      now.saturday? || now.sunday?
+    end
   end
 end
