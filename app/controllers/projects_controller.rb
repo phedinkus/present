@@ -42,6 +42,6 @@ class ProjectsController < ApplicationController
 private
 
   def project_params
-    params[:project].permit(:name, :client_id, :rate_type, :hourly_rate, :weekly_rate, :active, :requires_notes, :sticky, :billable)
+    params[:project].permit(:name, :client_id, :rate_type, :hourly_rate, :weekly_rate, :manually_invoiced, :active, :requires_notes, :sticky, :billable)
   end
 end

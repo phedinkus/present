@@ -8,10 +8,6 @@ module Present::Harvest
 
     def send!(present_invoice)
       harvest_invoice_for(present_invoice, @connection).tap do |harvest_invoice|
-        harvest_invoice.subject = present_invoice.subject
-        harvest_invoice.due_at_human_format = "net 30"
-        harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
-        harvest_invoice.notes = notes_for(present_invoice)
         persist_invoice!(harvest_invoice, present_invoice, @connection)
       end
     end
@@ -19,6 +15,21 @@ module Present::Harvest
   private
 
     def harvest_invoice_for(present_invoice, conn)
+      find_or_create(present_invoice, conn).tap do |harvest_invoice|
+        harvest_invoice.due_at_human_format = "net 30"
+        if present_invoice.project.manually_invoiced?
+          harvest_invoice.subject = "Consulting Services"
+          harvest_invoice.line_items = []
+          harvest_invoice.notes = "Thank you!"
+        else
+          harvest_invoice.subject = present_invoice.subject
+          harvest_invoice.line_items = present_invoice.line_items.map {|h| Harvest::LineItem.new(h) }
+          harvest_invoice.notes = notes_for(present_invoice)
+        end
+      end
+    end
+
+    def find_or_create(present_invoice, conn)
       find_existing_invoice(present_invoice.harvest_id, conn) || Harvest::Invoice.new(:client_id => present_invoice.project.client.harvest_id)
     end
 
