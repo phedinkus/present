@@ -106,7 +106,7 @@ private
 
   def validate_presence_of_projects_timesheets_notes
     projects_timesheets.
-      select {|pt| pt.project.requires_notes? && pt.notes.blank? }.each do |pt|
+      select {|pt| pt.project.requires_notes? && pt.any_billable_time? && pt.notes.blank? }.each do |pt|
         errors.add(:required_summary_notes, "are missing for the '#{pt.project.name}' project")
       end
   end
