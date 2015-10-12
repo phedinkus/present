@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916175226) do
+ActiveRecord::Schema.define(version: 20151007171852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,18 +106,19 @@ ActiveRecord::Schema.define(version: 20150916175226) do
   add_index "missions", ["user_id", "year", "month"], name: "index_missions_on_user_id_and_year_and_month", unique: true, using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.boolean  "active",                     default: true
+    t.string   "name",              limit: 255
+    t.boolean  "active",                        default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
     t.integer  "harvest_id"
     t.integer  "weekly_rate"
     t.integer  "hourly_rate"
-    t.integer  "rate_type",                  default: 0
-    t.boolean  "requires_notes",             default: false
-    t.boolean  "sticky",                     default: false
-    t.boolean  "billable",                   default: true
+    t.integer  "rate_type",                     default: 0
+    t.boolean  "requires_notes",                default: false
+    t.boolean  "sticky",                        default: false
+    t.boolean  "billable",                      default: true
+    t.boolean  "manually_invoiced",             default: false
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
