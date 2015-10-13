@@ -21,7 +21,8 @@ module Seeds
         {:city => "Virginia Beach", :state => "VA" },
         {:city => "Madison", :state => "WI" },
         {:city => "Ottawa", :state => "ON" },
-        {:city => "Saskatoon", :state => "SK" }
+        {:city => "Saskatoon", :state => "SK" },
+        {:city => "Box Elder", :state => "SD" },
       ].each do |location|
         ::Location.find_or_create_by!(
           :city => location[:city],
