@@ -10,25 +10,15 @@ class ProjectsController < ApplicationController
     render :edit
   end
 
+
   def create
     @project = Project.new(project_params)
-    Project.transaction do
-      begin
-        @project.save!
-        Present::Harvest::CreateProject.new.create!(@project)
-      rescue
-        raise ActiveRecord::Rollback
-      end
-    end
-    if @project.id?
-      flash[:info] = ["Project #{@project.name} created!"]
-      redirect_to projects_path
-    else
-      flash[:error] = ["Project creation failed!"] + @project.errors.full_messages
-      render :edit
-    end
-  end
 
+    Present::Harvest::CreationWrapper.new.create!(:project, @project)
+
+    respond_to_harvest_creation(@project, projects_path)
+  end
+  
   def edit
     @project = Project.find(params[:id])
   end

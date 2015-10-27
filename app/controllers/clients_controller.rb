@@ -12,21 +12,10 @@ class ClientsController < ApplicationController
 
   def create
     @client = Client.new(client_params)
-    Client.transaction do
-      begin
-        @client.save!
-        Present::Harvest::CreateClient.new.create!(@client)
-      rescue
-        raise ActiveRecord::Rollback
-      end
-    end
-    if @client.id?
-      flash[:info] = ["Client #{@client.name} created!"]
-      redirect_to clients_path
-    else
-      flash[:error] = ["Client creation failed!"] + @client.errors.full_messages
-      render :edit
-    end
+
+    Present::Harvest::CreationWrapper.new.create!(:client, @client)
+
+    respond_to_harvest_creation(@project, clients_path)
   end
 
   def edit
